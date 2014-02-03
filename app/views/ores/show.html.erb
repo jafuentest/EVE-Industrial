@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @ore.name %>
+</p>
+
+<p>
+  <b>Refine:</b>
+  <%= @ore.refine %>
+</p>
+
+<p>
+  <b>Volume:</b>
+  <%= @ore.volume %>
+</p>
+
+
+<%= link_to 'Edit', edit_ore_path(@ore) %> |
+<%= link_to 'Back', ores_path %>

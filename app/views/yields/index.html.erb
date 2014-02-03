@@ -1,0 +1,25 @@
+<h1>Listing yields</h1>
+
+<table>
+  <tr>
+    <th>Quantity</th>
+    <th>Bonus</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @yields.each do |yield| %>
+  <tr>
+    <td><%= yield.quantity %></td>
+    <td><%= yield.bonus %></td>
+    <td><%= link_to 'Show', yield %></td>
+    <td><%= link_to 'Edit', edit_yield_path(yield) %></td>
+    <td><%= link_to 'Destroy', yield, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Yield', new_yield_path %>

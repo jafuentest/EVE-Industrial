@@ -1,0 +1,27 @@
+<h1>Listing ores</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Refine</th>
+    <th>Volume</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @ores.each do |ore| %>
+  <tr>
+    <td><%= ore.name %></td>
+    <td><%= ore.refine %></td>
+    <td><%= ore.volume %></td>
+    <td><%= link_to 'Show', ore %></td>
+    <td><%= link_to 'Edit', edit_ore_path(ore) %></td>
+    <td><%= link_to 'Destroy', ore, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Ore', new_ore_path %>

@@ -1,0 +1,25 @@
+<%= form_for(@yield) do |f| %>
+  <% if @yield.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@yield.errors.count, "error") %> prohibited this yield from being saved:</h2>
+
+      <ul>
+      <% @yield.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :quantity %><br />
+    <%= f.number_field :quantity %>
+  </div>
+  <div class="field">
+    <%= f.label :bonus %><br />
+    <%= f.number_field :bonus %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

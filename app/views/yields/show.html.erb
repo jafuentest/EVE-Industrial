@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Quantity:</b>
+  <%= @yield.quantity %>
+</p>
+
+<p>
+  <b>Bonus:</b>
+  <%= @yield.bonus %>
+</p>
+
+
+<%= link_to 'Edit', edit_yield_path(@yield) %> |
+<%= link_to 'Back', yields_path %>

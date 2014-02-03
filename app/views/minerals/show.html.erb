@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @mineral.name %>
+</p>
+
+<p>
+  <b>Volume:</b>
+  <%= @mineral.volume %>
+</p>
+
+
+<%= link_to 'Edit', edit_mineral_path(@mineral) %> |
+<%= link_to 'Back', minerals_path %>
