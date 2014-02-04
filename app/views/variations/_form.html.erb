@@ -15,6 +15,14 @@
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
+  <div class="field">
+    <%= f.label :ore_id %><br />
+    <%= f.select :ore_id, @ores.collect {|o| [ o.name, o.id ] } %>
+  </div>
+  <div class="field">
+    <%= f.label :central_id %><br />
+    <%= f.text_field :central_id %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -25,6 +25,8 @@ class YieldsController < ApplicationController
   # GET /yields/new.json
   def new
     @yield = Yield.new
+    @variations = Variation.all
+    @minerals = Mineral.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +37,8 @@ class YieldsController < ApplicationController
   # GET /yields/1/edit
   def edit
     @yield = Yield.find(params[:id])
+    @variations = Variation.all
+    @minerals = Mineral.all
   end
 
   # POST /yields

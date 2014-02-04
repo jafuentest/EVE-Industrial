@@ -1,10 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= @variation.name %>
-</p>
+<h1><%= @variation.name %></h1>
+<b>Bonus Yield:</b> <%= @variation.bonus %>%</b><br />
+<b>Eve-Central ID:</b> <%= @variation.central_id %>
 
+<h2>Mineral Yield</h2>
+<table>
+  <tr>
+    <th>Mineral</th>
+    <th>Yield / m<sup>3</sup></th>
+  </tr>
+  <% @variation.yields.each do |y| %>
+    <tr>
+      <td><b><%= y.mineral.name %></b></td>
+      <td align="right"><%= "%.2f" % y.material_yield.round(2) %></td>
+    </tr>
+  <% end %>
+</table>
+
+<hr />
 
 <%= link_to 'Edit', edit_variation_path(@variation) %> |
 <%= link_to 'Back', variations_path %>

@@ -11,11 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140203180644) do
+ActiveRecord::Schema.define(:version => 20140203225128) do
 
   create_table "minerals", :force => true do |t|
-    t.string "name"
-    t.string "volume"
+    t.string  "name"
+    t.string  "volume"
+    t.integer "central_id"
   end
 
   create_table "ores", :force => true do |t|
@@ -24,14 +25,21 @@ ActiveRecord::Schema.define(:version => 20140203180644) do
     t.float   "volume"
   end
 
+  create_table "ores_minerals", :force => true do |t|
+    t.integer "ore_id"
+    t.integer "mineral_id"
+    t.float   "share"
+  end
+
   create_table "variations", :force => true do |t|
     t.string  "name"
     t.integer "ore_id"
+    t.integer "bonus"
+    t.integer "central_id"
   end
 
   create_table "yields", :force => true do |t|
     t.integer "quantity"
-    t.integer "bonus"
     t.integer "variation_id"
     t.integer "mineral_id"
   end

@@ -1,20 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= @ore.name %>
-</p>
+<h1><%= @ore.name %></h1>
+<b>Volume:</b> <%= @ore.volume %> m<sup>3</sup><br />
+<b>Units to Refine:</b> <%= @ore.refine %>
 
-<p>
-  <b>Refine:</b>
-  <%= @ore.refine %>
-</p>
+<h2>Share</h2>
+<table>
+  <tr>
+    <th>Mineral</th>
+    <th>Composition</th>
+  </tr>
+  <% @ore.ores_minerals.sort{ |a,b| a.share <=> b.share }.reverse.each do |om| %>
+    <tr>
+      <td><%= link_to om.mineral.name, om.mineral %></b></td>
+      <td align="right"><%= "%.2f" % (om.share * 100).round(2) %> %</td>
+    </tr>
+  <% end %>
+</table>
 
-<p>
-  <b>Volume:</b>
-  <%= @ore.volume %>
-</p>
-
+<hr />
 
 <%= link_to 'Edit', edit_ore_path(@ore) %> |
 <%= link_to 'Back', ores_path %>

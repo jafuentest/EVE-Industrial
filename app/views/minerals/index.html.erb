@@ -4,15 +4,15 @@
   <tr>
     <th>Name</th>
     <th>Volume</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Ore With Best Yield</th>
+    <th colspan="3"></th>
   </tr>
 
 <% @minerals.each do |mineral| %>
   <tr>
     <td><%= mineral.name %></td>
     <td><%= mineral.volume %></td>
+    <td><%= link_to mineral.best_ore.name, mineral.best_ore %></td>
     <td><%= link_to 'Show', mineral %></td>
     <td><%= link_to 'Edit', edit_mineral_path(mineral) %></td>
     <td><%= link_to 'Destroy', mineral, method: :delete, data: { confirm: 'Are you sure?' } %></td>

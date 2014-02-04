@@ -25,6 +25,7 @@ class VariationsController < ApplicationController
   # GET /variations/new.json
   def new
     @variation = Variation.new
+    @ores = Ore.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +36,7 @@ class VariationsController < ApplicationController
   # GET /variations/1/edit
   def edit
     @variation = Variation.find(params[:id])
+    @ores = Ore.all
   end
 
   # POST /variations

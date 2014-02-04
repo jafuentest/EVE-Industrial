@@ -12,12 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :quantity %><br />
-    <%= f.number_field :quantity %>
+    <%= f.label :variation_id %><br />
+    <%= f.select :variation_id, @variations.collect {|v| [ v.name, v.id ] } %>
   </div>
   <div class="field">
-    <%= f.label :bonus %><br />
-    <%= f.number_field :bonus %>
+    <%= f.label :mineral_id %><br />
+    <%= f.select :mineral_id, @minerals.collect {|m| [ m.name, m.id ] } %>
+  </div>
+  <div class="field">
+    <%= f.label :quantity %><br />
+    <%= f.number_field :quantity %>
   </div>
   <div class="actions">
     <%= f.submit %>

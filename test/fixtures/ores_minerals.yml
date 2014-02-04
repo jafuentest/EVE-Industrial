@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ore_id: 1
+  mineral_id: 1
+  share: 1.5
+
+two:
+  ore_id: 1
+  mineral_id: 1
+  share: 1.5

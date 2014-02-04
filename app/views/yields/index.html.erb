@@ -2,20 +2,20 @@
 
 <table>
   <tr>
+    <th>Ore</th>
+    <th>Mineral</th>
     <th>Quantity</th>
-    <th>Bonus</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th colspan="3"></th>
   </tr>
 
-<% @yields.each do |yield| %>
+<% @yields.each do |y| %>
   <tr>
-    <td><%= yield.quantity %></td>
-    <td><%= yield.bonus %></td>
-    <td><%= link_to 'Show', yield %></td>
-    <td><%= link_to 'Edit', edit_yield_path(yield) %></td>
-    <td><%= link_to 'Destroy', yield, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to y.variation.name, y.variation %></td>
+    <td><%= link_to y.mineral.name, y.mineral %></td>
+    <td><%= y.quantity %></td>
+    <td><%= link_to 'Show', y %></td>
+    <td><%= link_to 'Edit', edit_yield_path(y) %></td>
+    <td><%= link_to 'Destroy', y, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>

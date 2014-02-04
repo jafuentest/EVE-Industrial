@@ -1,15 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= @mineral.name %>
-</p>
+<h1><%= @mineral.name %></h1>
+<b>Volume:</b> <%= @mineral.volume %> m<sup>3</sup><br />
+<b>Eve-Central ID:</b> <%= @mineral.central_id %>
 
-<p>
-  <b>Volume:</b>
-  <%= @mineral.volume %>
-</p>
+<h2>Refining</h2>
+<table>
+  <tr>
+    <th>Ore</th>
+    <th><%= @mineral.name %> / m<sup>3</sup></th>
+  </tr>
+  <% @mineral.yields.sort{ |a,b| a.material_yield <=> b.material_yield }.reverse.each do |y| %>
+    <tr>
+      <td><%= link_to y.variation.name, y.variation %></td>
+      <td align="right"><%= "%.2f" % y.material_yield.round(2) %></td>
+    </tr>
+  <% end %>
+</table>
 
+<hr />
 
 <%= link_to 'Edit', edit_mineral_path(@mineral) %> |
 <%= link_to 'Back', minerals_path %>
