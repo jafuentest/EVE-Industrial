@@ -16,6 +16,10 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
+    <%= f.label :bonus %><br />
+    <%= f.number_field :bonus %>
+  </div>
+  <div class="field">
     <%= f.label :ore_id %><br />
     <%= f.select :ore_id, @ores.collect {|o| [ o.name, o.id ] } %>
   </div>
