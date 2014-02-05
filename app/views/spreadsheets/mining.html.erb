@@ -1,9 +1,11 @@
+<div id="container">
 <h1>Mining Spreadsheet</h1>
-
+<div id="menu" style="float:left;padding:25px">
 <table>
   <tr>
     <th>Ore</th>
     <th>Ore Variation</th>
+    <th>Price / Unit</th>
     <th>Revenue / Km<sup>3</sup><br/>Selling Raw</th>
   </tr>
   
@@ -11,17 +13,26 @@
     <tr>
       <td rowspan="3"><%= ore[:name] %></td>
       <% ore[:variations].each do |var| %>
-      <td><%= link_to var[:object].name, var[:object] %></td>
-      <td align="right"><%= "%.2f" % var[:raw_revenue] %></td>
+        <td><%= link_to var[:object].name, var[:object] %></td>
+        <% if var[:price] == 0 %>
+          <td colspan="2" align="center"> No Buy Orders </td>
+        <% else %>
+          <td align="right"><%= "%.2f" % var[:raw_revenue] %></td>
+          <td align="right"><%= "%.2f" % var[:price] %></td>
+        <% end %>
     </tr>
-    <% end %>
+      <% end %>
   <% end %>
 </table>
+</div>
 
-<h2>Formula:</h2>
-<p>(1000 / O<sub>V</sub>) * P * T</p>
-<p>
-  O<sub>V</sub> = Ore Volume<br/>
-  P = Ore Price (Highest buy order for the selected region/system)<br/>
-  T = 100% - Sale Tax %
-</p>
+<div id="content" style="float:left;padding:25px">
+  <h2>Formula:</h2>
+  <p>(1000 / O<sub>V</sub>) * P * T</p>
+  <p>
+    O<sub>V</sub> = Ore Volume<br/>
+    P = Ore Price (Buy orders percentile for that ore at the selected region/system)<br/>
+    T = 100% - Sale Tax %
+  </p>
+</div>
+</div>
