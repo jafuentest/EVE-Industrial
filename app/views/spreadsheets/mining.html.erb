@@ -1,2 +1,28 @@
-<h1>Spreadsheets#mining</h1>
-<p>Find me in app/views/spreadsheets/mining.html.erb</p>
+<h1>Mining Spreadsheet</h1>
+
+<table>
+  <tr>
+    <th>Ore</th>
+    <th>Ore Variation</th>
+    <th>Revenue / Km<sup>3</sup><br/>Selling Raw</th>
+    <th>Revenue / Km<sup>3</sup><br/>Selling Raw</th>
+  </tr>
+  
+  <% @ores.each do |ore| %>
+    <tr>
+      <td rowspan="3"><%= ore[:name] %></td>
+      <% ore[:variations].each do |var| %>
+      <td><%= link_to var[:object].name, var[:object] %></td>
+      <td align="right"><%= "%.2f" % var[:raw_revenue] %></td>
+    </tr>
+    <% end %>
+  <% end %>
+</table>
+
+<h2>Formula:</h2>
+<p>(1000 / O<sub>V</sub>) * P * T</p>
+<p>
+  O<sub>V</sub> = Ore Volume<br/>
+  P = Ore Price (Highest buy order for the selected region/system)<br/>
+  T = 100% - Sale Tax %
+</p>

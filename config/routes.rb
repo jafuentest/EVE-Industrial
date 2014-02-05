@@ -1,4 +1,6 @@
 EVEIndustrial::Application.routes.draw do
+  get "spreadsheets/mining"
+
   resources :minerals
 
 
