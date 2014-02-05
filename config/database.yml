@@ -17,6 +17,7 @@ development:
   encoding: unicode
   database: eveindustrial_dev
   host: localhost
+  port: 5432
   pool: 5
   username: eveindustrial
   password: password
@@ -43,14 +44,21 @@ test:
   adapter: postgresql
   encoding: unicode
   database: eveindustrial_test
+  host: localhost
+  port: 5432
   pool: 5
   username: eveindustrial
   password: password
 
+# The production environment is set to run in Heroku
+# This article will explain the production settings
+# https://devcenter.heroku.com/articles/config-vars
 production:
   adapter: postgresql
   encoding: unicode
-  database: eveindustrial
+  database: ENV['DB_NAME']
+  host: ENV['DB_HOST']
+  port: ENV['DB_PORT']
   pool: 5
-  username: eveindustrial
-  password: password
+  username: ENV['DB_USER']
+  password: ENV['DB_PASS']
