@@ -5,8 +5,13 @@ gem 'rails', '3.2.13'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+# PostgreSQL
+gem 'pg'
+
+# Libcurl bindings for Ruby
 gem 'curb'
+
+# HTML, XML, SAX and Reader parser
 gem 'nokogiri'
 
 # Gems used only for assets and not required
