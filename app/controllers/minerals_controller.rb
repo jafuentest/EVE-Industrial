@@ -1,4 +1,17 @@
 class MineralsController < ApplicationController
+  def check_eve_central_ids
+    minerals = Mineral.all
+    @results = []
+    minerals.each do |mineral|
+      request = 'http://api.eve-central.com/api/quicklook?typeid=%s' % [mineral.central_id]
+      xml = Curl.get(request).body_str
+      xml_doc  = Nokogiri::XML(xml)
+      ec_name = xml_doc.xpath("/evec_api/quicklook/itemname").text
+      result = { :name => mineral.name, :ec_name => ec_name, :match => mineral.name == ec_name }
+      @results << result
+    end
+  end
+  
   # GET /minerals
   # GET /minerals.json
   def index

@@ -1,0 +1,17 @@
+<h1>ID Check</h1>
+
+<table>
+  <tr>
+    <th>Matches</th>
+    <th>Variation<br/>Name</th>
+    <th>EVE-Central<br/>Name</th>
+  </tr>
+  
+  <% @results.each do |result| %>
+  <tr>
+    <td><%= result[:match] %></td>
+    <td><%= result[:name] %></td>
+    <td><%= result[:ec_name] %></td>
+  </tr>
+  <% end %>
+</table>

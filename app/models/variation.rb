@@ -4,7 +4,7 @@ class Variation < ActiveRecord::Base
   has_many :yields
 
   def name
-    if self[:name].nil?
+    if self[:name].nil? || self[:name].empty?
       ore.name
     else
       self[:name] + ' ' + ore.name

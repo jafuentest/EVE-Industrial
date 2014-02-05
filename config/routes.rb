@@ -1,17 +1,19 @@
 EVEIndustrial::Application.routes.draw do
   get "spreadsheets/mining"
 
-  resources :minerals
-
-
-  resources :yields
-
-
-  resources :variations
-
-
-  resources :ores
-
+  resources :ores, :yields
+  
+  resources :minerals do
+    collection do
+      get 'check_eve_central_ids'
+    end
+  end
+  
+  resources :variations do
+    collection do
+      get 'check_eve_central_ids'
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
