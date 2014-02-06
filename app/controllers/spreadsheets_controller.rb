@@ -31,7 +31,7 @@ class SpreadsheetsController < ApplicationController
       variation[:price] = ore_prices[var.central_id]
       variation[:raw_revenue] = var.raw_revenue(ore_prices[var.central_id], sale_tax)
       variation[:refine_revenue] = var.refine_revenue(1, ore_prices, sale_tax)
-      variation[:refining_gain] = variation[:refine_revenue] - variation[:raw_revenue]
+      variation[:refining_gain] = (variation[:refine_revenue] / variation[:raw_revenue] - 1) * 100
       @variations << variation
     end
   end
