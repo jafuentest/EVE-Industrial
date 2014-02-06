@@ -3,31 +3,33 @@
 <div id="menu" style="float:left;padding:25px">
 <table>
   <tr>
-    <th>Ore</th>
     <th>Ore Variation</th>
-    <th>Price / Unit</th>
-    <th>Revenue / Km<sup>3</sup><br/>Selling Raw</th>
+    <th>Price / Unit (P<sub>95</sub>)</th>
+    <th>Revenue / m<sup>3</sup><br/>Selling Raw</th>
+    <th>Revenue / m<sup>3</sup><br/>Refining</th>
+    <th>Refining<br/>Gain/Loss</th>
   </tr>
   
-  <% @ores.each do |ore| %>
+  <% @variations.sort_by{ |v| v[:raw_revenue] }.reverse.each do |var| %>
     <tr>
-      <td rowspan="3"><%= ore[:name] %></td>
-      <% ore[:variations].each do |var| %>
-        <td><%= link_to var[:object].name, var[:object] %></td>
-        <% if var[:price] == 0 %>
-          <td colspan="2" align="center"> No Buy Orders </td>
-        <% else %>
-          <td align="right"><%= "%.2f" % var[:raw_revenue] %></td>
-          <td align="right"><%= "%.2f" % var[:price] %></td>
-        <% end %>
-    </tr>
+      <td><%= link_to var[:object].name, var[:object] %></td>
+      <% if var[:price] == 0 %>
+        <td colspan="2" align="center"> No Buy Orders </td>
+      <% else %>
+        <td align="right"><%= "%.2f" % var[:price] %></td>
+        <td align="right"><%= "%.2f" % var[:raw_revenue] %></td>
+        <td align="right"><%= "%.2f" % var[:refine_revenue] %></td>
+        <td align="right"><%= "%.2f" % var[:refining_gain] %></td>
       <% end %>
+    </tr>
   <% end %>
+    
 </table>
 </div>
 
 <div id="content" style="float:left;padding:25px">
-  <h2>Formula:</h2>
+  <h2>Formulas</h2>
+  <h3>Ore sales</h3>
   <p>(1000 / O<sub>V</sub>) * P * T</p>
   <p>
     O<sub>V</sub> = Ore Volume<br/>

@@ -11,7 +11,30 @@ class Variation < ActiveRecord::Base
     end
   end
   
+  def volume
+    ore.volume
+  end
+  
+  def refine_ammount
+    ore.refine
+  end
+  
   def refine_volume
     ore.refine_volume
+  end
+  
+  def raw_revenue(price, sale_tax)
+    (price * sale_tax) / volume
+  end
+  
+  def refine_revenue(refining_yield, price_list, sale_tax)
+    revenue = 0
+    if yields.size != 0
+      yields.each do |y|
+        price = price_list[y.mineral.central_id]
+        revenue += y.quantity * price
+      end
+    end
+    (revenue / refine_ammount) / volume
   end
 end
