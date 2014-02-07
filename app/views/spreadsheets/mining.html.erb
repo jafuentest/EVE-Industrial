@@ -3,24 +3,24 @@
 <div id="menu" style="float:left;padding:25px">
 <table>
   <tr>
-    <th>Ore Variation</th>
-    <th>Price / Unit (P<sub>95</sub>)</th>
-    <th>Revenue / m<sup>3</sup><br/>Selling Raw</th>
-    <th>Revenue / m<sup>3</sup><br/>Refining</th>
-    <th>Refining<br/>Gain/Loss</th>
+    <th><%= link_to 'Ore Variation', spreadsheets_mining_path(:sort => 'name') %></th>
+    <th><%= link_to 'Price / Unit', spreadsheets_mining_path(:sort => 'price') %><br/>(P<sub>95</sub>)</th>
+    <th><%= link_to 'Revenue / m<sup>3</sup><br/>Selling Raw'.html_safe, spreadsheets_mining_path(:sort => 'raw_revenue') %></th>
+    <th><%= link_to 'Revenue / m<sup>3</sup><br/>Refining'.html_safe, spreadsheets_mining_path(:sort => 'refine_revenue') %></th>
+    <th><%= link_to 'Refining<br/>Gain/Loss'.html_safe, spreadsheets_mining_path(:sort => 'refining_gain') %></th>
   </tr>
   
-  <% @variations.sort_by{ |v| v[:raw_revenue] }.reverse.each do |var| %>
+  <% @variations.each do |var| %>
     <tr>
-      <td><%= link_to var[:object].name, var[:object] %></td>
+      <td><%= link_to var[:name], variation_path(var[:id]) %></td>
       <% if var[:price] == 0 %>
         <td colspan="2" align="center"> No Buy Orders </td>
       <% else %>
         <td align="right"><%= "%.2f" % var[:price] %></td>
         <td align="right"><%= "%.2f" % var[:raw_revenue] %></td>
-        <td align="right"><%= "%.2f" % var[:refine_revenue] %></td>
-        <td align="right"><%= "%.2f" % var[:refining_gain] %> %</td>
       <% end %>
+        <td align="right"><%= "%.2f" % var[:refine_revenue] %></td>
+        <td align="right" <%= 'style="color:red"'.html_safe unless (var[:refining_gain] > 0) %>><%= "%.2f %" % var[:refining_gain] unless var[:price] == 0 %></td>
     </tr>
   <% end %>
     
@@ -29,12 +29,16 @@
 
 <div id="content" style="float:left;padding:25px">
   <h2>Formulas</h2>
-  <h3>Ore sales</h3>
+  <h3>Raw Revenues</h3>
   <p>(1000 / O<sub>V</sub>) * P * T</p>
   <p>
     O<sub>V</sub> = Ore Volume<br/>
     P = Ore Price (Buy orders percentile for that ore at the selected region/system)<br/>
     T = 100% - Sale Tax %
+  </p>
+  <h3>Refining Revenues</h3>
+  <p>
+    Too lazy to write it right now =p
   </p>
 </div>
 </div>

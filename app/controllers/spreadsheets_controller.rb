@@ -2,6 +2,9 @@ class SpreadsheetsController < ApplicationController
   require 'nokogiri'
   
   def mining
+    sort_options = ['price', 'raw_revenue', 'refine_revenue', 'refining_gain', 'name']
+    sort_column = (sort_options.include? params[:sort]) ? params[:sort] : 'id'
+    
     system = params.has_key?(:system) ? params[:system] : 30002187
     sale_tax = 1 - ((params.has_key?(:tax) ? params[:tax] : 0) / 100)
     price_list = []
@@ -27,12 +30,19 @@ class SpreadsheetsController < ApplicationController
     
     @variations = []
     Variation.all.each do |var|
-      variation = { :object => var }
+      variation = { :id => var.id, :name => var.name }
       variation[:price] = ore_prices[var.central_id]
       variation[:raw_revenue] = var.raw_revenue(ore_prices[var.central_id], sale_tax)
       variation[:refine_revenue] = var.refine_revenue(1, ore_prices, sale_tax)
-      variation[:refining_gain] = (variation[:refine_revenue] / variation[:raw_revenue] - 1) * 100
+      if variation[:price] == 0
+        variation[:refining_gain] = 0
+      else
+        variation[:refining_gain] = (variation[:refine_revenue] / variation[:raw_revenue] - 1) * 100
+      end
       @variations << variation
     end
+    
+    @variations.sort_by! { |v| v[sort_column.to_sym] }
+    @variations.reverse! unless ['id', 'name'].include? sort_column
   end
 end
