@@ -11,11 +11,11 @@ EVEIndustrial::Application.routes.draw do
   
   resources :variations do
     collection do
-      get  'check_eve_central_ids'
+      get 'check_central_id_of'
     end
     member do
-      get  'add_yields_to'
-      post 'add_yields_to'
+      get  'add_yields'
+      post 'add_yields'
     end
   end
 

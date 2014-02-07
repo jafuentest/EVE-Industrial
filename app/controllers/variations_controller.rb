@@ -1,5 +1,5 @@
 class VariationsController < ApplicationController
-  def add_yields_to
+  def add_yields
     @variation = Variation.find(params[:id])
     @minerals = Mineral.all
     
@@ -20,7 +20,7 @@ class VariationsController < ApplicationController
     end
   end
   
-  def check_eve_central_ids
+  def check_central_ids
     variations = Variation.all
     @results = []
     variations.each do |variation|
