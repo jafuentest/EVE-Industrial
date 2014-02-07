@@ -22,9 +22,9 @@
 <hr />
 
 <% if @variation.yields.empty? %>
-  <%= link_to 'Add Mineral Yield', edit_variation_path(@variation) %> |
+  <%= link_to 'Add Mineral Yield', add_yields_variation_path(@variation) %> |
 <% else %>
-  <%= link_to 'Edit Mineral Yield', edit_variation_path(@variation) %> |
+  <%= link_to 'Edit Mineral Yield', add_yields_variation_path(@variation) %> |
 <% end %>
 <%= link_to 'Edit', edit_variation_path(@variation) %> |
 <%= link_to 'Back', variations_path %>
