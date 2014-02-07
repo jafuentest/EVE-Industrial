@@ -1,6 +1,6 @@
 EVEIndustrial::Application.routes.draw do
   get "spreadsheets/mining"
-
+  
   resources :ores, :yields
   
   resources :minerals do
@@ -11,7 +11,11 @@ EVEIndustrial::Application.routes.draw do
   
   resources :variations do
     collection do
-      get 'check_eve_central_ids'
+      get  'check_eve_central_ids'
+    end
+    member do
+      get  'add_yields_to'
+      post 'add_yields_to'
     end
   end
 

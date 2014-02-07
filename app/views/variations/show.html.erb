@@ -4,21 +4,27 @@
 <b>Bonus Yield:</b> <%= @variation.bonus %>%</b><br />
 <b>Eve-Central ID:</b> <%= @variation.central_id %>
 
-<h2>Mineral Yield</h2>
-<table>
-  <tr>
-    <th>Mineral</th>
-    <th>Yield / m<sup>3</sup></th>
-  </tr>
-  <% @variation.yields.each do |y| %>
+<% unless @variation.yields.empty? %>
+  <h2>Mineral Yield</h2>
+  <table>
     <tr>
-      <td><b><%= y.mineral.name %></b></td>
-      <td align="right"><%= "%.2f" % y.material_yield.round(2) %></td>
+      <th>Mineral</th>
+      <th>Yield / m<sup>3</sup></th>
     </tr>
-  <% end %>
-</table>
-
+    <% @variation.yields.each do |y| %>
+      <tr>
+        <td><b><%= y.mineral.name %></b></td>
+        <td align="right"><%= "%.2f" % y.material_yield.round(2) %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
 <hr />
 
+<% if @variation.yields.empty? %>
+  <%= link_to 'Add Mineral Yield', edit_variation_path(@variation) %> |
+<% else %>
+  <%= link_to 'Edit Mineral Yield', edit_variation_path(@variation) %> |
+<% end %>
 <%= link_to 'Edit', edit_variation_path(@variation) %> |
 <%= link_to 'Back', variations_path %>

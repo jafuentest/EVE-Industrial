@@ -1,4 +1,25 @@
 class VariationsController < ApplicationController
+  def add_yields_to
+    @variation = Variation.find(params[:id])
+    @minerals = Mineral.all
+    
+    if request.request_method == 'POST'
+      @minerals.each do |mineral|
+        y = Yield.find_by_mineral_id_and_variation_id(mineral.id, @variation.id)
+        if params[mineral.id.to_s] == ''
+          y.destroy unless y.nil?
+        else
+          y = Yield.new if y.nil?
+          y.quantity = params[mineral.id.to_s]
+          y.variation = @variation
+          y.mineral = mineral
+          y.save
+        end
+      end
+      redirect_to @variation, :notice => 'Variation updated successfully'
+    end
+  end
+  
   def check_eve_central_ids
     variations = Variation.all
     @results = []

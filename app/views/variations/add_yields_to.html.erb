@@ -1,0 +1,19 @@
+﻿<h1><%= @variation.name %></h1>
+
+<%= form_tag add_yields_to_variation_path(@variation) do %>
+  <table>
+    <tr>
+      <th>Mineral</th>
+      <th>Quantity</th>
+    </tr>
+    
+    <% @minerals.each do |mineral| %>
+      <tr>
+        <td><%= label_tag mineral.name %></td>
+        <td><%= number_field_tag mineral.id %></td>
+      </tr>
+    <% end %>
+  <table>
+  
+  <%= submit_tag 'Save' %>
+<% end %>
