@@ -6,13 +6,18 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 # PostgreSQL
-gem 'pg'
+gem 'pg', '>=0.17.1'
 
 # Libcurl bindings for Ruby
-gem 'curb'
+gem 'curb', '>=0.8.5'
 
 # HTML, XML, SAX and Reader parser
-gem 'nokogiri'
+gem 'nokogiri', '>=1.6.1'
+
+group :development do
+  # Automatically add model description to to the model.rb
+  gem 'annotate', :github => 'ctran/annotate_models', :branch => 'develop'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.

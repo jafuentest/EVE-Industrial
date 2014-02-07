@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: variations
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  ore_id     :integer
+#  bonus      :integer
+#  central_id :integer
+#
+
 class Variation < ActiveRecord::Base
   attr_accessible :name, :bonus, :ore_id, :central_id
   belongs_to :ore
