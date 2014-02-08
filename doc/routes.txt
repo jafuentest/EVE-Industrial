@@ -1,4 +1,5 @@
            spreadsheets_mining GET    /spreadsheets/mining(.:format)            spreadsheets#mining
+             static_pages_home GET    /static_pages/home(.:format)              static_pages#home
                           ores GET    /ores(.:format)                           ores#index
                                POST   /ores(.:format)                           ores#create
                        new_ore GET    /ores/new(.:format)                       ores#new

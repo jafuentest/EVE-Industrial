@@ -1,5 +1,8 @@
 EVEIndustrial::Application.routes.draw do
+  root :to => 'static_pages#home'
+  
   get "spreadsheets/mining"
+  get "static_pages/home"
   
   resources :ores, :yields
   
