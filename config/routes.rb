@@ -1,10 +1,11 @@
 EVEIndustrial::Application.routes.draw do
   root :to => 'static_pages#home'
-  
-  get "spreadsheets/mining"
+
+  post "spreadsheets/mining"  
+  get  "spreadsheets/mining"
   get "static_pages/home"
   
-  resources :ores, :yields
+  resources :ores, :yields, :regions, :systems
   
   resources :minerals do
     collection do
@@ -74,8 +75,4 @@ EVEIndustrial::Application.routes.draw do
   # root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
 end

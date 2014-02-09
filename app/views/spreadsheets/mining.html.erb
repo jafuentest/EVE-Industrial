@@ -1,33 +1,43 @@
-<div id="container">
 <h1>Mining Spreadsheet</h1>
-<div id="menu" style="float:left;padding:25px">
-<table>
-  <tr>
-    <th><%= link_to 'Ore Variation', spreadsheets_mining_path(:sort => 'name') %></th>
-    <th><%= link_to 'Price / Unit', spreadsheets_mining_path(:sort => 'price') %><br/>(P<sub>95</sub>)</th>
-    <th><%= link_to 'Revenue / m<sup>3</sup><br/>Selling Raw'.html_safe, spreadsheets_mining_path(:sort => 'raw_revenue') %></th>
-    <th><%= link_to 'Revenue / m<sup>3</sup><br/>Refining'.html_safe, spreadsheets_mining_path(:sort => 'refine_revenue') %></th>
-    <th><%= link_to 'Refining<br/>Gain/Loss'.html_safe, spreadsheets_mining_path(:sort => 'refining_gain') %></th>
-  </tr>
-  
-  <% @variations.each do |var| %>
+
+<% unless @variations.empty? %>
+  <div id="menu" style="float:left;padding:25px">
+  <table>
     <tr>
-      <td><%= link_to var[:name], variation_path(var[:id]) %></td>
-      <% if var[:price] == 0 %>
-        <td colspan="2" align="center"> No Buy Orders </td>
-      <% else %>
-        <td align="right"><%= "%.2f" % var[:price] %></td>
-        <td align="right"><%= "%.2f" % var[:raw_revenue] %></td>
-      <% end %>
-        <td align="right"><%= "%.2f" % var[:refine_revenue] %></td>
-        <td align="right" <%= 'style="color:red"'.html_safe unless (var[:refining_gain] > 0) %>><%= "%.2f %" % var[:refining_gain] unless var[:price] == 0 %></td>
+      <th><%= link_to 'Ore Variation', spreadsheets_mining_path(:sort => 'name', :system => params[:system]) %></th>
+      <th><%= link_to 'Price / Unit', spreadsheets_mining_path(:sort => 'price', :system => params[:system]) %><br/>(P<sub>95</sub>)</th>
+      <th><%= link_to 'Revenue / m<sup>3</sup><br/>Selling Raw'.html_safe, spreadsheets_mining_path(:sort => 'raw_revenue', :system => params[:system]) %></th>
+      <th><%= link_to 'Revenue / m<sup>3</sup><br/>Refining'.html_safe, spreadsheets_mining_path(:sort => 'refine_revenue', :system => params[:system]) %></th>
+      <th><%= link_to 'Refining<br/>Gain/Loss'.html_safe, spreadsheets_mining_path(:sort => 'refining_gain', :system => params[:system]) %></th>
     </tr>
-  <% end %>
     
-</table>
-</div>
+    <% @variations.each do |var| %>
+      <tr>
+        <td><%= link_to var[:name], variation_path(var[:id]) %></td>
+        <% if var[:price] == 0 %>
+          <td colspan="2" align="center"> No Buy Orders </td>
+        <% else %>
+          <td align="right"><%= "%.2f" % var[:price] %></td>
+          <td align="right"><%= "%.2f" % var[:raw_revenue] %></td>
+        <% end %>
+          <td align="right"><%= "%.2f" % var[:refine_revenue] %></td>
+          <td align="right" <%= 'style="color:red"'.html_safe unless (var[:refining_gain] > 0) %>><%= "%.2f %" % var[:refining_gain] unless var[:price] == 0 %></td>
+      </tr>
+    <% end %>
+      
+  </table>
+  </div>
+<% end %>
 
 <div id="content" style="float:left;padding:25px">
+  <h2>Parameters</h2>
+  <%= form_tag spreadsheets_mining_path do |f| %>
+    <div class="field">
+      <%= label_tag  :system %>
+      <%= select_tag :system, options_from_collection_for_select(@systems, :central_id, :name) %>
+    </div>
+    <%= submit_tag 'Calculate' %>
+  <% end %>
   <h2>Formulas</h2>
   <h3>Raw Revenues</h3>
   <p>(1000 / O<sub>V</sub>) * P * T</p>
@@ -40,5 +50,4 @@
   <p>
     Too lazy to write it right now =p
   </p>
-</div>
 </div>

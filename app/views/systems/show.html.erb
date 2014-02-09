@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @system.name %>
+</p>
+
+<p>
+  <b>Central:</b>
+  <%= @system.central_id %>
+</p>
+
+<p>
+  <b>Region:</b>
+  <%= @system.region_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_system_path(@system) %> |
+<%= link_to 'Back', systems_path %>

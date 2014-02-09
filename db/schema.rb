@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140203225128) do
+ActiveRecord::Schema.define(:version => 20140210025510) do
 
   create_table "minerals", :force => true do |t|
     t.string  "name"
@@ -29,6 +29,21 @@ ActiveRecord::Schema.define(:version => 20140203225128) do
     t.integer "ore_id"
     t.integer "mineral_id"
     t.float   "share"
+  end
+
+  create_table "regions", :force => true do |t|
+    t.string   "name"
+    t.integer  "central_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "systems", :force => true do |t|
+    t.string   "name"
+    t.integer  "central_id"
+    t.integer  "region_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "variations", :force => true do |t|

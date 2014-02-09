@@ -1,0 +1,27 @@
+<h1>Listing systems</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Central</th>
+    <th>Region</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @systems.each do |system| %>
+  <tr>
+    <td><%= system.name %></td>
+    <td><%= system.central_id %></td>
+    <td><%= system.region_id %></td>
+    <td><%= link_to 'Show', system %></td>
+    <td><%= link_to 'Edit', edit_system_path(system) %></td>
+    <td><%= link_to 'Destroy', system, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New System', new_system_path %>
