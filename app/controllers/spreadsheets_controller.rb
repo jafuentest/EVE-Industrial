@@ -2,24 +2,32 @@ class SpreadsheetsController < ApplicationController
   require 'nokogiri'
   
   def mining
-    @systems = System.all
+    @regions = Region.all
     @variations = []
-    if params.has_key? :system
+    unless !params.has_key? :region || params[:region].empty?
       sort_options = ['price', 'raw_revenue', 'refine_revenue', 'refining_gain', 'name']
       sort_column = (sort_options.include? params[:sort]) ? params[:sort] : 'id'
-      system = params[:system]
       sale_tax = 1 - ((params.has_key?(:tax) ? params[:tax] : 0) / 100)
       price_list = []
       ore_ids = Variation.pluck(:central_id)
       mineral_ids = Mineral.pluck(:central_id)
       items = ore_ids.concat(mineral_ids).join(',')
       
-      request = 'http://api.eve-central.com/api/marketstat?typeid=%s&usesystem=%s' % [items, system]
-
+      # Request information from eve-central and parse it to an array
+      if params[:system].empty?
+        region = Region.find params[:region]
+        request = 'http://api.eve-central.com/api/marketstat?typeid=%s&regionlimit=%s' % [items, region.central_id]
+        @params = { :region => region.id }
+      else
+        system = System.find(params[:system])
+        request = 'http://api.eve-central.com/api/marketstat?typeid=%s&usesystem=%s' % [items, system.central_id]
+        @params = { :system => system.id }
+      end
       xml = Curl.get(request).body_str
       xml_doc  = Nokogiri::XML(xml)
       percentiles = xml_doc.xpath("/evec_api/marketstat/type/buy/percentile")
       
+      # Dump the prices array into the hashes used for revenue calculation
       ore_prices = { }
       mineral_prices = { }
       percentiles.each do |percentile|
@@ -30,6 +38,7 @@ class SpreadsheetsController < ApplicationController
         end
       end
       
+      # Retrieve the information to show about each ore variation
       Variation.all.each do |var|
         variation = { :id => var.id, :name => var.name }
         variation[:price] = ore_prices[var.central_id]
@@ -43,6 +52,7 @@ class SpreadsheetsController < ApplicationController
         @variations << variation
       end
       
+      # Apply the selected sorting (a-z, 9-0)
       @variations.sort_by! { |v| v[sort_column.to_sym] }
       @variations.reverse! unless ['id', 'name'].include? sort_column
     end

@@ -5,7 +5,11 @@ EVEIndustrial::Application.routes.draw do
   get  "spreadsheets/mining"
   get "static_pages/home"
   
-  resources :ores, :yields, :regions, :systems
+  resources :ores, :yields, :systems
+  
+  resources :regions do
+    resources :systems
+  end
   
   resources :minerals do
     collection do

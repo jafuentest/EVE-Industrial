@@ -2,7 +2,11 @@ class SystemsController < ApplicationController
   # GET /systems
   # GET /systems.json
   def index
-    @systems = System.all
+    if params.has_key? :region_id
+      @systems = Region.find(params[:region_id]).systems
+    else
+      @systems = System.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb

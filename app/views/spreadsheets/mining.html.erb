@@ -1,14 +1,13 @@
 <h1>Mining Spreadsheet</h1>
-
 <% unless @variations.empty? %>
   <div id="menu" style="float:left;padding:25px">
   <table>
     <tr>
-      <th><%= link_to 'Ore Variation', spreadsheets_mining_path(:sort => 'name', :system => params[:system]) %></th>
-      <th><%= link_to 'Price / Unit', spreadsheets_mining_path(:sort => 'price', :system => params[:system]) %><br/>(P<sub>95</sub>)</th>
-      <th><%= link_to 'Revenue / m<sup>3</sup><br/>Selling Raw'.html_safe, spreadsheets_mining_path(:sort => 'raw_revenue', :system => params[:system]) %></th>
-      <th><%= link_to 'Revenue / m<sup>3</sup><br/>Refining'.html_safe, spreadsheets_mining_path(:sort => 'refine_revenue', :system => params[:system]) %></th>
-      <th><%= link_to 'Refining<br/>Gain/Loss'.html_safe, spreadsheets_mining_path(:sort => 'refining_gain', :system => params[:system]) %></th>
+      <th><%= link_to 'Ore Variation', spreadsheets_mining_path(@params.merge({:sort => 'name'})) %></th>
+      <th><%= link_to 'Price / Unit', spreadsheets_mining_path(@params.merge({:sort => 'price'})) %><br/>(P<sub>95</sub>)</th>
+      <th><%= link_to 'Revenue / m<sup>3</sup><br/>Selling Raw'.html_safe, spreadsheets_mining_path(@params.merge({:sort => 'raw_revenue'})) %></th>
+      <th><%= link_to 'Revenue / m<sup>3</sup><br/>Refining'.html_safe, spreadsheets_mining_path(@params.merge({:sort => 'refine_revenue'})) %></th>
+      <th><%= link_to 'Refining<br/>Gain/Loss'.html_safe, spreadsheets_mining_path(@params.merge({:sort => 'refining_gain'})) %></th>
     </tr>
     
     <% @variations.each do |var| %>
@@ -21,7 +20,8 @@
           <td align="right"><%= "%.2f" % var[:raw_revenue] %></td>
         <% end %>
           <td align="right"><%= "%.2f" % var[:refine_revenue] %></td>
-          <td align="right" <%= 'style="color:red"'.html_safe unless (var[:refining_gain] > 0) %>><%= "%.2f %" % var[:refining_gain] unless var[:price] == 0 %></td>
+          <% gain = var[:refining_gain] %>
+          <td align="right" <%= 'style="color:red"'.html_safe unless (gain > 0) %>><%= "%.2f %" % gain unless var[:price] == 0 %></td>
       </tr>
     <% end %>
       
@@ -33,8 +33,12 @@
   <h2>Parameters</h2>
   <%= form_tag spreadsheets_mining_path do |f| %>
     <div class="field">
+      <%= label_tag  :region %>
+      <%= select_tag :region, options_from_collection_for_select(@regions, :id, :name), :prompt => 'Select Region', :onchange => 'updateSystems()' %>
+    </div>
+    <div class="field">
       <%= label_tag  :system %>
-      <%= select_tag :system, options_from_collection_for_select(@systems, :central_id, :name) %>
+      <%= select_tag :system, nil, :prompt => 'Whole Region' %>
     </div>
     <%= submit_tag 'Calculate' %>
   <% end %>
