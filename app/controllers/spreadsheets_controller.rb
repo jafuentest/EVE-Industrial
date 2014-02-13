@@ -2,7 +2,7 @@ class SpreadsheetsController < ApplicationController
   require 'nokogiri'
   
   def mining
-    @regions = Region.all
+    @regions = Region.order(:name)
     @variations = []
     unless !params.has_key? :region || params[:region].empty?
       sort_options = ['price', 'raw_revenue', 'refine_revenue', 'refining_gain', 'name']
@@ -19,9 +19,10 @@ class SpreadsheetsController < ApplicationController
         request = 'http://api.eve-central.com/api/marketstat?typeid=%s&regionlimit=%s' % [items, region.central_id]
         @params = { :region => region.id }
       else
+        region = Region.find params[:region]
         system = System.find(params[:system])
         request = 'http://api.eve-central.com/api/marketstat?typeid=%s&usesystem=%s' % [items, system.central_id]
-        @params = { :system => system.id }
+        @params = { :region => region.id, :system => system.id }
       end
       xml = Curl.get(request).body_str
       xml_doc  = Nokogiri::XML(xml)

@@ -3,7 +3,7 @@ class SystemsController < ApplicationController
   # GET /systems.json
   def index
     if params.has_key? :region_id
-      @systems = Region.find(params[:region_id]).systems
+      @systems = Region.find(params[:region_id]).systems.sort_by { |s| s[:name] }
     else
       @systems = System.all
     end
