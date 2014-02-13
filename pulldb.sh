@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "creating backup..."
-heroku pgbackups:capture
+heroku pgbackups:capture --expire
 
 echo "downloading backup..."
 curl -o latest.dump `heroku pgbackups:url`
