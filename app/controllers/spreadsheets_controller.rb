@@ -2,11 +2,9 @@ class SpreadsheetsController < ApplicationController
   require 'nokogiri'
   
   def mining
-    @regions = Region.order(:name)
+    @regions = Region.all
     @variations = []
     unless !params.has_key? :region || params[:region].empty?
-      sort_options = ['price', 'raw_revenue', 'refine_revenue', 'refining_gain', 'name']
-      sort_column = (sort_options.include? params[:sort]) ? params[:sort] : 'id'
       sale_tax = 1 - ((params.has_key?(:tax) ? params[:tax] : 0) / 100)
       price_list = []
       ore_ids = Variation.pluck(:central_id)
@@ -52,10 +50,6 @@ class SpreadsheetsController < ApplicationController
         end
         @variations << variation
       end
-      
-      # Apply the selected sorting (a-z, 9-0)
-      @variations.sort_by! { |v| v[sort_column.to_sym] }
-      @variations.reverse! unless ['id', 'name'].include? sort_column
     end
   end
 end
