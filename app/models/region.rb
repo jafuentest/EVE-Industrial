@@ -3,5 +3,5 @@ class Region < ActiveRecord::Base
   
   has_many :systems
   
-  default_scope { order('id') }
+  default_scope { order('name') }
 end
