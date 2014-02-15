@@ -14,6 +14,8 @@ class Yield < ActiveRecord::Base
   belongs_to :mineral
   belongs_to :variation
   
+  default_scope { order('id') }
+  
   def material_yield
     quantity / variation.refine_volume
   end

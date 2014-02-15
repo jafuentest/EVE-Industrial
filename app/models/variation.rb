@@ -11,8 +11,12 @@
 
 class Variation < ActiveRecord::Base
   attr_accessible :name, :bonus, :ore_id, :central_id
+  
   belongs_to :ore
+  
   has_many :yields
+  
+  default_scope { order('id') }
 
   def name
     if self[:name].nil? || self[:name].empty?
