@@ -6,6 +6,9 @@ gem 'rails', '3.2.13'
 # https://devcenter.heroku.com/articles/ruby-support#injected-plugins
 gem 'rails_12factor'
 
+# Specification of ruby version
+ruby '2.0.0'
+
 # PostgreSQL
 gem 'pg', '>=0.17.1'
 
