@@ -16,7 +16,7 @@ class Yield < ActiveRecord::Base
   
   default_scope { order('id') }
   
-  def material_yield
+  def base_yield
     quantity / variation.refine_volume
   end
 end
