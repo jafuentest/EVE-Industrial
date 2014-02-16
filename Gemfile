@@ -2,8 +2,9 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+# For Heroku, more info at the following link
+# https://devcenter.heroku.com/articles/ruby-support#injected-plugins
+gem 'rails_12factor'
 
 # PostgreSQL
 gem 'pg', '>=0.17.1'
