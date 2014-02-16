@@ -10,10 +10,10 @@
     <th>Ore</th>
     <th><%= @mineral.name %> / m<sup>3</sup></th>
   </tr>
-  <% @mineral.yields.sort{ |a,b| a.material_yield <=> b.material_yield }.reverse.each do |y| %>
+  <% @mineral.yields.sort{ |a,b| a.base_yield <=> b.base_yield }.reverse.each do |y| %>
     <tr>
       <td><%= link_to y.variation.name, y.variation %></td>
-      <td align="right"><%= "%.2f" % y.material_yield.round(2) %></td>
+      <td align="right"><%= "%.2f" % y.base_yield.round(2) %></td>
     </tr>
   <% end %>
 </table>

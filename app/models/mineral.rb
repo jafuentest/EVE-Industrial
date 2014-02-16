@@ -18,6 +18,6 @@ class Mineral < ActiveRecord::Base
   default_scope { order('id') }
   
   def best_ore
-    yields.max_by { |x| x.material_yield }.variation
+    yields.max_by { |y| y.base_yield }.variation.ore
   end
 end

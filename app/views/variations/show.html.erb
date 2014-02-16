@@ -14,7 +14,7 @@
     <% @variation.yields.each do |y| %>
       <tr>
         <td><b><%= y.mineral.name %></b></td>
-        <td align="right"><%= "%.2f" % y.material_yield.round(2) %></td>
+        <td align="right"><%= "%.2f" % y.base_yield.round(2) %></td>
       </tr>
     <% end %>
   </table>
