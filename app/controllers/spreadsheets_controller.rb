@@ -67,6 +67,7 @@ class SpreadsheetsController < ApplicationController
         refining_results = var.refine_revenue(mineral_prices, station_yield, skills, refinery_tax)
         variation[:refine_revenue] = refining_results[:revenue]
         variation[:refine_yield] = refining_results[:yield]
+        variation[:volume] = refining_results[:volume]
         if variation[:price] == 0
           variation[:refining_gain] = 0
         else

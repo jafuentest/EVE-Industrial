@@ -17,7 +17,7 @@ $(document).ready(function() {
         <th>Revenue / m<sup>3</sup><br/>Selling Raw</th>
         <th>Revenue / m<sup>3</sup><br/>Refining</th>
         <th>Refining<br/>Gain</th>
-        <th>Refining<br/>Yield</th>
+        <th>Volume<br/>Reduction</th>
       </tr>
     </thead>
     <tbody>
@@ -34,7 +34,7 @@ $(document).ready(function() {
             <td><%= '%.2f' % var[:refine_revenue] %></td>
             <% gain = var[:refining_gain] %>
             <td <%= 'class="text-warning"'.html_safe unless (gain > 0) %>><%= "%.2f %" % gain unless var[:price] == 0 %></td>
-            <td><%= '%.2f %' % var[:refine_yield] %></td>
+            <td><%= '%.2f %' % var[:volume] %></td>
         </tr>
       <% end %>
     </tbody>
