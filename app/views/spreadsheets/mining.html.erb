@@ -1,15 +1,8 @@
 <h1>Mining Spreadsheet</h1>
-<script>
-$(document).ready(function() {
-    $('#revenues').tablesorter();
-  }
-);
-</script>
-
 <div style="float:left">
 <% unless @variations.nil? %>
   <h2>Using prices from the <%= @location %></h2>
-  <table id="revenues" class="tablesorter table table-bordered table-striped">
+  <table class="tablesorter table table-bordered table-striped">
     <thead class="pointer-cursor">
       <tr>
         <th>Ore Variation</th>
