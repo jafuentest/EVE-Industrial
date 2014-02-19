@@ -3,6 +3,9 @@ $header-height: 50px;
 
 th {
   text-align: center;
+}
+
+th, td {
   vertical-align: middle !important;
 }
 
@@ -42,4 +45,3 @@ html, body {
 .pointer-cursor {
   cursor: pointer;
 }
-

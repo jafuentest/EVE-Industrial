@@ -2,13 +2,17 @@
 
 <table style="width: auto;" class="table table-bordered table-striped">
   <tr>
+    <th>Ore Family</th>
     <th>Name</th>
     <th>Bonus %</th>
     <th class="edit-field">Edit</th>
   </tr>
 
-<% @variations.each do |variation| %>
+<% @variations.each_with_index do |variation, i| %>
   <tr>
+    <% if i % 3 == 0 %>
+      <td rowspan="3"><%= link_to variation.ore.name, variation.ore %></td>
+    <% end %>
     <td><%= link_to variation.name, variation %></td>
     <td><%= variation.bonus %></td>
     <td class="edit-field">
