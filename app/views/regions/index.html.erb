@@ -1,25 +1,24 @@
-<h1>Listing regions</h1>
+<h1>Listing Regions</h1>
 
-<table>
+<table style="width: auto;" class="table table-bordered table-striped">
   <tr>
     <th>Name</th>
-    <th>Central</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>EVE-Central ID</th>
+    <th class="edit-field">Edit</th>
   </tr>
 
 <% @regions.each do |region| %>
   <tr>
-    <td><%= region.name %></td>
+    <td><%= link_to region.name, region %></td>
     <td><%= region.central_id %></td>
-    <td><%= link_to 'Show', region %></td>
-    <td><%= link_to 'Edit', edit_region_path(region) %></td>
-    <td><%= link_to 'Destroy', region, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td class="edit-field">
+      <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_region_path(region) %>
+      <%= link_to image_tag("/delete.png", :alt => "Delete"), region, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Region', new_region_path %>
+<a class="btn btn-primary" href="<%= new_region_path %>" role="button">New Mineral »</a>

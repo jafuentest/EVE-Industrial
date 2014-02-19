@@ -1,11 +1,11 @@
-<h1>Listing yields</h1>
+<h1>Listing Yields</h1>
 
-<table>
+<table style="width: auto;" class="table table-bordered table-striped">
   <tr>
     <th>Ore</th>
     <th>Mineral</th>
     <th>Quantity</th>
-    <th colspan="3"></th>
+    <th class="edit-field">Edit</th>
   </tr>
 
 <% @yields.each do |y| %>
@@ -13,13 +13,14 @@
     <td><%= link_to y.variation.name, y.variation %></td>
     <td><%= link_to y.mineral.name, y.mineral %></td>
     <td><%= y.quantity %></td>
-    <td><%= link_to 'Show', y %></td>
-    <td><%= link_to 'Edit', edit_yield_path(y) %></td>
-    <td><%= link_to 'Destroy', y, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td class="edit-field">
+      <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_yield_path(y) %>
+      <%= link_to image_tag("/delete.png", :alt => "Delete"), y, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Yield', new_yield_path %>
+<a class="btn btn-primary" href="<%= new_yield_path %>" role="button">New Mineral »</a>

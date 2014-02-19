@@ -1,27 +1,26 @@
-<h1>Listing systems</h1>
+<h1>Listing Systems</h1>
 
-<table>
+<table style="width: auto;" class="table table-bordered table-striped">
   <tr>
     <th>Name</th>
-    <th>Central</th>
     <th>Region</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>EVE-Central ID</th>
+    <th class="edit-field">Edit</th>
   </tr>
 
 <% @systems.each do |system| %>
   <tr>
-    <td><%= system.name %></td>
+    <td><%= link_to system.name, system %></td>
+    <td><%= link_to system.region.name, system.region %></td>
     <td><%= system.central_id %></td>
-    <td><%= system.region_id %></td>
-    <td><%= link_to 'Show', system %></td>
-    <td><%= link_to 'Edit', edit_system_path(system) %></td>
-    <td><%= link_to 'Destroy', system, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td class="edit-field">
+      <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_system_path(system) %>
+      <%= link_to image_tag("/delete.png", :alt => "Delete"), system, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New System', new_system_path %>
+<a class="btn btn-primary" href="<%= new_system_path %>" role="button">New Mineral »</a>
