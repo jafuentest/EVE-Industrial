@@ -1,24 +1,37 @@
 <p id="notice"><%= notice %></p>
 
 <h1><%= @mineral.name %></h1>
-<b>Volume:</b> <%= @mineral.volume %> m<sup>3</sup><br />
-<b>Eve-Central ID:</b> <%= @mineral.central_id %>
+<p>
+  <b>Volume:</b>
+  <%= @mineral.volume %> m<sup>3</sup>
+</p>
+
+<p>
+  <b>EVE-Central ID:</b>
+  <%= @mineral.central_id %>
+</p>
 
 <h2>Refining</h2>
-<table>
-  <tr>
-    <th>Ore</th>
-    <th><%= @mineral.name %> / m<sup>3</sup></th>
-  </tr>
-  <% @mineral.yields.sort{ |a,b| a.base_yield <=> b.base_yield }.reverse.each do |y| %>
+<table class="table table-bordered table-striped table-small tablesorter">
+  <thead>
     <tr>
-      <td><%= link_to y.variation.name, y.variation %></td>
-      <td align="right"><%= "%.2f" % y.base_yield.round(2) %></td>
+      <th>Ore</th>
+      <th><%= @mineral.name %> / m<sup>3</sup></th>
+      <th><%= @mineral.name %> / batch</th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @mineral.yields.each do |y| %>
+      <tr>
+        <td><%= link_to y.variation.name, y.variation %></td>
+        <td><%= '%.2f' % y.base_yield.round(2) %></td>
+        <td><%= y.quantity %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <hr />
 
-<%= link_to 'Edit', edit_mineral_path(@mineral) %> |
-<%= link_to 'Back', minerals_path %>
+<a class="btn btn-primary" href="<%= edit_mineral_path(@mineral) %>" role="button">Edit »</a>
+<a class="btn btn-primary" href="<%= minerals_path %>" role="button">Back to List »</a>

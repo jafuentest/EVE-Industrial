@@ -1,24 +1,35 @@
 <p id="notice"><%= notice %></p>
 
 <h1><%= @ore.name %></h1>
-<b>Volume:</b> <%= @ore.volume %> m<sup>3</sup><br />
-<b>Units to Refine:</b> <%= @ore.refine %>
+<p>
+  <b>Volume:</b>
+  <%= @ore.volume %> m<sup>3</sup>
+</p>
 
-<h2>Share</h2>
-<table>
-  <tr>
-    <th>Mineral</th>
-    <th>Composition</th>
-  </tr>
-  <% @ore.ores_minerals.sort{ |a,b| a.share <=> b.share }.reverse.each do |om| %>
+<p>
+  <b>Units to Refine:</b>
+  <%= @ore.refine %>
+</p>
+
+<h2>Mineral Composition</h2>
+<table class="table table-bordered table-striped table-small tablesorter">
+  <thead>
     <tr>
-      <td><%= link_to om.mineral.name, om.mineral %></b></td>
-      <td align="right"><%= "%.2f" % (om.share * 100).round(2) %> %</td>
+      <th>Mineral</th>
+      <th>Share</th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @ore.ores_minerals.sort{ |a,b| a.share <=> b.share }.reverse.each do |om| %>
+      <tr>
+        <td><%= link_to om.mineral.name, om.mineral %></b></td>
+        <td><%= "%.2f" % (om.share * 100).round(2) %> %</td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <hr />
 
-<%= link_to 'Edit', edit_ore_path(@ore) %> |
-<%= link_to 'Back', ores_path %>
+<a class="btn btn-primary" href="<%= edit_ore_path(@ore) %>" role="button">Edit »</a>
+<a class="btn btn-primary" href="<%= ores_path %>" role="button">Back to List »</a>

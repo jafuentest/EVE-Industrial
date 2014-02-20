@@ -1,15 +1,34 @@
 <p id="notice"><%= notice %></p>
 
+<h1><%= @region.name %></h1>
 <p>
-  <b>Name:</b>
-  <%= @region.name %>
-</p>
-
-<p>
-  <b>Central:</b>
+  <b>EVE-Central ID:</b>
   <%= @region.central_id %>
 </p>
 
+<h2>Systems</h2>
+<table class="table table-bordered table-striped table-small tablesorter">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Security<br/>Status</th>
+      <th>True<br/>Security</th>
+      <th>EVE-Central ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @region.systems.each do |system| %>
+      <tr>
+        <td><%= link_to system.name, system %></b></td>
+        <td><%= '%.1f' % system.security %></td>
+        <td><%= '%.5f' % system.security %></td>
+        <td><%= system.central_id %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-<%= link_to 'Edit', edit_region_path(@region) %> |
-<%= link_to 'Back', regions_path %>
+<hr/>
+
+<a class="btn btn-primary" href="<%= edit_region_path(@region) %>" role="button">Edit »</a>
+<a class="btn btn-primary" href="<%= regions_path %>" role="button">Back to List »</a>

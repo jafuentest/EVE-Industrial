@@ -1,10 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= @system.name %>
-</p>
-
+<h1><%= @system.name %></h1>
 <p>
   <b>Central:</b>
   <%= @system.central_id %>
@@ -12,9 +8,10 @@
 
 <p>
   <b>Region:</b>
-  <%= @system.region_id %>
+  <%= link_to @system.region.name, @system.region %>
 </p>
 
+<hr/>
 
-<%= link_to 'Edit', edit_system_path(@system) %> |
-<%= link_to 'Back', systems_path %>
+<a class="btn btn-primary" href="<%= edit_system_path(@system) %>" role="button">Edit »</a>
+<a class="btn btn-primary" href="<%= systems_path %>" role="button">Back to List »</a>
