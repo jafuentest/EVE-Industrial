@@ -4,6 +4,7 @@
     <tr>
       <th>Name</th>
       <th>Region</th>
+      <th>Security</th>
       <th>EVE-Central ID</th>
       <th class="edit-field">Edit</th>
     </tr>
@@ -14,6 +15,7 @@
       <tr>
         <td><%= link_to system.name, system %></td>
         <td><%= link_to system.region.name, system.region %></td>
+        <td><%= '%.1f' % system.security %></td>
         <td><%= system.central_id %></td>
         <td class="edit-field">
           <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_system_path(system) %>
