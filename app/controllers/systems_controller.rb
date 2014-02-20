@@ -1,11 +1,13 @@
 class SystemsController < ApplicationController
+  helper_method :sort_column, :sort_direction
+  
   # GET /systems
   # GET /systems.json
   def index
     if params.has_key? :region_id
       @systems = Region.find(params[:region_id]).systems.sort_by { |s| s[:name] }
     else
-      @systems = System.all
+      @systems = System.order(sort_column + ' ' + sort_direction).paginate :page => params[:page]
     end
 
     respond_to do |format|
@@ -83,5 +85,15 @@ class SystemsController < ApplicationController
       format.html { redirect_to systems_url }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  
+  def sort_column
+    System.column_names.include?(params[:sort]) ? params[:sort] : 'name'
+  end
+  
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : 'asc'
   end
 end

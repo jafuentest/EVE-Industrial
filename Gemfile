@@ -1,13 +1,15 @@
 source 'https://rubygems.org'
 
+# Specification ruby and rails version
+ruby '2.0.0'
 gem 'rails', '3.2.13'
 
 # For Heroku, more info at the following link
 # https://devcenter.heroku.com/articles/ruby-support#injected-plugins
 gem 'rails_12factor'
 
-# Specification of ruby version
-ruby '2.0.0'
+# Non-dynamic sorting and pagination
+gem 'will_paginate', '~> 3.0'
 
 # PostgreSQL
 gem 'pg', '>=0.17.1'

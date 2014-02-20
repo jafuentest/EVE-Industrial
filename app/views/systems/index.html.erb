@@ -1,12 +1,12 @@
 <h1>Listing Systems</h1>
-<table class="table table-bordered table-striped tablesorter">
+<table class="table table-bordered table-striped">
   <thead>
     <tr>
-      <th>Name</th>
+      <th><%= sortable 'name', 'Name' %></th>
       <th>Region</th>
-      <th>Security</th>
+      <th><%= sortable 'security', 'Security' %></th>
       <th>True Security</th>
-      <th>EVE-Central ID</th>
+      <th><%= sortable 'central_id', 'EVE-Central ID' %></th>
       <th class="edit-field">Edit</th>
     </tr>
   </thead>
@@ -27,7 +27,8 @@
     <% end %>
   </tbody>
 </table>
+<%= will_paginate @systems %>
 
-<br />
+<br/>
 
 <a class="btn btn-primary" href="<%= new_system_path %>" role="button">New Mineral »</a>
