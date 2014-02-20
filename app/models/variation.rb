@@ -15,6 +15,7 @@ class Variation < ActiveRecord::Base
   belongs_to :ore
   
   has_many :yields
+  has_many :minerals, through: :yields
   
   default_scope { order('id') }
 

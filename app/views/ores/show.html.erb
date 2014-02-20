@@ -20,10 +20,10 @@
     </tr>
   </thead>
   <tbody>
-    <% @ore.ores_minerals.sort{ |a,b| a.share <=> b.share }.reverse.each do |om| %>
+    <% @shares.each do |share| %>
       <tr>
-        <td><%= link_to om.mineral.name, om.mineral %></b></td>
-        <td><%= "%.2f" % (om.share * 100).round(2) %> %</td>
+        <td><%= link_to share[:mineral].name, share[:mineral] %></b></td>
+        <td><%= "%.2f" % share[:percentage].round(2) %> %</td>
       </tr>
     <% end %>
   </tbody>

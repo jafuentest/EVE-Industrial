@@ -12,8 +12,8 @@ class Ore < ActiveRecord::Base
   attr_accessible :name, :refine, :volume
   
   has_many :variations
-  has_many :ores_minerals
-  has_many :minerals, through: :ores_minerals
+  has_many :yields, through: :variations
+  has_many :minerals, through: :yields
   
   default_scope { order('id') }
   

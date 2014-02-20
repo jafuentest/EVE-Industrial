@@ -14,7 +14,16 @@ class OresController < ApplicationController
   # GET /ores/1.json
   def show
     @ore = Ore.find(params[:id])
-
+    @shares = []
+    variation = @ore.variations.first
+    total = variation.yields.sum(:quantity)
+    
+    variation.minerals.each do |mineral|
+      y = variation.yields.detect { |y| y[:mineral_id] == mineral.id }
+      share = { :mineral => mineral, :percentage => (y.quantity / total.to_f) * 100 }
+      @shares << share
+    end
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @ore }
