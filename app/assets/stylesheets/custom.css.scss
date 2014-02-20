@@ -42,6 +42,10 @@ html, body {
   margin: $footer-height/3 0;
 }
 
-.pointer-cursor {
+.table {
+  width: auto;
+}
+
+.tablesorter {
   cursor: pointer;
 }

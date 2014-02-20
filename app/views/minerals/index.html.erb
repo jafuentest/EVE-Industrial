@@ -1,26 +1,29 @@
 <h1>Listing Minerals</h1>
-
-<table style="width: auto;" class="table table-bordered table-striped">
-  <tr>
-    <th>Name</th>
-    <th>Volume (m<sup>3</sup>)</th>
-    <th>Ore with<br/>most quantity</th>
-    <th>EVE-Central ID</th>
-    <th class="edit-field">Edit</th>
-  </tr>
-
-<% @minerals.each do |mineral| %>
-  <tr>
-    <td><%= link_to mineral.name, mineral %></td>
-    <td><%= mineral.volume %></td>
-    <td><%= link_to mineral.best_ore.name, mineral.best_ore %></td>
-    <td><%= mineral.central_id %></td>
-    <td class="edit-field">
-      <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_mineral_path(mineral) %>
-      <%= link_to image_tag("/delete.png", :alt => "Delete"), mineral, method: :delete, data: { confirm: 'Are you sure?' } %>
-    </td>
-  </tr>
-<% end %>
+<table class="table table-bordered table-striped tablesorter">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Volume (m<sup>3</sup>)</th>
+      <th>Ore with<br/>most quantity</th>
+      <th>EVE-Central ID</th>
+      <th class="edit-field">Edit</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @minerals.each do |mineral| %>
+      <tr>
+        <td><%= link_to mineral.name, mineral %></td>
+        <td><%= mineral.volume %></td>
+        <td><%= link_to mineral.best_ore.name, mineral.best_ore %></td>
+        <td><%= mineral.central_id %></td>
+        <td class="edit-field">
+          <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_mineral_path(mineral) %>
+          <%= link_to image_tag("/delete.png", :alt => "Delete"), mineral, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <br />

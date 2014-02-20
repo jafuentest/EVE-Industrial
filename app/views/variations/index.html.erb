@@ -1,26 +1,29 @@
 <h1>Listing Variations</h1>
-
-<table style="width: auto;" class="table table-bordered table-striped">
-  <tr>
-    <th>Ore Family</th>
-    <th>Name</th>
-    <th>Bonus %</th>
-    <th class="edit-field">Edit</th>
-  </tr>
-
-<% @variations.each_with_index do |variation, i| %>
-  <tr>
-    <% if i % 3 == 0 %>
-      <td rowspan="3"><%= link_to variation.ore.name, variation.ore %></td>
+<table class="table table-bordered table-striped tablesorter">
+  <thead>
+    <tr>
+      <th>Ore Family</th>
+      <th>Name</th>
+      <th>Bonus %</th>
+      <th class="edit-field">Edit</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @variations.each_with_index do |variation, i| %>
+      <tr>
+        <% if i % 3 == 0 %>
+          <td rowspan="3"><%= link_to variation.ore.name, variation.ore %></td>
+        <% end %>
+        <td><%= link_to variation.name, variation %></td>
+        <td><%= variation.bonus %></td>
+        <td class="edit-field">
+          <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_variation_path(variation) %>
+          <%= link_to image_tag("/delete.png", :alt => "Delete"), variation, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
     <% end %>
-    <td><%= link_to variation.name, variation %></td>
-    <td><%= variation.bonus %></td>
-    <td class="edit-field">
-      <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_variation_path(variation) %>
-      <%= link_to image_tag("/delete.png", :alt => "Delete"), variation, method: :delete, data: { confirm: 'Are you sure?' } %>
-    </td>
-  </tr>
-<% end %>
+  </tbody>
 </table>
 
 <br />

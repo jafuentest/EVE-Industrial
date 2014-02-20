@@ -1,22 +1,25 @@
 <h1>Listing Regions</h1>
-
-<table style="width: auto;" class="table table-bordered table-striped">
-  <tr>
-    <th>Name</th>
-    <th>EVE-Central ID</th>
-    <th class="edit-field">Edit</th>
-  </tr>
-
-<% @regions.each do |region| %>
-  <tr>
-    <td><%= link_to region.name, region %></td>
-    <td><%= region.central_id %></td>
-    <td class="edit-field">
-      <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_region_path(region) %>
-      <%= link_to image_tag("/delete.png", :alt => "Delete"), region, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    </td>
-  </tr>
-<% end %>
+<table class="table table-bordered table-striped tablesorter">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>EVE-Central ID</th>
+      <th class="edit-field">Edit</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @regions.each do |region| %>
+      <tr>
+        <td><%= link_to region.name, region %></td>
+        <td><%= region.central_id %></td>
+        <td class="edit-field">
+          <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_region_path(region) %>
+          <%= link_to image_tag("/delete.png", :alt => "Delete"), region, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <br />

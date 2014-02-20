@@ -1,6 +1,6 @@
 <h1>Listing Yields</h1>
-<table style="width: auto;" class="table table-bordered table-striped tablesorter">
-  <thead class="pointer-cursor">
+<table class="table table-bordered table-striped tablesorter">
+  <thead>
     <tr>
       <th>Ore Variation</th>
       <% @minerals.each do |mineral| %>
@@ -9,6 +9,7 @@
       <th class="edit-field">Edit</th>
     </tr>
   </thead>
+  
   <tbody>
     <% @variations.each do |variation| %>
       <tr>
