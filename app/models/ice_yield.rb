@@ -5,4 +5,9 @@ class IceYield < ActiveRecord::Base
   belongs_to :ice_product
   
   default_scope { order('id') }
+  
+  def percentage
+    total_yield = ice_ore.ice_yields.sum(:quantity)
+    (quantity.to_f / total_yield) * 100
+  end
 end

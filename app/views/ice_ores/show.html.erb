@@ -3,13 +3,33 @@
 <h1><%= @ice_ore.name %></h1>
 <p>
   <b>Volume:</b>
-  <%= @ice_ore.volume %>
+  <%= @ice_ore.volume %> m<sup>3</sup>
 </p>
 
 <p>
   <b>Central:</b>
   <%= @ice_ore.central_id %>
 </p>
+
+<h2>Composition</h2>
+<table class="table table-bordered table-striped table-small tablesorter">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Share</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @ice_ore.ice_yields.each do |y| %>
+      <tr>
+        <td><%= link_to y.ice_product.name, y.ice_product %></b></td>
+        <td><%= y.quantity %></td>
+        <td><%= "%.2f" % y.percentage %> %</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <hr />
 

@@ -11,6 +11,26 @@
   <%= @ice_product.central_id %>
 </p>
 
+<h2>Refining</h2>
+<table class="table table-bordered table-striped table-small tablesorter">
+  <thead>
+    <tr>
+      <th>Ore</th>
+      <th><%= @ice_product.name %> / batch</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @ice_product.ice_yields.each do |y| %>
+      <tr>
+        <td><%= link_to y.ice_ore.name, y.ice_ore %></td>
+        <td><%= y.quantity %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p>If you want yield per m<sup>3</sup> you just have to divide yield per batch by 1000</p>
+
 <hr />
 
 <a class="btn btn-primary" href="<%= edit_ice_product_path(@ice_product) %>" role="button">Edit »</a>
