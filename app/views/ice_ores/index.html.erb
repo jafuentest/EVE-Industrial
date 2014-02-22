@@ -1,0 +1,29 @@
+<h1>Listing Ice Ores</h1>
+<table class="table table-bordered table-striped tablesorter">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Volume (m<sup>3</sup>)</th>
+      <th>EVE-Central ID</th>
+      <th class="edit-field">Edit</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ice_ores.each do |ice_ore| %>
+      <tr>
+        <td><%= link_to ice_ore.name, ice_ore %></td>
+        <td><%= '%i' % ice_ore.volume %></td>
+        <td><%= ice_ore.central_id %></td>
+        <td class="edit-field">
+          <%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_ice_ore_path(ice_ore) %>
+          <%= link_to image_tag('/delete.png', :alt => 'Delete'), ice_ore, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<a class="btn btn-primary" href="<%= new_ice_ore_path %>" role="button">New Ice Ore »</a>

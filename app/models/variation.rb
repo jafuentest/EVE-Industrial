@@ -10,7 +10,7 @@
 #
 
 class Variation < ActiveRecord::Base
-  attr_accessible :name, :bonus, :ore_id, :central_id
+  attr_accessible :bonus, :central_id, :name, :ore_id
   
   belongs_to :ore
   

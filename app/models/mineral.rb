@@ -9,7 +9,7 @@
 #
 
 class Mineral < ActiveRecord::Base
-  attr_accessible :name, :volume, :central_id, :ore_id
+  attr_accessible :central_id, :name, :ore_id, :volume
   
   has_many :yields
   has_many :ores_minerals

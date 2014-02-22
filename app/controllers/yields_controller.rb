@@ -3,8 +3,8 @@ class YieldsController < ApplicationController
   # GET /yields.json
   def index
     @variations = Variation.all
-    @yields = Yield.all
     @minerals = Mineral.all
+    @yields = Yield.all
 
     respond_to do |format|
       format.html # index.html.erb

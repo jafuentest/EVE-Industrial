@@ -1,0 +1,29 @@
+<h1>Listing Ice Products</h1>
+<table class="table table-bordered table-striped tablesorter">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Volume (m<sup>3</sup>)</th>
+      <th>EVE-Central ID</th>
+      <th class="edit-field">Edit</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ice_products.each do |ice_product| %>
+      <tr>
+        <td><%= link_to ice_product.name, ice_product %></td>
+        <td><%= '%.2f' % ice_product.volume %></td>
+        <td><%= ice_product.central_id %></td>
+        <td class="edit-field">
+          <%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_ice_product_path(ice_product) %>
+          <%= link_to image_tag('/delete.png', :alt => 'Delete'), ice_product, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<a class="btn btn-primary" href="<%= new_ice_ore_path %>" role="button">New Ice Product »</a>

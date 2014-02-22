@@ -9,7 +9,7 @@
 #
 
 class Yield < ActiveRecord::Base
-  attr_accessible :bonus, :quantity, :mineral_id, :variation_id
+  attr_accessible :bonus, :mineral_id, :quantity, :variation_id
   
   belongs_to :mineral
   belongs_to :variation

@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @ice_product.name %></h1>
+<p>
+  <b>Volume:</b>
+  <%= @ice_product.volume %>
+</p>
+
+<p>
+  <b>Central:</b>
+  <%= @ice_product.central_id %>
+</p>
+
+<hr />
+
+<a class="btn btn-primary" href="<%= edit_ice_product_path(@ice_product) %>" role="button">Edit »</a>
+<a class="btn btn-primary" href="<%= ice_products_path %>" role="button">Back to List »</a>

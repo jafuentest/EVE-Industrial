@@ -1,0 +1,30 @@
+<h1>Listing Ice Yields</h1>
+<table class="table table-bordered table-striped tablesorter">
+  <thead>
+    <tr>
+      <th>Ice Ore</th>
+      <% @ice_products.each do |product| %>
+        <th><%= (product.name.sub! ' ', '<br/>').html_safe %></th>
+      <% end %>
+      <th class="edit-field">Edit</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @ice_ores.each do |ore| %>
+      <tr>
+        <td><b><%= link_to ore.name, ore %></b></td>
+        <% @ice_products.each do |product| %>
+          <td>
+            <% y = @ice_yields.detect { |y| y[:ice_ore_id] == ore.id && y[:ice_product_id] == product.id } %>
+            <%= y.nil? ? 0 : y[:quantity] %>
+          </td>
+        <% end %>
+        <td>
+          <%= link_to image_tag("/edit.png", :alt => "Edit"), add_yields_variation_path(ore) %>
+          <%= image_tag("/delete.png") %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

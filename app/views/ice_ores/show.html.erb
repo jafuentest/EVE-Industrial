@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @ice_ore.name %></h1>
+<p>
+  <b>Volume:</b>
+  <%= @ice_ore.volume %>
+</p>
+
+<p>
+  <b>Central:</b>
+  <%= @ice_ore.central_id %>
+</p>
+
+<hr />
+
+<a class="btn btn-primary" href="<%= edit_ice_ore_path(@ice_ore) %>" role="button">Edit »</a>
+<a class="btn btn-primary" href="<%= ice_ores_path %>" role="button">Back to List »</a>
