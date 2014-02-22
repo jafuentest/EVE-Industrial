@@ -93,4 +93,86 @@ class SpreadsheetsController < ApplicationController
       @processing_skills[o.id] = cookies[skill_name]
     end
   end
+  
+  def ice_mining
+    if (params.has_key? :region) && !params[:region].empty?
+      price_list = []
+      ore_ids = IceOre.pluck(:central_id)
+      products_ids = IceProduct.pluck(:central_id)
+      items = ore_ids.clone.concat(products_ids).join(',')
+      
+      # Retrieve user specific data
+      station_yield = params[:station_yield]
+      refinery_tax = params[:refinery_tax]
+      skills = { }
+      skills[:refining_skill] = params[:refining_skill]
+      skills[:refinery_efficiency_skill] = params[:refinery_efficiency_skill]
+      skills[:ice_processing_skill] = params[:ice_processing_skill]
+      
+      # Save in cookies
+      cookies[:region] = params[:region]
+      cookies[:system] = params[:system]
+      cookies[:refinery_tax] = params[:refinery_tax]
+      cookies[:station_yield] = params[:station_yield]
+      cookies[:refining_skill] = params[:refining_skill]
+      cookies[:refinery_efficiency_skill] = params[:refinery_efficiency_skill]
+      cookies[:ice_processing_skill] = params[:ice_processing_skill]
+      
+      # Request information from eve-central and parse it to an array
+      if params[:system].empty?
+        region = Region.find params[:region]
+        request = 'http://api.eve-central.com/api/marketstat?typeid=%s&regionlimit=%s' % [items, region.central_id]
+        @params = { :region => region.id }
+        @location = '%s Region' % region.name
+      else
+        region = Region.find params[:region]
+        system = System.find params[:system]
+        request = 'http://api.eve-central.com/api/marketstat?typeid=%s&usesystem=%s' % [items, system.central_id]
+        @params = { :region => region.id, :system => system.id }
+        @location = '%s System' % system.name
+      end
+      xml = Curl.get(request).body_str
+      xml_doc  = Nokogiri::XML(xml)
+      percentiles = xml_doc.xpath("/evec_api/marketstat/type/buy/percentile")
+      
+      # Dump the prices array into the hashes used for revenue calculation
+      ore_prices = { }
+      product_prices = { }
+      percentiles.each do |percentile|
+        item_id = percentile.parent.parent['id'].to_i
+        if ore_ids.include? item_id
+          ore_prices [item_id] = percentile.text.to_f
+        else
+          product_prices [item_id] = percentile.text.to_f
+        end
+      end
+      
+      # Retrieve the information to show about each ore variation
+      @ores = []
+      IceOre.all.each do |ore|
+        ore_hash = { :id => ore.id, :name => ore.name }
+        ore_hash[:price] = ore_prices[ore.central_id]
+        refining_results = ore.refine_revenue(product_prices, station_yield, skills, refinery_tax)
+        ore_hash[:refine_revenue] = refining_results[:revenue]
+        ore_hash[:refine_yield] = refining_results[:yield]
+        ore_hash[:volume] = refining_results[:volume]
+        if ore_hash[:price] == 0
+          ore_hash[:refining_gain] = 0
+        else
+          ore_hash[:refining_gain] = (ore_hash[:refine_revenue] / ore_hash[:price] - 1) * 100
+        end
+        @ores << ore_hash
+      end
+    end
+    
+    # Set initial values for input fields
+    @regions = Region.all
+    @region = cookies[:region]
+    @systems = @region.nil? ? nil : Region.find(@region).systems
+    @system = cookies[:system]
+    @station_yield = cookies[:station_yield]
+    @refining_skill = cookies[:refining_skill]
+    @refinery_efficiency_skill = cookies[:refinery_efficiency_skill]
+    @refinery_tax = cookies[:refinery_tax]
+  end
 end

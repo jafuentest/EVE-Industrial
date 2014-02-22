@@ -1,28 +1,25 @@
-<h1>Ore Spreadsheet</h1>
+<h1>Ice Spreadsheet</h1>
 <div style="float:left">
-<% unless @variations.nil? %>
+<% unless @ores.nil? %>
   <h2>Using prices from the <%= @location %></h2>
   <table class="tablesorter table table-bordered table-striped">
     <thead class="pointer-cursor">
       <tr>
-        <th>Ore Variation</th>
+        <th>Ore</th>
         <th>Price / Unit<br/>(P<sub>95</sub>)</th>
-        <th>Revenue / m<sup>3</sup><br/>Selling Raw</th>
-        <th>Revenue / m<sup>3</sup><br/>Refining</th>
+        <th>Revenue / Unit<br/>Refining</th>
         <th>Refining<br/>Gain</th>
         <th>Volume<br/>Reduction</th>
       </tr>
     </thead>
     <tbody>
-      <% @variations.each do |var| %>
+      <% @ores.each do |var| %>
         <tr>
           <td><%= link_to var[:name], variation_path(var[:id]) %></td>
           <% if var[:price] == 0 %>
             <td> No Buy Orders </td>
-            <td></td>
           <% else %>
             <td><%= '%.2f' % var[:price] %></td>
-            <td><%= '%.2f' % var[:raw_revenue] %></td>
           <% end %>
             <td><%= '%.2f' % var[:refine_revenue] %></td>
             <% gain = var[:refining_gain] %>
@@ -35,7 +32,7 @@
 </div>
 <% end %>
 
-<%= form_tag spreadsheets_mining_path do %>
+<%= form_tag spreadsheets_ice_mining_path do %>
   <div id="sub1" style="float:left;padding:0 15px">
     <h2>Parameters</h2>
     <%= label_tag  :region %>
@@ -57,32 +54,18 @@
     <%= label_tag  :refinery_efficiency_skill %>
     <%= select_tag :refinery_efficiency_skill, options_for_select(['0','1','2','3','4','5'], @refinery_efficiency_skill) %>
     <br/><br/>
+    <%= label_tag  :ice_processing_skill %>
+    <%= select_tag :ice_processing_skill, options_for_select(['0','1','2','3','4','5'], @refinery_efficiency_skill) %>
+    <br/><br/>
     <%= label_tag  :refinery_tax %>
     <%= text_field_tag :refinery_tax, @refinery_tax, :size => 3 %>    
     <br/><br/>
     <%= submit_tag 'Calculate' %>
   </div>
-  <div id="sub2" style="float:left;padding:0 15px">
-    <h2>Processing<br/>Skills</h2>
-    <table>
-      <% @ores.each do |o| %>
-        <tr>
-          <td><%= label_tag o.name %></td>
-          <td>&nbsp;&nbsp;<%= select_tag 'processing_skills[%s]' % o.name, options_for_select(['0','1','2','3','4','5'], @processing_skills[o.id]) %></td>
-        </tr>
-      <% end %>
-    </table>
-  </div>
 <% end %>
 <div id="info" style="float:left;padding:0 15px">
   <h2>Formulas</h2>
-  <h3>Raw Revenues</h3>
-  <p>(1000 / O<sub>V</sub>) * P * T</p>
-  <p>
-    O<sub>V</sub> = Ore Volume<br/>
-    P = Ore Price (Buy orders percentile for that ore at the selected region/system)<br/>
-    T = 100% - Sale Tax %
-  </p>
+  <p>If you want revenues per m<sup>3</sup> just divide revenues by 1000.<br/>All ice ores have a 1000 m<sup>3</sup> volume.</p>
   <h3>Refining Revenues</h3>
   <p>
     Too lazy to write it right now =p

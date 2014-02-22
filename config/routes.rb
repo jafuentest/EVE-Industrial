@@ -3,6 +3,8 @@ EVEIndustrial::Application.routes.draw do
   
   post 'spreadsheets/mining'
   get  'spreadsheets/mining'
+  post 'spreadsheets/ice_mining'
+  get  'spreadsheets/ice_mining'
   get  'static_pages/home'
   
   resources :ice_ores, :ice_products, :ice_yields, :ores, :systems, :yields
