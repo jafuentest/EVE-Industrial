@@ -17,13 +17,8 @@
         <td><%= ore.volume %></td>
         <td class="edit-field">
           <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_ore_path(ore) %>
-          <%= link_to image_tag("/delete.png", :alt => "Delete"), ore, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br />
-
-<a class="btn btn-primary" href="<%= new_ore_path %>" role="button">New Mineral »</a>

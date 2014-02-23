@@ -19,13 +19,8 @@
         <td><%= mineral.central_id %></td>
         <td class="edit-field">
           <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_mineral_path(mineral) %>
-          <%= link_to image_tag("/delete.png", :alt => "Delete"), mineral, method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br />
-
-<a class="btn btn-primary" href="<%= new_mineral_path %>" role="button">New Mineral »</a>

@@ -17,13 +17,8 @@
         <td><%= ice_product.central_id %></td>
         <td class="edit-field">
           <%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_ice_product_path(ice_product) %>
-          <%= link_to image_tag('/delete.png', :alt => 'Delete'), ice_product, method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br />
-
-<a class="btn btn-primary" href="<%= new_ice_ore_path %>" role="button">New Ice Product »</a>

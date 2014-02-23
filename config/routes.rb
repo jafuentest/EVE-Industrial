@@ -7,19 +7,23 @@ EVEIndustrial::Application.routes.draw do
   get  'spreadsheets/ice_mining'
   get  'static_pages/home'
   
-  resources :ice_ores, :ice_products, :ice_yields, :ores, :systems, :yields
+  resources :ice_yields, :yields
+  resources :ice_ores, except: [:create, :new, :destroy]
+  resources :ice_products, except: [:create, :new, :destroy]
+  resources :ores, except: [:create, :new, :destroy]
+  resources :systems, except: [:create, :new, :destroy]
   
-  resources :regions do
+  resources :regions, except: [:create, :new, :destroy] do
     resources :systems
   end
   
-  resources :minerals do
+  resources :minerals, except: [:create, :new, :destroy]  do
     collection do
       get 'check_eve_central_ids'
     end
   end
   
-  resources :variations do
+  resources :variations, except: [:create, :new, :destroy]  do
     collection do
       get 'check_central_id_of'
     end

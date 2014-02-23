@@ -19,13 +19,8 @@
         <td><%= variation.bonus %></td>
         <td class="edit-field">
           <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_variation_path(variation) %>
-          <%= link_to image_tag("/delete.png", :alt => "Delete"), variation, method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br />
-
-<a class="btn btn-primary" href="<%= new_variation_path %>" role="button">New Mineral »</a>

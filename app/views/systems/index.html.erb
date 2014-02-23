@@ -21,14 +21,9 @@
         <td><%= system.central_id %></td>
         <td class="edit-field">
           <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_system_path(system) %>
-          <%= link_to image_tag("/delete.png", :alt => "Delete"), system, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 <%= will_paginate @systems %>
-
-<br/>
-
-<a class="btn btn-primary" href="<%= new_system_path %>" role="button">New Mineral »</a>
