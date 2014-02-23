@@ -2,6 +2,7 @@ class VariationsController < ApplicationController
   def add_yields
     @variation = Variation.find(params[:id])
     @minerals = Mineral.all
+    @yields = @variation.yields
     
     if request.request_method == 'POST'
       @minerals.each do |mineral|

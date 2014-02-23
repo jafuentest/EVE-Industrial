@@ -8,9 +8,11 @@
     </tr>
     
     <% @minerals.each do |mineral| %>
+      <% y = @yields.detect { |y| y.variation_id == @variation.id && y.mineral_id == mineral.id } %>
+      <% quantity = y.quantity unless y.nil? %>
       <tr>
         <td><%= label_tag mineral.name %></td>
-        <td><%= number_field_tag mineral.id %></td>
+        <td><%= number_field_tag mineral.id, quantity %></td>
       </tr>
     <% end %>
   <table>
