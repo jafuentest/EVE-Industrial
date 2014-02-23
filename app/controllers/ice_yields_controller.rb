@@ -5,7 +5,7 @@ class IceYieldsController < ApplicationController
     @ice_ores = IceOre.all
     @ice_products = IceProduct.all
     @ice_yields = IceYield.all
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @ice_yields }

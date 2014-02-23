@@ -7,7 +7,8 @@ EVEIndustrial::Application.routes.draw do
   get  'spreadsheets/ice_mining'
   get  'static_pages/home'
   
-  resources :ice_yields, :yields
+  resources :ice_yields, only: [:index]
+  resources :yields, only: [:index]
   resources :ice_ores, except: [:create, :new, :destroy]
   resources :ice_products, except: [:create, :new, :destroy]
   resources :ores, except: [:create, :new, :destroy]
