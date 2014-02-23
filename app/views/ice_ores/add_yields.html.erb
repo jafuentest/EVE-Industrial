@@ -1,0 +1,19 @@
+﻿<h1><%= @ore.name %></h1>
+
+<%= form_tag add_yields_ice_ore_path(@ore) do %>
+  <table>
+    <tr>
+      <th>Mineral</th>
+      <th>Quantity</th>
+    </tr>
+    
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= label_tag product.name %></td>
+        <td><%= number_field_tag product.id %></td>
+      </tr>
+    <% end %>
+  <table>
+  
+  <%= submit_tag 'Save' %>
+<% end %>

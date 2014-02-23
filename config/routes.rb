@@ -9,7 +9,6 @@ EVEIndustrial::Application.routes.draw do
   
   resources :ice_yields, only: [:index]
   resources :yields, only: [:index]
-  resources :ice_ores, except: [:create, :new, :destroy]
   resources :ice_products, except: [:create, :new, :destroy]
   resources :ores, except: [:create, :new, :destroy]
   resources :systems, except: [:create, :new, :destroy]
@@ -21,6 +20,13 @@ EVEIndustrial::Application.routes.draw do
   resources :minerals, except: [:create, :new, :destroy]  do
     collection do
       get 'check_eve_central_ids'
+    end
+  end
+  
+  resources :ice_ores, except: [:create, :new, :destroy] do
+    member do
+      get  'add_yields'
+      post 'add_yields'
     end
   end
   

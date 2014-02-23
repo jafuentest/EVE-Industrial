@@ -1,4 +1,25 @@
 class IceOresController < ApplicationController
+  def add_yields
+    @ore = IceOre.find(params[:id])
+    @products = IceProduct.all
+    
+    if request.request_method == 'POST'
+      @products.each do |product|
+        y = IceYield.find_by_ice_product_id_and_ice_ore_id(product.id, @ore.id)
+        if params[product.id.to_s] == ''
+          y.destroy unless y.nil?
+        else
+          y = IceYield.new if y.nil?
+          y.quantity = params[product.id.to_s]
+          y.ice_ore = @ore
+          y.ice_product = product
+          y.save
+        end
+      end
+      redirect_to @ore, :notice => 'Yields updated successfully'
+    end
+  end
+  
   # GET /ice_ores
   # GET /ice_ores.json
   def index
