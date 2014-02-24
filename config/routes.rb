@@ -32,7 +32,7 @@ EVEIndustrial::Application.routes.draw do
   
   resources :variations, except: [:create, :new, :destroy]  do
     collection do
-      get 'check_central_id_of'
+      get 'check_central_ids'
     end
     member do
       get  'add_yields'
