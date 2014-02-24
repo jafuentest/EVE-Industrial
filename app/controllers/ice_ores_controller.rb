@@ -2,6 +2,7 @@ class IceOresController < ApplicationController
   def add_yields
     @ore = IceOre.find(params[:id])
     @products = IceProduct.all
+    @yields = @ore.ice_yields
     
     if request.request_method == 'POST'
       @products.each do |product|

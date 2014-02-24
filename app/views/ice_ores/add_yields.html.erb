@@ -8,9 +8,11 @@
     </tr>
     
     <% @products.each do |product| %>
+      <% y = @yields.detect { |y| y.ice_ore_id == @ore.id && y.ice_product_id == product.id } %>
+      <% quantity = y.quantity unless y.nil? %>
       <tr>
         <td><%= label_tag product.name %></td>
-        <td><%= number_field_tag product.id %></td>
+        <td><%= number_field_tag product.id, quantity %></td>
       </tr>
     <% end %>
   <table>
