@@ -1,21 +1,19 @@
 ﻿<h1><%= @variation.name %></h1>
-
-<%= form_tag add_yields_variation_path(@variation) do %>
-  <table>
-    <tr>
-      <th>Mineral</th>
-      <th>Quantity</th>
-    </tr>
-    
-    <% @minerals.each do |mineral| %>
-      <% y = @yields.detect { |y| y.variation_id == @variation.id && y.mineral_id == mineral.id } %>
-      <% quantity = y.quantity unless y.nil? %>
-      <tr>
-        <td><%= label_tag mineral.name %></td>
-        <td><%= number_field_tag mineral.id, quantity %></td>
-      </tr>
-    <% end %>
-  <table>
+<%= form_tag add_yields_variation_path(@variation), class: 'form-horizontal' do %>
+  <% @minerals.each do |mineral| %>
+    <div class="form-group">
+      <%= label_tag mineral.name, nil, class: 'control-label col-sm-1' %>
+      <div class="col-sm-2">
+        <% y = @yields.detect { |y| y.variation_id == @variation.id && y.mineral_id == mineral.id } %>
+        <% quantity = y.quantity unless y.nil? %>
+        <%= number_field_tag mineral.id, quantity, class: 'form-control' %>
+      </div>
+    </div>
+  <% end %>
   
-  <%= submit_tag 'Save' %>
+  <div class="form-group">
+    <div class="col-sm-offset-1 col-sm-2">
+      <%= submit_tag 'Save' %>
+    </div>
+  </div>
 <% end %>
