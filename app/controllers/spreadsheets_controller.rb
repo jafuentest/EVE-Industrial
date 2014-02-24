@@ -1,7 +1,7 @@
 class SpreadsheetsController < ApplicationController
   require 'nokogiri'
   
-  def mining
+  def ore_mining
     if (params.has_key? :region) && !params[:region].empty?
       price_list = []
       ore_ids = Variation.pluck(:central_id)

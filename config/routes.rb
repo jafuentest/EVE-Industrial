@@ -1,8 +1,8 @@
 EVEIndustrial::Application.routes.draw do
   root :to => 'static_pages#home'
   
-  post 'spreadsheets/mining'
-  get  'spreadsheets/mining'
+  post 'spreadsheets/ore_mining'
+  get  'spreadsheets/ore_mining'
   post 'spreadsheets/ice_mining'
   get  'spreadsheets/ice_mining'
   get  'static_pages/home'
