@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: ice_yields
+#
+#  id             :integer          not null, primary key
+#  quantity       :integer
+#  ice_ore_id     :integer
+#  ice_product_id :integer
+#
+
 class IceYield < ActiveRecord::Base
   attr_accessible :ice_ore_id, :ice_product_id, :quantity
   

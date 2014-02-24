@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: ice_products
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  volume     :float
+#  central_id :integer
+#
+
 class IceProduct < ActiveRecord::Base
   attr_accessible :central_id, :name, :volume
   
