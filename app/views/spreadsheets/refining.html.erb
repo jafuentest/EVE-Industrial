@@ -1,43 +1,53 @@
-<h1>Ore Spreadsheet</h1>
+<h1>Refining Spreadsheet</h1>
+<h2>Using prices from the <%= @location %></h2>
 <div class="sub">
 <% unless @variations.nil? %>
-  <h2>Using prices from the <%= @location %></h2>
   <table class="tablesorter table table-bordered table-striped">
     <thead class="pointer-cursor">
       <tr>
         <th>Ore Variation</th>
-        <th>Price / Unit<br/>(P<sub>95</sub>)</th>
-        <th>Revenue / m<sup>3</sup><br/>Selling Raw</th>
-        <th>Revenue / m<sup>3</sup><br/>Refining</th>
-        <th>Refining<br/>Gain</th>
-        <th>Volume<br/>Reduction</th>
+        <th>Unit Price</th>
+        <th>Inversion<br/>Return</th>
       </tr>
     </thead>
     <tbody>
-      <% @variations.each do |var| %>
+      <% @variations.each do |variation| %>
         <tr>
-          <td><%= link_to var[:name], variation_path(var[:id]) %></td>
-          <% if var[:price] == 0 %>
-            <td> No Buy Orders </td>
-            <td></td>
+          <td><%= link_to variation[:name], variation_path(variation[:id]) %></td>
+          <% if variation[:price] == 0 %>
+            <td colspan="2" class="text-center">No Sell Orders</td>
           <% else %>
-            <td><%= '%.2f' % var[:price] %></td>
-            <td><%= '%.2f' % var[:raw_revenue] %></td>
+            <td><%= '%.2f' % variation[:price] %></td>
+            <td><%= '%.2f' % variation[:refine_revenue] %> %</td>
           <% end %>
-            <td><%= '%.2f' % var[:refine_revenue] %></td>
-            <% gain = var[:refining_gain] %>
-            <td <%= 'class="text-warning"'.html_safe unless (gain > 0) %>><%= "%.2f %" % gain unless var[:price] == 0 %></td>
-            <td><%= '%.2f %' % var[:volume] %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
+<div class="sub">
+  <table class="tablesorter table table-bordered table-striped">
+    <thead class="pointer-cursor">
+      <tr>
+        <th>Mineral</th>
+        <th>Unit Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @minerals.each do |mineral| %>
+        <tr>
+          <td><%= link_to mineral[:name], mineral_path(mineral[:id]) %></td>
+          <td><%= '%.2f' % mineral[:price] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>  
+</div>
 <% end %>
 
-<%= form_tag spreadsheets_ore_mining_path do %>
+<%= form_tag spreadsheets_refining_path do %>
   <div class="sub">
-    <h2>Parameters</h2>
+    <h2 style="margin-top:0">Parameters</h2>
     <%= label_tag  :region %>
     <%= select_tag :region, options_from_collection_for_select(@regions, :id, :name, @region), :prompt => 'Select Region', :onchange => 'updateSystems()' %>
     <br/><br/>
@@ -63,7 +73,7 @@
     <%= submit_tag 'Calculate' %>
   </div>
   <div class="sub">
-    <h2>Processing<br/>Skills</h2>
+    <h2 style="margin-top:0">Processing<br/>Skills</h2>
     <table>
       <% @ores.each do |o| %>
         <tr>
@@ -80,7 +90,7 @@
   <p>(1000 / O<sub>V</sub>) * P * T</p>
   <p>
     O<sub>V</sub> = Ore Volume<br/>
-    P = Ore Price (Buy orders percentile for that ore at the selected region/system)<br/>
+    P = Ore Price (Sell orders percentile for that ore at the selected region/system)<br/>
     T = 100% - Sale Tax %
   </p>
   <h3>Refining Revenues</h3>

@@ -16,8 +16,34 @@ html, body {
   height: 100%;
 }
 
+.edit-field {
+  width: 45px;  
+  text-align: center;
+}
+
+.footer-content {
+  margin: $footer-height/3 0;
+}
+
 .form-horizontal {
   padding-top: 25px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.sub {
+  float: left;
+  padding-right: 20px;
+}
+
+.table {
+  width: auto;
+}
+
+.tablesorter {
+  cursor: pointer;
 }
 
 #wrap {
@@ -36,21 +62,4 @@ html, body {
   width: 100%;
   bottom: 0;
   left: 0;
-}
-
-.edit-field {
-  width: 45px;  
-  text-align: center;
-}
-
-.footer-content {
-  margin: $footer-height/3 0;
-}
-
-.table {
-  width: auto;
-}
-
-.tablesorter {
-  cursor: pointer;
 }

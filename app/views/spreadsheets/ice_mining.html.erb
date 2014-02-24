@@ -1,5 +1,5 @@
 <h1>Ice Spreadsheet</h1>
-<div style="float:left">
+<div class="sub">
 <% unless @ores.nil? %>
   <h2>Using prices from the <%= @location %></h2>
   <table class="tablesorter table table-bordered table-striped">
@@ -33,7 +33,7 @@
 <% end %>
 
 <%= form_tag spreadsheets_ice_mining_path do %>
-  <div id="sub1" style="float:left;padding:0 15px">
+  <div class="sub">
     <h2>Parameters</h2>
     <%= label_tag  :region %>
     <%= select_tag :region, options_from_collection_for_select(@regions, :id, :name, @region), :prompt => 'Select Region', :onchange => 'updateSystems()' %>
@@ -63,7 +63,7 @@
     <%= submit_tag 'Calculate' %>
   </div>
 <% end %>
-<div id="info" style="float:left;padding:0 15px">
+<div class="sub">
   <h2>Formulas</h2>
   <p>If you want revenues per m<sup>3</sup> just divide revenues by 1000.<br/>All ice ores have a 1000 m<sup>3</sup> volume.</p>
   <h3>Refining Revenues</h3>

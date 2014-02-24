@@ -1,6 +1,109 @@
 class SpreadsheetsController < ApplicationController
   require 'nokogiri'
   
+  def refining
+    if (params.has_key? :region) && !params[:region].empty?
+      price_list = []
+      ore_ids = Variation.pluck(:central_id)
+      mineral_ids = Mineral.pluck(:central_id)
+      items = ore_ids.clone.concat(mineral_ids).join(',')
+      
+      # Retrieve user specific data
+      
+      station_yield = params[:station_yield]
+      refinery_tax = params[:refinery_tax]
+      skills = { :special_processing_skills => {} }
+      skills[:refining_skill] = params[:refining_skill]
+      skills[:refinery_efficiency_skill] = params[:refinery_efficiency_skill]
+      params[:processing_skills].each do |k,v|
+        skill_name = '%s_processing_skill' % k
+        skills[k] = v
+        cookies[skill_name] = v # Also save to cookie
+      end
+      
+      # Save in cookies
+      cookies[:region] = params[:region]
+      cookies[:system] = params[:system]
+      cookies[:refinery_tax] = params[:refinery_tax]
+      cookies[:station_yield] = params[:station_yield]
+      cookies[:refining_skill] = params[:refining_skill]
+      cookies[:refinery_efficiency_skill] = params[:refinery_efficiency_skill]
+      
+      # Request information from eve-central and parse it to an array
+      if params[:system].empty?
+        region = Region.find params[:region]
+        request = 'http://api.eve-central.com/api/marketstat?typeid=%s&regionlimit=%s' % [items, region.central_id]
+        @params = { :region => region.id }
+        @location = '%s Region' % region.name
+      else
+        region = Region.find params[:region]
+        system = System.find params[:system]
+        request = 'http://api.eve-central.com/api/marketstat?typeid=%s&usesystem=%s' % [items, system.central_id]
+        @params = { :region => region.id, :system => system.id }
+        @location = '%s System' % system.name
+      end
+      xml = Curl.get(request).body_str
+      xml_doc  = Nokogiri::XML(xml)
+      buy_percentiles = xml_doc.xpath("/evec_api/marketstat/type/buy/percentile")
+      sell_percentiles = xml_doc.xpath("/evec_api/marketstat/type/sell/percentile")
+      
+      # Dump the prices array into the hashes used for revenue calculation
+      ore_prices = { }
+      sell_percentiles.each do |percentile|
+        item_id = percentile.parent.parent['id'].to_i
+        ore_prices [item_id] = percentile.text.to_f
+      end
+      
+      mineral_prices = { }
+      buy_percentiles.each do |percentile|
+        item_id = percentile.parent.parent['id'].to_i
+        mineral_prices [item_id] = percentile.text.to_f
+      end
+      
+      @minerals = []
+      Mineral.all.each do |min|
+        mineral = { :id => min.id, :name => min.name }
+        mineral[:price] = mineral_prices[min.central_id]
+        @minerals << mineral
+      end
+      
+      # Retrieve the information to show about each ore variation
+      @variations = []
+      Variation.all.each do |var|
+        variation = { :id => var.id, :name => var.name }
+        variation[:price] = ore_prices[var.central_id]
+        if variation[:price] == 0
+          variation[:refine_revenue] = -100 # lower than any possible value
+        else
+          refining_results = var.refine_revenue(mineral_prices, station_yield, skills, refinery_tax)
+          cost = var.raw_revenue(ore_prices[var.central_id])
+          profit = refining_results[:revenue] - cost
+          profit /= cost
+          variation[:refine_revenue] = profit
+        end
+        @variations << variation
+      end
+      
+      @variations.sort_by! { |v| v[:refine_revenue] }.reverse!
+    end
+    
+    # Set initial values for input fields
+    @ores = Ore.all
+    @regions = Region.all
+    @region = cookies[:region]
+    @systems = @region.nil? ? nil : Region.find(@region).systems
+    @system = cookies[:system]
+    @station_yield = cookies[:station_yield]
+    @refining_skill = cookies[:refining_skill]
+    @refinery_efficiency_skill = cookies[:refinery_efficiency_skill]
+    @refinery_tax = cookies[:refinery_tax]
+    @processing_skills = {}
+    @ores.each do |o|
+      skill_name = '%s_processing_skill' % o.name
+      @processing_skills[o.id] = cookies[skill_name]
+    end
+  end
+  
   def ore_mining
     if (params.has_key? :region) && !params[:region].empty?
       price_list = []
