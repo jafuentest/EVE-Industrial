@@ -2,4 +2,20 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      ice_ore:
+        central_id: EVE-Central ID
+      ice_product:
+        central_id: EVE-Central ID
+      mineral:
+        central_id: EVE-Central ID
+      ore:
+        central_id: EVE-Central ID
+      region:
+        central_id: EVE-Central ID
+      system:
+        central_id: EVE-Central ID
+      variation:
+        central_id: EVE-Central ID
+        bonus: Bonus %

@@ -29,6 +29,7 @@ class SystemsController < ApplicationController
   
   # GET /systems/1/edit
   def edit
+    @regions = Region.all
     @system = System.find(params[:id])
   end
   

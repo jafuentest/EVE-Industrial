@@ -1,5 +1,5 @@
-<h1>Editing system</h1>
-<%= form_for(@system) do |f| %>
+<h1>Editing System</h1>
+<%= form_for @system, html: { class: 'form-horizontal' } do |f| %>
   <% if @system.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@system.errors.count, "error") %> prohibited this system from being saved:</h2>
@@ -12,26 +12,39 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+  <div class="form-group">
+    <%= f.label :name, class: 'control-label col-sm-2' %>
+    <div class="col-sm-2">
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :system %><br />
-    <%= f.text_field :system %>
+  <div class="form-group">
+    <%= f.label :security, class: 'control-label col-sm-2' %>
+    <div class="col-sm-2">
+      <%= f.text_field :security, class: 'form-control' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :region_id %><br />
-    <%= f.number_field :region_id %>
+  <div class="form-group">
+    <%= f.label :central_id, class: 'control-label col-sm-2' %>
+    <div class="col-sm-2">
+      <%= f.number_field :central_id, class: 'form-control' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :central_id %><br />
-    <%= f.number_field :central_id %>
+  <div class="form-group">
+    <%= f.label :region_id, class: 'control-label col-sm-2' %>
+    <div class="col-sm-2">
+      <%= f.select :region_id, @regions.collect {|r| [ r.name, r.id ] }, { }, class: 'form-control' %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-2">
+      <%= f.submit %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-2">
+      <%= link_to 'Show', @system %> |
+      <%= link_to 'Back', systems_path %>
+    </div>
   </div>
 <% end %>
-
-<%= link_to 'Show', @system %> |
-<%= link_to 'Back', systems_path %>

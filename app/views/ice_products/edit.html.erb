@@ -1,5 +1,5 @@
-<h1>Editing ice_product</h1>
-<%= form_for(@ice_product) do |f| %>
+<h1>Editing Ice Product</h1>
+<%= form_for @ice_product, html: { class: 'form-horizontal' } do |f| %>
   <% if @ice_product.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@ice_product.errors.count, "error") %> prohibited this ice_product from being saved:</h2>
@@ -12,22 +12,33 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+  <div class="form-group">
+    <%= f.label :name, class: 'control-label col-sm-2' %>
+    <div class="col-sm-2">
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :volume %><br />
-    <%= f.text_field :volume %>
+  <div class="form-group">
+    <%= f.label :volume, class: 'control-label col-sm-2' %>
+    <div class="col-sm-2">
+      <%= f.text_field :volume, class: 'form-control' %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :central_id %><br />
-    <%= f.number_field :central_id %>
+  <div class="form-group">
+    <%= f.label :central_id, class: 'control-label col-sm-2' %>
+    <div class="col-sm-2">
+      <%= f.number_field :central_id, class: 'form-control' %>
+    </div>
   </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-2">
+      <%= f.submit %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-2">
+      <%= link_to 'Show', @ice_product %> |
+      <%= link_to 'Back', ice_products_path %>
+    </div>
   </div>
 <% end %>
-
-<%= link_to 'Show', @ice_product %> |
-<%= link_to 'Back', ice_products_path %>
