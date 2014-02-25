@@ -12,6 +12,7 @@ class SpreadsheetsController < ApplicationController
       
       station_yield = params[:station_yield]
       refinery_tax = params[:refinery_tax]
+      market_tax = params[:market_tax]
       skills = { :special_processing_skills => {} }
       skills[:refining_skill] = params[:refining_skill]
       skills[:refinery_efficiency_skill] = params[:refinery_efficiency_skill]
@@ -25,6 +26,7 @@ class SpreadsheetsController < ApplicationController
       cookies[:region] = params[:region]
       cookies[:system] = params[:system]
       cookies[:refinery_tax] = params[:refinery_tax]
+      cookies[:market_tax] = params[:market_tax]
       cookies[:station_yield] = params[:station_yield]
       cookies[:refining_skill] = params[:refining_skill]
       cookies[:refinery_efficiency_skill] = params[:refinery_efficiency_skill]
@@ -77,7 +79,8 @@ class SpreadsheetsController < ApplicationController
         else
           refining_results = var.refine_revenue(mineral_prices, station_yield, skills, refinery_tax)
           cost = var.raw_revenue(ore_prices[var.central_id])
-          profit = refining_results[:revenue] - cost
+          profit = refining_results[:revenue] * (1 - market_tax.to_f/100)
+          profit -= cost
           profit /= cost
           variation[:refine_revenue] = profit
         end
@@ -97,6 +100,7 @@ class SpreadsheetsController < ApplicationController
     @refining_skill = cookies[:refining_skill]
     @refinery_efficiency_skill = cookies[:refinery_efficiency_skill]
     @refinery_tax = cookies[:refinery_tax]
+    @market_tax = cookies[:market_tax]
     @processing_skills = {}
     @ores.each do |o|
       skill_name = '%s_processing_skill' % o.name
