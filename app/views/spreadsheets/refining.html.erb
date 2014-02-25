@@ -6,6 +6,7 @@
     <thead class="pointer-cursor">
       <tr>
         <th>Ore Variation</th>
+        <th>Refining<br/>Efficiency</th>
         <th>Unit Price</th>
         <th>Inversion<br/>Return</th>
       </tr>
@@ -14,11 +15,17 @@
       <% @variations.each do |variation| %>
         <tr>
           <td><%= link_to variation[:name], variation_path(variation[:id]) %></td>
+          <td><%= '%.2f' % variation[:efficiency] %> %</td>
           <% if variation[:price] == 0 %>
             <td colspan="2" class="text-center">No Sell Orders</td>
           <% else %>
             <td><%= '%.2f' % variation[:price] %></td>
-            <td><%= '%.2f' % variation[:refine_revenue] %> %</td>
+            <% revenue = variation[:refine_revenue] %>
+            <% if revenue > 0 %>
+              <td><b><%= '%.2f' % revenue %> %</b></td>
+            <% else %>
+              <td><%= '%.2f' % revenue %> %</td>
+            <% end %>
           <% end %>
         </tr>
       <% end %>

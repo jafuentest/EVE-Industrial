@@ -58,7 +58,6 @@ class Variation < ActiveRecord::Base
     revenue /= refine_volume
     volume *= 0.01 * net_yield
     volume = ((refine_volume-volume) / refine_volume) * 100
-    net_yield *= 100
-    { :revenue => revenue, :yield => net_yield, :volume => volume }
+    { :revenue => revenue, :yield => net_yield, :volume => volume, :efficiency => net_yield * 100 }
   end
 end

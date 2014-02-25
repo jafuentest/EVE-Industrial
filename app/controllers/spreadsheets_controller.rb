@@ -74,10 +74,11 @@ class SpreadsheetsController < ApplicationController
       Variation.all.each do |var|
         variation = { :id => var.id, :name => var.name }
         variation[:price] = ore_prices[var.central_id]
+        refining_results = var.refine_revenue(mineral_prices, station_yield, skills, refinery_tax)
+        variation[:efficiency] = refining_results[:efficiency]
         if variation[:price] == 0
           variation[:refine_revenue] = -100 # lower than any possible value
         else
-          refining_results = var.refine_revenue(mineral_prices, station_yield, skills, refinery_tax)
           cost = var.raw_revenue(ore_prices[var.central_id])
           profit = refining_results[:revenue] * (1 - market_tax.to_f/100)
           profit -= cost
