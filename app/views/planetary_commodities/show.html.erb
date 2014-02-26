@@ -11,28 +11,30 @@
   <%= @planetary_commodity.central_id %>
 </p>
 
-<h2>Schematic Requirements</h2>
-<table class="table table-bordered table-striped table-small">
-  <thead>
-    <tr>
-      <th>Resource / Commodity</th>
-      <th>Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @planetary_commodity.schematics.each do |schematic| %>
+<% unless @planetary_commodity.tier == 0 %>
+  <h2>Schematic Requirements</h2>
+  <table class="table table-bordered table-striped table-small">
+    <thead>
       <tr>
-        <td><%= link_to schematic.input.name, schematic.input %></td>
-        <td><%= schematic.quantity %></td>
+        <th>Resource / Commodity</th>
+        <th>Quantity</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @planetary_commodity.schematics.each do |schematic| %>
+        <tr>
+          <td><%= link_to schematic.input.name, schematic.input %></td>
+          <td><%= schematic.quantity %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
 <p>
   <b>Quantity Produced:</b>
   <%= @planetary_commodity.quantity %>
 </p>
+<% end %>
 
 <%= link_to 'Edit', edit_planetary_commodity_path(@planetary_commodity) %> |
 <%= link_to 'Back', planetary_commodities_path %>
