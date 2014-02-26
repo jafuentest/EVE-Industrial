@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @planetary_commodity.name %></h1>
+
+<p>
+  <b>Volume:</b>
+  <%= @planetary_commodity.volume %>
+</p>
+<p>
+  <b>EVE-Central Central:</b>
+  <%= @planetary_commodity.central_id %>
+</p>
+
+<h2>Schematic Requirements</h2>
+<table class="table table-bordered table-striped table-small">
+  <thead>
+    <tr>
+      <th>Resource / Commodity</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @planetary_commodity.schematics.each do |schematic| %>
+      <tr>
+        <td><%= link_to schematic.input.name, schematic.input %></td>
+        <td><%= schematic.quantity %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p>
+  <b>Quantity Produced:</b>
+  <%= @planetary_commodity.quantity %>
+</p>
+
+<%= link_to 'Edit', edit_planetary_commodity_path(@planetary_commodity) %> |
+<%= link_to 'Back', planetary_commodities_path %>

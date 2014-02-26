@@ -1,0 +1,28 @@
+<h1>Listing Schematics</h1>
+<table class="table table-bordered table-striped tablesorter">
+  <thead>
+    <tr>
+      <th>Output</th>
+      <th>Input</th>
+      <th>Quantity</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @commodities.each do |commodity| %>
+      <tr>
+        <td><%= commodity.name %></td>
+        <td>
+          <% commodity.requirements.each_with_index do |requirement, i| %>
+            <% if i == commodity.requirements.size - 1 %>
+              <%= link_to requirement.name, requirement %>
+            <% else %>
+              <%= link_to requirement.name, requirement %>, 
+            <% end %>
+          <% end %>
+        </td>
+        <td><%= commodity.quantity %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

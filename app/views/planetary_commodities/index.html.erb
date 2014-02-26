@@ -1,0 +1,24 @@
+<h1>Listing Planetary Commodities</h1>
+<table class="table table-bordered table-striped tablesorter">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Volume<br/>(m<sup>3</sup>)</th>
+      <th>EVE-Central ID</th>
+      <th class="edit-field">Edit</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @commodities.each do |commodity| %>
+      <tr>
+        <td><%= link_to commodity.name, commodity %></td>
+        <td><%= commodity.volume %></td>
+        <td><%= commodity.central_id %></td>
+        <td class="edit-field">
+          <%= link_to image_tag("/edit.png", :alt => "Edit"), edit_planetary_commodity_path(commodity) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

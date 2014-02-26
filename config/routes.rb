@@ -1,18 +1,22 @@
 EVEIndustrial::Application.routes.draw do
   root :to => 'static_pages#home'
   
-  post 'spreadsheets/refining'
-  get  'spreadsheets/refining'
-  post 'spreadsheets/ore_mining'
-  get  'spreadsheets/ore_mining'
   post 'spreadsheets/ice_mining'
   get  'spreadsheets/ice_mining'
+  post 'spreadsheets/ore_mining'
+  get  'spreadsheets/ore_mining'
+  post 'spreadsheets/planetary_interaction'
+  get  'spreadsheets/planetary_interaction'
+  post 'spreadsheets/refining'
+  get  'spreadsheets/refining'
   get  'static_pages/home'
   
   resources :ice_yields, only: [:index]
   resources :yields, only: [:index]
+  resources :schematics, only: [:index]
   resources :ice_products, except: [:create, :new, :destroy]
   resources :ores, except: [:create, :new, :destroy]
+  resources :planetary_commodities, except: [:create, :new, :destroy]
   resources :systems, except: [:create, :new, :destroy]
   
   resources :regions, except: [:create, :new, :destroy] do

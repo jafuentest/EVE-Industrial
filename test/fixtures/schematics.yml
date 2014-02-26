@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  output: 1
+  input: 1
+  quantity: 1
+
+two:
+  output: 1
+  input: 1
+  quantity: 1

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140221033750) do
+ActiveRecord::Schema.define(:version => 20140225084003) do
 
   create_table "ice_ores", :force => true do |t|
     t.string  "name"
@@ -43,9 +43,23 @@ ActiveRecord::Schema.define(:version => 20140221033750) do
     t.float   "volume"
   end
 
+  create_table "planetary_commodities", :force => true do |t|
+    t.string  "name"
+    t.float   "volume"
+    t.integer "quantity"
+    t.integer "tier"
+    t.integer "central_id"
+  end
+
   create_table "regions", :force => true do |t|
     t.string  "name"
     t.integer "central_id"
+  end
+
+  create_table "schematics", :force => true do |t|
+    t.integer "output_id"
+    t.integer "input_id"
+    t.integer "quantity"
   end
 
   create_table "systems", :force => true do |t|

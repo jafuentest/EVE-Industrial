@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  volume: 1.5
+  quantity: 1
+  central_id: 1
+
+two:
+  name: MyString
+  volume: 1.5
+  quantity: 1
+  central_id: 1

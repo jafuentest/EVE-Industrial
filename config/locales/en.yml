@@ -12,6 +12,8 @@ en:
         central_id: EVE-Central ID
       ore:
         central_id: EVE-Central ID
+      planetary_commodity:
+        central_id: EVE-Central ID
       region:
         central_id: EVE-Central ID
       system:
