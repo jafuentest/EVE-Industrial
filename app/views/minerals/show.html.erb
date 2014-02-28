@@ -33,5 +33,5 @@
 
 <hr />
 
-<a class="btn btn-primary" href="<%= edit_mineral_path(@mineral) %>" role="button">Edit »</a>
-<a class="btn btn-primary" href="<%= minerals_path %>" role="button">Back to List »</a>
+<%= link_to 'Edit', edit_mineral_path(@mineral), class: 'btn btn-default' %>
+<%= link_to 'Back to List', minerals_path, class: 'btn btn-default' %>

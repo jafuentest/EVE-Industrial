@@ -32,13 +32,13 @@
   </div>
   <div class="form-group">
     <div class="col-sm-offset-1 col-sm-2">
-      <%= f.submit %>
+      <%= f.submit class: 'btn btn-primary full-width' %>
     </div>
   </div>
   <div class="form-group">
     <div class="col-sm-offset-1 col-sm-2">
-      <%= link_to 'Show', @ore %> |
-      <%= link_to 'Back', ores_path %>
+      <%= link_to 'Show', @ore, class: 'btn btn-default ' %>
+      <%= link_to 'Back', ores_path, class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>

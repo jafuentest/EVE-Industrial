@@ -7,7 +7,7 @@
 </p>
 
 <p>
-  <b>Central:</b>
+  <b>EVE-Central ID:</b>
   <%= @ice_product.central_id %>
 </p>
 
@@ -33,5 +33,5 @@
 
 <hr />
 
-<a class="btn btn-primary" href="<%= edit_ice_product_path(@ice_product) %>" role="button">Edit »</a>
-<a class="btn btn-primary" href="<%= ice_products_path %>" role="button">Back to List »</a>
+<%= link_to 'Edit', edit_ice_product_path(@ice_product), class: 'btn btn-default' %>
+<%= link_to 'Back to List', ice_products_path, class: 'btn btn-default' %>

@@ -31,5 +31,5 @@
 
 <hr />
 
-<a class="btn btn-primary" href="<%= edit_ore_path(@ore) %>" role="button">Edit »</a>
-<a class="btn btn-primary" href="<%= ores_path %>" role="button">Back to List »</a>
+<%= link_to 'Edit', edit_ore_path(@ore), class: 'btn btn-default' %>
+<%= link_to 'Back to List', ores_path, class: 'btn btn-default' %>

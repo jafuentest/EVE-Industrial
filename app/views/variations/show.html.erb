@@ -33,7 +33,7 @@
 
 <hr />
 
-<a class="btn btn-primary" href="<%= add_yields_variation_path(@variation) %>" role="button">Edit Yields »</a>
+<%= link_to 'Edit Yields', add_yields_variation_path(@variation), class: 'btn btn-primary' %>
 <hr />
-<a class="btn btn-primary" href="<%= edit_variation_path(@variation) %>" role="button">Edit »</a>
-<a class="btn btn-primary" href="<%= variations_path %>" role="button">Back to List »</a>
+<%= link_to 'Edit', edit_variation_path(@variation), class: 'btn btn-default' %>
+<%= link_to 'Back to List', variations_path, class: 'btn btn-default' %>

@@ -31,13 +31,13 @@
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-2">
-      <%= f.submit %>
+      <%= f.submit class: 'btn btn-primary full-width' %>
     </div>
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-2">
-      <%= link_to 'Show', @ice_ore %> |
-      <%= link_to 'Back', ice_ores_path %>
+      <%= link_to 'Show', @ice_ore, class: 'btn btn-default ' %>
+      <%= link_to 'Back', ice_ores_path, class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>

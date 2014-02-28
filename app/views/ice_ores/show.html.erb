@@ -7,7 +7,7 @@
 </p>
 
 <p>
-  <b>Central:</b>
+  <b>EVE-Central ID:</b>
   <%= @ice_ore.central_id %>
 </p>
 
@@ -33,7 +33,7 @@
 
 <hr />
 
-<a class="btn btn-primary" href="<%= add_yields_ice_ore_path(@ice_ore) %>" role="button">Edit Yields »</a>
+<%= link_to 'Edit Yields', add_yields_ice_ore_path(@ice_ore), class: 'btn btn-primary' %>
 <hr />
-<a class="btn btn-primary" href="<%= edit_ice_ore_path(@ice_ore) %>" role="button">Edit »</a>
-<a class="btn btn-primary" href="<%= ice_ores_path %>" role="button">Back to List »</a>
+<%= link_to 'Edit', edit_ice_ore_path(@ice_ore), class: 'btn btn-default' %>
+<%= link_to 'Back to List', ice_ores_path, class: 'btn btn-default' %>

@@ -1,13 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <h1><%= @planetary_commodity.name %></h1>
-
 <p>
   <b>Volume:</b>
   <%= @planetary_commodity.volume %>
 </p>
+
 <p>
-  <b>EVE-Central Central:</b>
+  <b>EVE-Central ID:</b>
   <%= @planetary_commodity.central_id %>
 </p>
 
@@ -36,5 +36,5 @@
 </p>
 <% end %>
 
-<%= link_to 'Edit', edit_planetary_commodity_path(@planetary_commodity) %> |
-<%= link_to 'Back', planetary_commodities_path %>
+<%= link_to 'Edit', edit_planetary_commodity_path(@planetary_commodity), class: 'btn btn-default' %>
+<%= link_to 'Back to List', planetary_commodities_path, class: 'btn btn-default' %>

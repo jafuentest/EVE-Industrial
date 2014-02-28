@@ -2,16 +2,16 @@
 
 <h1><%= @system.name %></h1>
 <p>
-  <b>Central:</b>
-  <%= @system.central_id %>
-</p>
-
-<p>
   <b>Region:</b>
   <%= link_to @system.region.name, @system.region %>
 </p>
 
+<p>
+  <b>EVE-Central ID:</b>
+  <%= @system.central_id %>
+</p>
+
 <hr/>
 
-<a class="btn btn-primary" href="<%= edit_system_path(@system) %>" role="button">Edit »</a>
-<a class="btn btn-primary" href="<%= systems_path %>" role="button">Back to List »</a>
+<%= link_to 'Edit', edit_system_path(@system), class: 'btn btn-default' %>
+<%= link_to 'Back to List', systems_path, class: 'btn btn-default' %>
