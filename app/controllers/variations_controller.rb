@@ -38,35 +38,35 @@ class VariationsController < ApplicationController
   # GET /variations.json
   def index
     @variations = Variation.all
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @variations }
     end
   end
-
+  
   # GET /variations/1
   # GET /variations/1.json
   def show
     @variation = Variation.find(params[:id])
-
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @variation }
     end
   end
-
+  
   # GET /variations/1/edit
   def edit
     @variation = Variation.find(params[:id])
     @ores = Ore.all
   end
-
+  
   # PUT /variations/1
   # PUT /variations/1.json
   def update
     @variation = Variation.find(params[:id])
-
+    
     respond_to do |format|
       if @variation.update_attributes(params[:variation])
         format.html { redirect_to @variation, notice: 'Variation was successfully updated.' }

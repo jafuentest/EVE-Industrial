@@ -5,7 +5,7 @@ class YieldsController < ApplicationController
     @variations = Variation.all
     @minerals = Mineral.all
     @yields = Yield.all
-
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @yields }
