@@ -1,15 +1,11 @@
 EVEIndustrial::Application.routes.draw do
   root :to => 'static_pages#home'
   
-  post 'spreadsheets/ice_mining'
-  get  'spreadsheets/ice_mining'
-  post 'spreadsheets/ore_mining'
-  get  'spreadsheets/ore_mining'
-  post 'spreadsheets/planetary_interaction'
-  get  'spreadsheets/planetary_interaction'
-  post 'spreadsheets/refining'
-  get  'spreadsheets/refining'
-  get  'static_pages/home'
+  match 'spreadsheets/ice_mining' => 'spreadsheets#ice_mining', via: [:get, :post]
+  match 'spreadsheets/ore_mining' => 'spreadsheets#ore_mining', via: [:get, :post]
+  match 'spreadsheets/planetary_interaction' => 'spreadsheets#planetary_interaction', via: [:get, :post]
+  match 'spreadsheets/refining' => 'spreadsheets#refining', via: [:get, :post]
+  match 'static_pages/home' => 'static_pages#home', via: [:get]
   
   resources :ice_yields, only: [:index]
   resources :yields, only: [:index]
