@@ -23,6 +23,9 @@ gem 'nokogiri', '>=1.6.1'
 group :development do
   # Automatically add model description to to the model.rb
   gem 'annotate', :github => 'ctran/annotate_models', :branch => 'develop'
+  
+  # To use debugger
+  gem 'debugger'
 end
 
 # Gems used only for assets and not required
@@ -50,6 +53,3 @@ gem 'jquery-rails'
 
 # Deploy with Capistrano
 # gem 'capistrano'
-
-# To use debugger
-gem 'debugger'
