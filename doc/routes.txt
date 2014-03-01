@@ -1,34 +1,61 @@
-           spreadsheets_mining GET    /spreadsheets/mining(.:format)            spreadsheets#mining
-             static_pages_home GET    /static_pages/home(.:format)              static_pages#home
-                          ores GET    /ores(.:format)                           ores#index
-                               POST   /ores(.:format)                           ores#create
-                       new_ore GET    /ores/new(.:format)                       ores#new
-                      edit_ore GET    /ores/:id/edit(.:format)                  ores#edit
-                           ore GET    /ores/:id(.:format)                       ores#show
-                               PUT    /ores/:id(.:format)                       ores#update
-                               DELETE /ores/:id(.:format)                       ores#destroy
-                        yields GET    /yields(.:format)                         yields#index
-                               POST   /yields(.:format)                         yields#create
-                     new_yield GET    /yields/new(.:format)                     yields#new
-                    edit_yield GET    /yields/:id/edit(.:format)                yields#edit
-                         yield GET    /yields/:id(.:format)                     yields#show
-                               PUT    /yields/:id(.:format)                     yields#update
-                               DELETE /yields/:id(.:format)                     yields#destroy
-check_eve_central_ids_minerals GET    /minerals/check_eve_central_ids(.:format) minerals#check_eve_central_ids
-                      minerals GET    /minerals(.:format)                       minerals#index
-                               POST   /minerals(.:format)                       minerals#create
-                   new_mineral GET    /minerals/new(.:format)                   minerals#new
-                  edit_mineral GET    /minerals/:id/edit(.:format)              minerals#edit
-                       mineral GET    /minerals/:id(.:format)                   minerals#show
-                               PUT    /minerals/:id(.:format)                   minerals#update
-                               DELETE /minerals/:id(.:format)                   minerals#destroy
-check_central_id_of_variations GET    /variations/check_central_id_of(.:format) variations#check_central_id_of
-          add_yields_variation GET    /variations/:id/add_yields(.:format)      variations#add_yields
-                               POST   /variations/:id/add_yields(.:format)      variations#add_yields
-                    variations GET    /variations(.:format)                     variations#index
-                               POST   /variations(.:format)                     variations#create
-                 new_variation GET    /variations/new(.:format)                 variations#new
-                edit_variation GET    /variations/:id/edit(.:format)            variations#edit
-                     variation GET    /variations/:id(.:format)                 variations#show
-                               PUT    /variations/:id(.:format)                 variations#update
-                               DELETE /variations/:id(.:format)                 variations#destroy
+Connecting to database specified by database.yml
+                              root          /                                             static_pages#home
+                 static_pages_home GET      /static_pages/home(.:format)                  static_pages#home
+                             login GET|POST /login(.:format)                              sessions#new
+                            logout GET      /logout(.:format)                             sessions#destroy
+           spreadsheets_ice_mining GET|POST /spreadsheets/ice_mining(.:format)            spreadsheets#ice_mining
+           spreadsheets_ore_mining GET|POST /spreadsheets/ore_mining(.:format)            spreadsheets#ore_mining
+spreadsheets_planetary_interaction GET|POST /spreadsheets/planetary_interaction(.:format) spreadsheets#planetary_interaction
+             spreadsheets_refining GET|POST /spreadsheets/refining(.:format)              spreadsheets#refining
+                             users GET      /users(.:format)                              users#index
+                                   POST     /users(.:format)                              users#create
+                          new_user GET      /users/new(.:format)                          users#new
+                         edit_user GET      /users/:id/edit(.:format)                     users#edit
+                              user GET      /users/:id(.:format)                          users#show
+                                   PUT      /users/:id(.:format)                          users#update
+                                   DELETE   /users/:id(.:format)                          users#destroy
+                        ice_yields GET      /ice_yields(.:format)                         ice_yields#index
+                        schematics GET      /schematics(.:format)                         schematics#index
+                            yields GET      /yields(.:format)                             yields#index
+                      ice_products GET      /ice_products(.:format)                       ice_products#index
+                  edit_ice_product GET      /ice_products/:id/edit(.:format)              ice_products#edit
+                       ice_product GET      /ice_products/:id(.:format)                   ice_products#show
+                                   PUT      /ice_products/:id(.:format)                   ice_products#update
+                              ores GET      /ores(.:format)                               ores#index
+                          edit_ore GET      /ores/:id/edit(.:format)                      ores#edit
+                               ore GET      /ores/:id(.:format)                           ores#show
+                                   PUT      /ores/:id(.:format)                           ores#update
+             planetary_commodities GET      /planetary_commodities(.:format)              planetary_commodities#index
+          edit_planetary_commodity GET      /planetary_commodities/:id/edit(.:format)     planetary_commodities#edit
+               planetary_commodity GET      /planetary_commodities/:id(.:format)          planetary_commodities#show
+                                   PUT      /planetary_commodities/:id(.:format)          planetary_commodities#update
+                          sessions POST     /sessions(.:format)                           sessions#create
+                       new_session GET      /sessions/new(.:format)                       sessions#new
+                           session DELETE   /sessions/:id(.:format)                       sessions#destroy
+                           systems GET      /systems(.:format)                            systems#index
+                       edit_system GET      /systems/:id/edit(.:format)                   systems#edit
+                            system GET      /systems/:id(.:format)                        systems#show
+                                   PUT      /systems/:id(.:format)                        systems#update
+                    region_systems GET      /regions/:region_id/systems(.:format)         systems#index
+                           regions GET      /regions(.:format)                            regions#index
+                       edit_region GET      /regions/:id/edit(.:format)                   regions#edit
+                            region GET      /regions/:id(.:format)                        regions#show
+                                   PUT      /regions/:id(.:format)                        regions#update
+    check_eve_central_ids_minerals GET      /minerals/check_eve_central_ids(.:format)     minerals#check_eve_central_ids
+                          minerals GET      /minerals(.:format)                           minerals#index
+                      edit_mineral GET      /minerals/:id/edit(.:format)                  minerals#edit
+                           mineral GET      /minerals/:id(.:format)                       minerals#show
+                                   PUT      /minerals/:id(.:format)                       minerals#update
+                add_yields_ice_ore GET      /ice_ores/:id/add_yields(.:format)            ice_ores#add_yields
+                                   POST     /ice_ores/:id/add_yields(.:format)            ice_ores#add_yields
+                          ice_ores GET      /ice_ores(.:format)                           ice_ores#index
+                      edit_ice_ore GET      /ice_ores/:id/edit(.:format)                  ice_ores#edit
+                           ice_ore GET      /ice_ores/:id(.:format)                       ice_ores#show
+                                   PUT      /ice_ores/:id(.:format)                       ice_ores#update
+      check_central_ids_variations GET      /variations/check_central_ids(.:format)       variations#check_central_ids
+              add_yields_variation GET      /variations/:id/add_yields(.:format)          variations#add_yields
+                                   POST     /variations/:id/add_yields(.:format)          variations#add_yields
+                        variations GET      /variations(.:format)                         variations#index
+                    edit_variation GET      /variations/:id/edit(.:format)                variations#edit
+                         variation GET      /variations/:id(.:format)                     variations#show
+                                   PUT      /variations/:id(.:format)                     variations#update
