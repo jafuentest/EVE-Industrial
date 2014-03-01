@@ -1,15 +1,70 @@
 class SpreadsheetsController < ApplicationController
   require 'nokogiri'
   
+  def planetary_interaction
+    if (params.has_key? :region) && !params[:region].empty?
+      items = PlanetaryCommodity.pluck(:central_id).join(',')
+      
+      # Request information from eve-central and parse it to an array
+      if params[:system].empty?
+        region = Region.find params[:region]
+        request = 'http://api.eve-central.com/api/marketstat?typeid=%s&regionlimit=%s' % [items, region.central_id]
+        @params = { :region => region.id }
+        @location = '%s Region' % region.name
+      else
+        region = Region.find params[:region]
+        system = System.find params[:system]
+        request = 'http://api.eve-central.com/api/marketstat?typeid=%s&usesystem=%s' % [items, system.central_id]
+        @params = { :region => region.id, :system => system.id }
+        @location = '%s System' % system.name
+      end
+      xml = Curl.get(request).body_str
+      xml_doc = Nokogiri::XML(xml)
+      percentiles = xml_doc.xpath("/evec_api/marketstat/type/buy/percentile")
+      
+      # Dump the prices array into the hashes used for revenue calculation
+      prices = { }
+      percentiles.each do |percentile|
+        item_id = percentile.parent.parent['id'].to_i
+        prices [item_id] = percentile.text.to_f
+      end
+      
+      @resources = []
+      PlanetaryCommodity.where(:tier => 0).each do |pc|
+        resource = { :name => pc.name }
+        resource[:price] = prices[pc.central_id]
+        @resources << resource
+      end
+      
+      @materials = []
+      PlanetaryCommodity.where(:tier => 1).each do |pc|
+        resource = { :name => pc.name }
+        resource[:price] = prices[pc.central_id]
+        @materials << resource
+      end
+      
+      @commodities = []
+      PlanetaryCommodity.where(:tier => 2).each do |pc|
+        resource = { :name => pc.name }
+        resource[:price] = prices[pc.central_id]
+        @commodities << resource
+      end
+    end
+    
+    # Set initial values for input fields
+    @regions = Region.all
+    @region = cookies[:region]
+    @systems = @region.nil? ? nil : Region.find(@region).systems
+    @system = cookies[:system]
+  end
+  
   def refining
     if (params.has_key? :region) && !params[:region].empty?
-      price_list = []
       ore_ids = Variation.pluck(:central_id)
       mineral_ids = Mineral.pluck(:central_id)
       items = ore_ids.clone.concat(mineral_ids).join(',')
       
       # Retrieve user specific data
-      
       station_yield = params[:station_yield]
       refinery_tax = params[:refinery_tax]
       market_tax = params[:market_tax]
@@ -45,7 +100,7 @@ class SpreadsheetsController < ApplicationController
         @location = '%s System' % system.name
       end
       xml = Curl.get(request).body_str
-      xml_doc  = Nokogiri::XML(xml)
+      xml_doc = Nokogiri::XML(xml)
       buy_percentiles = xml_doc.xpath("/evec_api/marketstat/type/buy/percentile")
       sell_percentiles = xml_doc.xpath("/evec_api/marketstat/type/sell/percentile")
       
@@ -111,13 +166,11 @@ class SpreadsheetsController < ApplicationController
   
   def ore_mining
     if (params.has_key? :region) && !params[:region].empty?
-      price_list = []
       ore_ids = Variation.pluck(:central_id)
       mineral_ids = Mineral.pluck(:central_id)
       items = ore_ids.clone.concat(mineral_ids).join(',')
       
       # Retrieve user specific data
-      
       station_yield = params[:station_yield]
       refinery_tax = params[:refinery_tax]
       skills = { :special_processing_skills => {} }
@@ -151,7 +204,7 @@ class SpreadsheetsController < ApplicationController
         @location = '%s System' % system.name
       end
       xml = Curl.get(request).body_str
-      xml_doc  = Nokogiri::XML(xml)
+      xml_doc = Nokogiri::XML(xml)
       percentiles = xml_doc.xpath("/evec_api/marketstat/type/buy/percentile")
       
       # Dump the prices array into the hashes used for revenue calculation
@@ -204,7 +257,6 @@ class SpreadsheetsController < ApplicationController
   
   def ice_mining
     if (params.has_key? :region) && !params[:region].empty?
-      price_list = []
       ore_ids = IceOre.pluck(:central_id)
       products_ids = IceProduct.pluck(:central_id)
       items = ore_ids.clone.concat(products_ids).join(',')
@@ -240,7 +292,7 @@ class SpreadsheetsController < ApplicationController
         @location = '%s System' % system.name
       end
       xml = Curl.get(request).body_str
-      xml_doc  = Nokogiri::XML(xml)
+      xml_doc = Nokogiri::XML(xml)
       percentiles = xml_doc.xpath("/evec_api/marketstat/type/buy/percentile")
       
       # Dump the prices array into the hashes used for revenue calculation
