@@ -1,0 +1,16 @@
+<h1>User Login</h1>
+<p id="notice" class="col-sm-2"><%= notice %></p>
+
+<%= form_for :session, :url => sessions_path, html: { class: 'form-horizontal' } do |f| %>
+  <div class="form-group">
+    <%= f.label :login %>
+    <%= f.text_field :login, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.label :password %><br />
+    <%= f.password_field :password, class: 'form-control' %>
+  </div>
+  <div>
+    <%= f.submit 'Login', class: 'btn btn-primary' %>
+  </div>
+<% end %>

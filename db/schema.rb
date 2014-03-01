@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140225084003) do
+ActiveRecord::Schema.define(:version => 20140301064642) do
 
   create_table "ice_ores", :force => true do |t|
     t.string  "name"
@@ -67,6 +67,14 @@ ActiveRecord::Schema.define(:version => 20140225084003) do
     t.integer "central_id"
     t.integer "region_id"
     t.float   "security"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "login"
+    t.string   "password"
+    t.boolean  "is_admin"
+    t.datetime "last_login"
+    t.datetime "created_at"
   end
 
   create_table "variations", :force => true do |t|

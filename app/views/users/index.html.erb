@@ -1,0 +1,26 @@
+<h1>Listing Users</h1>
+<table class="table table-bordered table-striped tablesorter">
+  <thead>
+    <tr>
+      <th>Login</th>
+      <th>Last Login</th>
+      <th>Register Date</th>
+      <th class="edit-field">Edit</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.login, user %></td>
+        <td><%= user.last_login %></td>
+        <td><%= user.created_at.to_date %></td>
+        <td><%= link_to image_tag("/edit.png", :alt => "Edit"), edit_user_path(user) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br />
+
+<%= link_to 'New User', new_user_path, class: 'btn btn-default' %>

@@ -1,0 +1,11 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @user.login %></h1>
+
+<p>
+  <b>Admin:</b>
+  <%= @user.is_admin %>
+</p>
+
+<%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-default' %>
+<%= link_to 'Back to List', users_path, class: 'btn btn-default' %>
