@@ -36,7 +36,7 @@ class RegionsController < ApplicationController
         format.html { redirect_to @region, notice: 'Region was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @region.errors, status: :unprocessable_entity }
       end
     end

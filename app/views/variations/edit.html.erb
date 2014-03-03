@@ -2,7 +2,7 @@
 <%= form_for @variation, html: { class: 'form-horizontal' } do |f| %>
   <% if @variation.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@variation.errors.count, "error") %> prohibited this variation from being saved:</h2>
+      <h2><%= pluralize(@variation.errors.count, 'error') %> prohibited this variation from being saved:</h2>
 
       <ul>
       <% @variation.errors.full_messages.each do |msg| %>

@@ -28,7 +28,7 @@ class VariationsController < ApplicationController
       request = 'http://api.eve-central.com/api/quicklook?typeid=%s' % [variation.central_id]
       xml = Curl.get(request).body_str
       xml_doc  = Nokogiri::XML(xml)
-      ec_name = xml_doc.xpath("/evec_api/quicklook/itemname").text
+      ec_name = xml_doc.xpath('/evec_api/quicklook/itemname').text
       result = { :name => variation.name, :ec_name => ec_name, :match => variation.name == ec_name }
       @results << result
     end
@@ -72,7 +72,7 @@ class VariationsController < ApplicationController
         format.html { redirect_to @variation, notice: 'Variation was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @variation.errors, status: :unprocessable_entity }
       end
     end

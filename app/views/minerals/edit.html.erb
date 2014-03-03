@@ -2,7 +2,7 @@
 <%= form_for @mineral, html: { class: 'form-horizontal' } do |f| %>
   <% if @mineral.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@mineral.errors.count, "error") %> prohibited this mineral from being saved:</h2>
+      <h2><%= pluralize(@mineral.errors.count, 'error') %> prohibited this mineral from being saved:</h2>
 
       <ul>
       <% @mineral.errors.full_messages.each do |msg| %>

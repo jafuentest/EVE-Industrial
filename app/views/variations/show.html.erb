@@ -25,7 +25,7 @@
       <tr>
         <td><%= link_to y.mineral.name, y.mineral %></b></td>
         <td><%= y.quantity %></td>
-        <td><%= "%.2f" % y.base_yield.round(2) %></td>
+        <td><%= '%.2f' % y.base_yield.round(2) %></td>
       </tr>
     <% end %>
   </tbody>

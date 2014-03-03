@@ -36,7 +36,7 @@ class PlanetaryCommoditiesController < ApplicationController
         format.html { redirect_to @planetary_commodity, notice: 'Planetary commodity was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @planetary_commodity.errors, status: :unprocessable_entity }
       end
     end

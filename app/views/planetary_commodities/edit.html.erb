@@ -2,7 +2,7 @@
 <%= form_for @planetary_commodity, html: { class: 'form-horizontal' } do |f| %>
   <% if @planetary_commodity.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@planetary_commodity.errors.count, "error") %> prohibited this planetary_commodity from being saved:</h2>
+      <h2><%= pluralize(@planetary_commodity.errors.count, 'error') %> prohibited this planetary_commodity from being saved:</h2>
 
       <ul>
       <% @planetary_commodity.errors.full_messages.each do |msg| %>
@@ -14,20 +14,20 @@
 
   <div class="form-group">
     <%= f.label :name, class: 'control-label col-sm-2' %>
-      <div class="col-sm-2">
-    <%= f.text_field :name, class: 'form-control' %>
+    <div class="col-sm-2">
+      <%= f.text_field :name, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :volume, class: 'control-label col-sm-2' %>
-      <div class="col-sm-2">
-    <%= f.text_field :volume, class: 'form-control' %>
+    <div class="col-sm-2">
+      <%= f.text_field :volume, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :quantity, class: 'control-label col-sm-2' %>
-      <div class="col-sm-2">
-    <%= f.number_field :quantity, class: 'form-control' %>
+    <div class="col-sm-2">
+      <%= f.number_field :quantity, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">

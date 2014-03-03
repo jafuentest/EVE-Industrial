@@ -23,7 +23,7 @@
     <% @shares.each do |share| %>
       <tr>
         <td><%= link_to share[:mineral].name, share[:mineral] %></b></td>
-        <td><%= "%.2f" % share[:percentage].round(2) %> %</td>
+        <td><%= '%.2f' % share[:percentage].round(2) %> %</td>
       </tr>
     <% end %>
   </tbody>

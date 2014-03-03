@@ -6,7 +6,7 @@ class MineralsController < ApplicationController
       request = 'http://api.eve-central.com/api/quicklook?typeid=%s' % [mineral.central_id]
       xml = Curl.get(request).body_str
       xml_doc  = Nokogiri::XML(xml)
-      ec_name = xml_doc.xpath("/evec_api/quicklook/itemname").text
+      ec_name = xml_doc.xpath('/evec_api/quicklook/itemname').text
       result = { :name => mineral.name, :ec_name => ec_name, :match => mineral.name == ec_name }
       @results << result
     end
@@ -49,7 +49,7 @@ class MineralsController < ApplicationController
         format.html { redirect_to @mineral, notice: 'Mineral was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @mineral.errors, status: :unprocessable_entity }
       end
     end

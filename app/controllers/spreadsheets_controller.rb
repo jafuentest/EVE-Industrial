@@ -20,7 +20,7 @@ class SpreadsheetsController < ApplicationController
       end
       xml = Curl.get(request).body_str
       xml_doc = Nokogiri::XML(xml)
-      percentiles = xml_doc.xpath("/evec_api/marketstat/type/buy/percentile")
+      percentiles = xml_doc.xpath('/evec_api/marketstat/type/buy/percentile')
       
       # Dump the prices array into the hashes used for revenue calculation
       prices = { }
@@ -101,8 +101,8 @@ class SpreadsheetsController < ApplicationController
       end
       xml = Curl.get(request).body_str
       xml_doc = Nokogiri::XML(xml)
-      buy_percentiles = xml_doc.xpath("/evec_api/marketstat/type/buy/percentile")
-      sell_percentiles = xml_doc.xpath("/evec_api/marketstat/type/sell/percentile")
+      buy_percentiles = xml_doc.xpath('/evec_api/marketstat/type/buy/percentile')
+      sell_percentiles = xml_doc.xpath('/evec_api/marketstat/type/sell/percentile')
       
       # Dump the prices array into the hashes used for revenue calculation
       ore_prices = { }
@@ -205,7 +205,7 @@ class SpreadsheetsController < ApplicationController
       end
       xml = Curl.get(request).body_str
       xml_doc = Nokogiri::XML(xml)
-      percentiles = xml_doc.xpath("/evec_api/marketstat/type/buy/percentile")
+      percentiles = xml_doc.xpath('/evec_api/marketstat/type/buy/percentile')
       
       # Dump the prices array into the hashes used for revenue calculation
       ore_prices = { }
@@ -293,7 +293,7 @@ class SpreadsheetsController < ApplicationController
       end
       xml = Curl.get(request).body_str
       xml_doc = Nokogiri::XML(xml)
-      percentiles = xml_doc.xpath("/evec_api/marketstat/type/buy/percentile")
+      percentiles = xml_doc.xpath('/evec_api/marketstat/type/buy/percentile')
       
       # Dump the prices array into the hashes used for revenue calculation
       ore_prices = { }

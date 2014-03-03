@@ -2,7 +2,7 @@
 <%= form_for @ore, html: { class: 'form-horizontal' } do |f| %>
   <% if @ore.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@ore.errors.count, "error") %> prohibited this ore from being saved:</h2>
+      <h2><%= pluralize(@ore.errors.count, 'error') %> prohibited this ore from being saved:</h2>
 
       <ul>
       <% @ore.errors.full_messages.each do |msg| %>
