@@ -1,30 +1,13 @@
 <h1>Planetary Interaction Spreadsheet</h1>
 <h2>Using prices from the <%= @location %></h2>
-<% unless @resources.nil? || @materials.nil? %>
-  <div class="sub">
-    <table class="tablesorter table table-bordered table-striped">
-      <thead class="pointer-cursor">
-        <tr>
-          <th>Resource</th>
-          <th>Unit<br/>Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @resources.each do |resource| %>
-          <tr>
-            <td><%= resource[:name] %></td>
-            <td><%= resource[:price] %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-  
+<% unless @materials.nil? %>
   <div class="sub">
     <table class="tablesorter table table-bordered table-striped">
       <thead class="pointer-cursor">
         <tr>
           <th>Processed<br/>Material</th>
+          <th>Unit<br/>Price</th>
+          <th>Resource</th>
           <th>Unit<br/>Price</th>
           <th>Processing<br/>Revenue</th>
         </tr>
@@ -32,9 +15,12 @@
       <tbody>
         <% @materials.each do |material| %>
           <tr>
-            <td><%= material[:name] %></td>
-            <td><%= material[:price] %></td>
-            <td><%= material[:revenue] %></td>
+            <td><%= link_to material[:name], planetary_commodity_path(material[:id]) %></td>
+            <td><%= '%.2f' % material[:price] %></td>
+            <td><%= link_to material[:resource][:name], planetary_commodity_path(material[:resource][:id]) %></td>
+            <td><%= '%.2f' % material[:resource][:price] %></td>
+            <% revenue = material[:revenue] %>
+            <td <%= 'class="text-warning"'.html_safe unless (revenue > 0) %>><%= "%.2f %" % revenue %></td>
           </tr>
         <% end %>
       </tbody>
@@ -53,9 +39,10 @@
       <tbody>
         <% @commodities.each do |commoditiy| %>
           <tr>
-            <td><%= commoditiy[:name] %></td>
-            <td><%= commoditiy[:price] %></td>
-            <td><%= commoditiy[:revenue] %></td>
+            <td><%= link_to commoditiy[:name], planetary_commodity_path(commoditiy[:id]) %></td>
+            <td><%= '%.2f' % commoditiy[:price] %></td>
+            <% revenue = commoditiy[:revenue] %>
+            <td <%= 'class="text-warning"'.html_safe unless (revenue > 0) %>><%= "%.2f %" % revenue %></td>
           </tr>
         <% end %>
       </tbody>

@@ -21,6 +21,7 @@ class SpreadsheetsController < ApplicationController
       xml = Curl.get(request).body_str
       xml_doc = Nokogiri::XML(xml)
       percentiles = xml_doc.xpath('/evec_api/marketstat/type/buy/percentile')
+      volumes = xml_doc.xpath('/evec_api/marketstat/type/buy/percentile')
       
       # Dump the prices array into the hashes used for revenue calculation
       prices = { }
@@ -29,24 +30,21 @@ class SpreadsheetsController < ApplicationController
         prices [item_id] = percentile.text.to_f
       end
       
-      @resources = []
-      PlanetaryCommodity.where(:tier => 0).each do |pc|
-        resource = { :name => pc.name }
-        resource[:price] = prices[pc.central_id]
-        @resources << resource
-      end
-      
       @materials = []
       PlanetaryCommodity.where(:tier => 1).each do |pc|
-        resource = { :name => pc.name }
-        resource[:price] = prices[pc.central_id]
-        @materials << resource
+        material = { :name => pc.name, :id => pc.id }
+        material[:price] = prices[pc.central_id]
+        material[:revenue] = pc.processing_revenue(prices)
+        resource = pc.schematics[0].input
+        material[:resource] = { :name => resource.name, :id => resource.id, :price => prices[resource.central_id] }
+        @materials << material
       end
       
       @commodities = []
       PlanetaryCommodity.where(:tier => 2).each do |pc|
-        resource = { :name => pc.name }
+        resource = { :name => pc.name, :id => pc.id }
         resource[:price] = prices[pc.central_id]
+        resource[:revenue] = pc.processing_revenue(prices)
         @commodities << resource
       end
     end
