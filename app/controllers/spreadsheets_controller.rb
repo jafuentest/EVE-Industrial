@@ -3,57 +3,58 @@ class SpreadsheetsController < ApplicationController
   
   def planetary_interaction
     if (params.has_key? :region) && !params[:region].empty?
-      items = PlanetaryCommodity.pluck(:central_id).join(',')
+      items = PlanetaryCommodity.pluck :central_id
+      save_location_values
       
-      # Request information from eve-central and parse it to an array
+      # Get data from EVE-Central
       if params[:system].empty?
-        region = Region.find params[:region]
-        request = 'http://api.eve-central.com/api/marketstat?typeid=%s&regionlimit=%s' % [items, region.central_id]
-        @params = { :region => region.id }
-        @location = '%s Region' % region.name
+        prices = request_prices items, params[:region], :region
       else
-        region = Region.find params[:region]
-        system = System.find params[:system]
-        request = 'http://api.eve-central.com/api/marketstat?typeid=%s&usesystem=%s' % [items, system.central_id]
-        @params = { :region => region.id, :system => system.id }
-        @location = '%s System' % system.name
+        prices = request_prices items, params[:system], :system
       end
-      xml = Curl.get(request).body_str
-      xml_doc = Nokogiri::XML(xml)
-      percentiles = xml_doc.xpath('/evec_api/marketstat/type/buy/percentile')
-      volumes = xml_doc.xpath('/evec_api/marketstat/type/buy/percentile')
       
-      # Dump the prices array into the hashes used for revenue calculation
-      prices = { }
-      percentiles.each do |percentile|
-        item_id = percentile.parent.parent['id'].to_i
-        prices [item_id] = percentile.text.to_f
-      end
+      # Retrieve user specific data
+      market_tax = params[:market_tax].to_f
+      customs_office_tax = params[:customs_office_tax].to_f
+      processors = { }
+      processors[1] = params[:basic_processors].to_i
+      processors[2] = params[:advanced_processors].to_i
+      processors[3] = params[:advanced_processors].to_i
+      processors[4] = params[:high_tech_processors].to_i
+      
+      # Save in cookies
+      cookies[:region] = params[:region]
+      cookies[:system] = params[:system]
+      cookies[:basic_processors] = params[:basic_processors]
+      cookies[:advanced_processors] = params[:advanced_processors]
+      cookies[:high_tech_processors] = params[:high_tech_processors]
+      cookies[:market_tax] = params[:market_tax]
+      cookies[:customs_office_tax] = params[:customs_office_tax]
       
       @materials = []
       PlanetaryCommodity.where(:tier => 1).each do |pc|
         material = { :name => pc.name, :id => pc.id }
-        material[:price] = prices[pc.central_id]
-        material[:revenue] = pc.processing_revenue(prices)
+        material[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], processors
+        material[:inversion_return] = pc.processing_revenue prices[:buy], prices[:sell], customs_office_tax, market_tax
         resource = pc.schematics[0].input
-        material[:resource] = { :name => resource.name, :id => resource.id, :price => prices[resource.central_id] }
+        material[:resource] = { :name => resource.name, :id => resource.id, :price => prices[:buy][resource.central_id] }
         @materials << material
       end
-      
       @commodities = []
       PlanetaryCommodity.where(:tier => 2).each do |pc|
         resource = { :name => pc.name, :id => pc.id }
-        resource[:price] = prices[pc.central_id]
-        resource[:revenue] = pc.processing_revenue(prices)
+        resource[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], processors
+        resource[:inversion_return] = pc.processing_revenue prices[:buy], prices[:sell], customs_office_tax, market_tax
         @commodities << resource
       end
     end
     
-    # Set initial values for input fields
-    @regions = Region.all
-    @region = cookies[:region]
-    @systems = @region.nil? ? nil : Region.find(@region).systems
-    @system = cookies[:system]
+    set_location_values
+    @basic_processors = cookies[:basic_processors]
+    @advanced_processors = cookies[:advanced_processors]
+    @high_tech_processors = cookies[:high_tech_processors]
+    @market_tax = cookies[:market_tax]
+    @customs_office_tax = cookies[:customs_office_tax]
   end
   
   def refining
@@ -332,5 +333,51 @@ class SpreadsheetsController < ApplicationController
     @refining_skill = cookies[:refining_skill]
     @refinery_efficiency_skill = cookies[:refinery_efficiency_skill]
     @refinery_tax = cookies[:refinery_tax]
+  end
+  
+  private
+  
+  # Returns a hash with :buy / :sell prices percentiles and market volume
+  def request_prices (item_ids_array, location_id, location_type)
+    # Construct the necessary request URL
+    items = item_ids_array.join(',')
+    if location_type == :region
+      region = Region.find location_id
+      request = 'http://api.eve-central.com/api/marketstat?typeid=%s&regionlimit=%s' % [items, region.central_id]
+    elsif location_type == :system
+      system = System.find location_id
+      request = 'http://api.eve-central.com/api/marketstat?typeid=%s&usesystem=%s' % [items, system.central_id]
+    else
+      raise 'Unknown location type'
+    end
+    
+    # Request data and get back the results
+    xml = Curl.get(request).body_str
+    xml_doc = Nokogiri::XML(xml)
+    buy_percentiles = xml_doc.xpath('/evec_api/marketstat/type/buy/percentile')
+    sell_percentiles = xml_doc.xpath('/evec_api/marketstat/type/sell/percentile')
+    
+    # Dump data from the XML into two hashes
+    buy_prices = { }
+    sell_prices = { }
+    buy_percentiles.each do |percentile|
+      item_id = percentile.parent.parent['id'].to_i
+      buy_prices[item_id] = percentile.text.to_f
+    end
+    sell_percentiles.each do |percentile|
+      item_id = percentile.parent.parent['id'].to_i
+      sell_prices[item_id] = percentile.text.to_f
+    end
+    
+    { :buy => buy_prices, :sell => sell_prices }
+  end
+  
+  # Sets all values, even the ones not used by all spreadsheets
+  def set_input_values
+    @regions = Region.all
+    @region = cookies[:region]
+    @systems = @region.nil? ? nil : Region.find(@region).systems
+    @system = cookies[:system]
+    nil
   end
 end
