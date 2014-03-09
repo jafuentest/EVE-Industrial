@@ -165,15 +165,10 @@ class SpreadsheetsController < ApplicationController
         variation = { :id => var.id, :name => var.name }
         variation[:price] = prices[:buy][var.central_id]
         variation[:raw_revenue] = var.raw_revenue(prices[:buy][var.central_id])
-        refining_results = var.refine_revenue(prices[:buy], station_yield, skills, refinery_tax)
-        variation[:refine_revenue] = refining_results[:revenue]
-        variation[:refine_yield] = refining_results[:yield]
-        variation[:volume] = refining_results[:volume]
-        if variation[:price] == 0
-          variation[:refining_gain] = 0
-        else
-          variation[:refining_gain] = (variation[:refine_revenue] / variation[:raw_revenue] - 1) * 100
-        end
+        refining_results = var.refine_revenue prices[:buy], station_yield, skills, refinery_tax
+        variation[:refining_revenue] = refining_results[:revenue]
+        variation[:volume_reduction] = refining_results[:volume_reduction]
+        variation[:refining_gain] = refining_results[:gain]
         @variations << variation
       end
     end
@@ -188,7 +183,8 @@ class SpreadsheetsController < ApplicationController
     @processing_skills = {}
     @ores.each do |o|
       skill_name = '%s_processing_skill' % o.name
-      @processing_skills[o.id] = cookies[skill_name]
+      @processing_skills[o.id] = { }
+      @processing_skills[o.id][:level] = cookies[skill_name]
     end
   end
   

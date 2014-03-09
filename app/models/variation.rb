@@ -39,25 +39,31 @@ class Variation < ActiveRecord::Base
     price / volume
   end
   
-  def refine_revenue(price_list, station_yield, skills, refinery_tax)
-    revenue = 0
-    volume = 0
+  def refining_yield(station_yield, skills, refinery_tax)
     recycling_constant = 37.5
     refining_factor = 1 + (skills[:refining_skill].to_i * 0.02)
     efficiency_factor = 1 + (skills[:refinery_efficiency_skill].to_i * 0.04)
     specialization_factor = 1 + (skills[ore.name].to_i * 0.05)
-    net_yield = station_yield.to_f + recycling_constant * refining_factor * efficiency_factor * specialization_factor
-    net_yield = 100 if net_yield > 100
-    net_yield *= (100 - refinery_tax.to_f) / 100
-    net_yield /= 100
+    refining_yield = station_yield.to_f + recycling_constant * refining_factor * efficiency_factor * specialization_factor
+    refining_yield = 100 if refining_yield > 100
+    refining_yield *= (100 - refinery_tax.to_f) / 100
+    refining_yield /= 100
+  end
+  
+  def refine_revenue(prices, station_yield, skills, refinery_tax)
+    net_yield = refining_yield station_yield, skills, refinery_tax
+    revenue = 0
+    refined_volume = 0
     yields.each do |y|
-      price = price_list[y.mineral.central_id]
+      price = prices[y.mineral.central_id]
       revenue += y.quantity * net_yield * price
-      volume += y.quantity
+      refined_volume += y.quantity
     end
     revenue /= refine_volume
-    volume *= 0.01 * net_yield
-    volume = ((refine_volume-volume) / refine_volume) * 100
-    { :revenue => revenue, :yield => net_yield, :volume => volume, :efficiency => net_yield * 100 }
+    refined_volume *= Mineral::VOLUME * net_yield
+    volume_reduction = ((refine_volume-refined_volume) / refine_volume) * 100
+    raw_revenue = raw_revenue(prices[central_id])
+    gain = ((revenue - raw_revenue) / raw_revenue) * 100
+    { :revenue => revenue, :volume_reduction => volume_reduction, :efficiency => net_yield * 100, :gain => gain } 
   end
 end

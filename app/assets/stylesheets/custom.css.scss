@@ -1,6 +1,10 @@
 $footer-height: 54px;
 $header-height: 50px;
 
+table {
+  margin-top: 20px;
+}
+
 th {
   text-align: center;
 }
@@ -21,12 +25,13 @@ html, body {
   text-align: center;
 }
 
-.footer-content {
-  margin: $footer-height/3 0;
-}
-
 .form-horizontal {
   padding-top: 25px;
+}
+
+.form-control {
+  padding: 0 5px;
+  height: 30px;
 }
 
 .full-width {
@@ -44,14 +49,6 @@ html, body {
 
 .tablesorter thead {
   cursor: pointer;
-}
-
-#wrap {
-  height: auto !important;
-  position: relative;
-  padding-bottom: $footer-height*5/4;
-  min-height: 100%;
-  height: 100%;
 }
 
 #footer {
