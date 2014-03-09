@@ -29,13 +29,13 @@ class PlanetaryCommodity < ActiveRecord::Base
     end
   end
   
-  def processing_revenue(buy_prices, sell_prices, custom_office_tax, market_tax)
+  def processing_revenue(prices, custom_office_tax, market_tax)
     market_tax = 1 - market_tax / 100.0
-    revenue = buy_prices[central_id] * quantity * market_tax
+    revenue = prices[:buy][central_id] * quantity * market_tax
     cost = 0
     insufficient_sell_orders = false
     schematics.each do |schematic|
-      price = sell_prices[schematic.input.central_id]
+      price = prices[:sell][schematic.input.central_id]
       if price == 0
         insufficient_sell_orders = true
       else
