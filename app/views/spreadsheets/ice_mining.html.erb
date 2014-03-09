@@ -1,7 +1,6 @@
 <h1>Ice Spreadsheet</h1>
-<div class="sub">
 <% unless @ores.nil? %>
-  <h2>Using prices from the <%= @location %></h2>
+<div class="sub">
   <table class="tablesorter table table-bordered table-striped">
     <thead class="pointer-cursor">
       <tr>
@@ -23,7 +22,7 @@
           <% end %>
             <td><%= '%.2f' % var[:refine_revenue] %></td>
             <% gain = var[:refining_gain] %>
-            <td <%= 'class="text-warning"'.html_safe unless (gain > 0) %>><%= "%.2f %" % gain unless var[:price] == 0 %></td>
+            <td <%= 'class="text-warning"'.html_safe unless (gain > 0) %>><%= '%.2f %' % gain unless var[:price] == 0 %></td>
             <td><%= '%.2f %' % var[:volume] %></td>
         </tr>
       <% end %>
@@ -55,7 +54,7 @@
     <%= select_tag :refinery_efficiency_skill, options_for_select(['0','1','2','3','4','5'], @refinery_efficiency_skill) %>
     <br/><br/>
     <%= label_tag  :ice_processing_skill %>
-    <%= select_tag :ice_processing_skill, options_for_select(['0','1','2','3','4','5'], @refinery_efficiency_skill) %>
+    <%= select_tag :ice_processing_skill, options_for_select(['0','1','2','3','4','5'], @ice_processing_skill) %>
     <br/><br/>
     <%= label_tag  :refinery_tax %>
     <%= text_field_tag :refinery_tax, @refinery_tax, :size => 3 %>    
@@ -63,11 +62,3 @@
     <%= submit_tag 'Calculate' %>
   </div>
 <% end %>
-<div class="sub">
-  <h2>Formulas</h2>
-  <p>If you want revenues per m<sup>3</sup> just divide revenues by 1000.<br/>All ice ores have a 1000 m<sup>3</sup> volume.</p>
-  <h3>Refining Revenues</h3>
-  <p>
-    Too lazy to write it right now =p
-  </p>
-</div>

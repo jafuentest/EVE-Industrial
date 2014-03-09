@@ -1,52 +1,52 @@
 <h1>Planetary Interaction Spreadsheet</h1>
 <% unless @materials.nil? %>
-  <div class="sub">
-    <table class="tablesorter table table-bordered table-striped">
-      <thead class="pointer-cursor">
+<div class="sub">
+  <table class="tablesorter table table-bordered table-striped">
+    <thead class="pointer-cursor">
+      <tr>
+        <th>Processed<br/>Material</th>
+        <th>Hourly<br/>Revenue</th>
+        <th>Resource</th>
+        <th>Unit<br/>Price</th>
+        <th>Return on<br/>Investment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @materials.each do |material| %>
         <tr>
-          <th>Processed<br/>Material</th>
-          <th>Hourly<br/>Revenue</th>
-          <th>Resource</th>
-          <th>Unit<br/>Price</th>
-          <th>Return on<br/>Investment</th>
+          <td><%= link_to material[:name], planetary_commodity_path(material[:id]) %></td>
+          <td><%= '%d' % material[:revenue] %></td>
+          <td><%= link_to material[:resource][:name], planetary_commodity_path(material[:resource][:id]) %></td>
+          <td><%= '%.2f' % material[:resource][:price] %></td>
+          <% revenue = material[:inversion_return] %>
+          <td <%= 'class="text-warning"'.html_safe if (revenue < 0) %>><%= revenue == 0 ? ' - ' : '%.2f %' % revenue %></td>
         </tr>
-      </thead>
-      <tbody>
-        <% @materials.each do |material| %>
-          <tr>
-            <td><%= link_to material[:name], planetary_commodity_path(material[:id]) %></td>
-            <td><%= '%d' % material[:revenue] %></td>
-            <td><%= link_to material[:resource][:name], planetary_commodity_path(material[:resource][:id]) %></td>
-            <td><%= '%.2f' % material[:resource][:price] %></td>
-            <% revenue = material[:inversion_return] %>
-            <td <%= 'class="text-warning"'.html_safe if (revenue < 0) %>><%= revenue == 0 ? ' - ' : '%.2f %' % revenue %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-  
-  <div class="sub">
-    <table class="tablesorter table table-bordered table-striped">
-      <thead class="pointer-cursor">
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub">
+  <table class="tablesorter table table-bordered table-striped">
+    <thead class="pointer-cursor">
+      <tr>
+        <th>Processed<br/>Material</th>
+        <th>Daily<br/>Revenues</th>
+        <th>Return on<br/>Investment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @commodities.each do |commoditiy| %>
         <tr>
-          <th>Processed<br/>Material</th>
-          <th>Daily<br/>Revenues</th>
-          <th>Return on<br/>Investment</th>
+          <td><%= link_to commoditiy[:name], planetary_commodity_path(commoditiy[:id]) %></td>
+          <td><%= '%d' % commoditiy[:revenue] %></td>
+          <% revenue = commoditiy[:inversion_return] %>
+          <td <%= 'class="text-warning"'.html_safe if (revenue < 0) %>><%= revenue == 0 ? ' - ' : '%.2f %' % revenue %></td>
         </tr>
-      </thead>
-      <tbody>
-        <% @commodities.each do |commoditiy| %>
-          <tr>
-            <td><%= link_to commoditiy[:name], planetary_commodity_path(commoditiy[:id]) %></td>
-            <td><%= '%d' % commoditiy[:revenue] %></td>
-            <% revenue = commoditiy[:inversion_return] %>
-            <td <%= 'class="text-warning"'.html_safe if (revenue < 0) %>><%= revenue == 0 ? ' - ' : '%.2f %' % revenue %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 <% end %>
 
 <div class="sub">

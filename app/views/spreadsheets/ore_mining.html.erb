@@ -1,7 +1,6 @@
 <h1>Ore Spreadsheet</h1>
-<div class="sub">
 <% unless @variations.nil? %>
-  <h2>Using prices from the <%= @location %></h2>
+<div class="sub">
   <table class="tablesorter table table-bordered table-striped">
     <thead class="pointer-cursor">
       <tr>
@@ -26,7 +25,7 @@
           <% end %>
             <td><%= '%.2f' % var[:refine_revenue] %></td>
             <% gain = var[:refining_gain] %>
-            <td <%= 'class="text-warning"'.html_safe unless (gain > 0) %>><%= "%.2f %" % gain unless var[:price] == 0 %></td>
+            <td <%= 'class="text-warning"'.html_safe unless (gain > 0) %>><%= '%.2f %' % gain unless var[:price] == 0 %></td>
             <td><%= '%.2f %' % var[:volume] %></td>
         </tr>
       <% end %>
@@ -74,17 +73,3 @@
     </table>
   </div>
 <% end %>
-<div class="sub">
-  <h2>Formulas</h2>
-  <h3>Raw Revenues</h3>
-  <p>(1000 / O<sub>V</sub>) * P * T</p>
-  <p>
-    O<sub>V</sub> = Ore Volume<br/>
-    P = Ore Price (Buy orders percentile for that ore at the selected region/system)<br/>
-    T = 100% - Sale Tax %
-  </p>
-  <h3>Refining Revenues</h3>
-  <p>
-    Too lazy to write it right now =p
-  </p>
-</div>
