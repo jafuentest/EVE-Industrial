@@ -97,20 +97,15 @@ class SpreadsheetsController < ApplicationController
       # Retrieve the information to show about each ore variation
       @variations = []
       Variation.all.each do |var|
-        variation = { :id => var.id, :name => var.name }
-        variation[:price] = prices[:sell][var.central_id]
-        refining_results = var.refine_revenue prices, station_yield, skills, refinery_tax
-        variation[:efficiency] = refining_results[:efficiency]
-        if variation[:price] == 0
-          variation[:refine_revenue] = -100 # lower than any possible value
-        else
-          cost = var.raw_revenue prices[:sell][var.central_id]
-          profit = refining_results[:revenue] * (1 - market_tax.to_f/100)
-          profit -= cost
-          profit /= cost
-          variation[:refine_revenue] = profit
+        unless prices[:sell][var.central_id] == 0 && params[:hide_empty] 
+          variation = { :id => var.id, :name => var.name }
+          taxes = { refinery: refinery_tax.to_f, market: market_tax.to_f }
+          refining_results = var.martket_refining prices, station_yield, skills, taxes
+          variation[:price] = prices[:sell][var.central_id]
+          variation[:efficiency] = refining_results[:efficiency]
+          variation[:return_on_investment] = refining_results[:return_on_investment]
+          @variations << variation
         end
-        @variations << variation
       end
     end
     

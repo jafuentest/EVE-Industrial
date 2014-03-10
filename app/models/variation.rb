@@ -27,16 +27,20 @@ class Variation < ActiveRecord::Base
     end
   end
   
-  def volume
-    ore.volume
+  def batch_size
+    ore.refine
+  end
+  
+  def raw_revenue(price)
+    price / volume
   end
   
   def refine_volume
     ore.refine_volume
   end
   
-  def raw_revenue(price)
-    price / volume
+  def volume
+    ore.volume
   end
   
   def refining_yield(station_yield, skills, refinery_tax)
@@ -54,16 +58,33 @@ class Variation < ActiveRecord::Base
     net_yield = refining_yield station_yield, skills, refinery_tax
     revenue = 0
     refined_volume = 0
+    
     yields.each do |y|
       price = prices[y.mineral.central_id]
       revenue += y.quantity * net_yield * price
       refined_volume += y.quantity
     end
+    
     revenue /= refine_volume
     refined_volume *= Mineral::VOLUME * net_yield
     volume_reduction = ((refine_volume-refined_volume) / refine_volume) * 100
     raw_revenue = raw_revenue(prices[central_id])
     gain = ((revenue - raw_revenue) / raw_revenue) * 100
-    { :revenue => revenue, :volume_reduction => volume_reduction, :efficiency => net_yield * 100, :gain => gain } 
+    { :revenue => revenue, :volume_reduction => volume_reduction, :efficiency => net_yield * 100, :gain => gain }
+  end
+  
+  def martket_refining(prices, station_yield, skills, taxes)
+    net_yield = refining_yield station_yield, skills, taxes[:refinery]
+    revenue = 0
+    
+    yields.each do |y|
+      price = prices[:buy][y.mineral.central_id]
+      revenue += y.quantity * net_yield * price
+    end
+    
+    revenue *= 1 - taxes[:market] / 100
+    cost = prices[:sell][central_id] * batch_size
+    return_on_investment = ((revenue - cost) / cost) * 100
+    { :return_on_investment => return_on_investment, :efficiency => net_yield * 100 }
   end
 end

@@ -19,7 +19,7 @@
             <td colspan="2" class="text-center">No Sell Orders</td>
           <% else %>
             <td><%= '%.2f' % variation[:price] %></td>
-            <% revenue = variation[:refine_revenue] %>
+            <% revenue = variation[:return_on_investment] %>
             <% if revenue > 0 %>
               <td><b><%= '%.2f' % revenue %> %</b></td>
             <% else %>
@@ -53,43 +53,57 @@
 
 <%= form_tag spreadsheets_refining_path do %>
   <div class="sub">
-    <h2 style="margin-top:0">Parameters</h2>
-    <%= label_tag  :region %>
-    <%= select_tag :region, options_from_collection_for_select(@regions, :id, :name, @region), :prompt => 'Select Region', :onchange => 'updateSystems()' %>
-    <br/><br/>
-    <%= label_tag  :system %>
-    <% if @systems.nil? %>
-      <%= select_tag :system, nil, :prompt => '-' %>
-    <% else %>
-      <%= select_tag :system, options_from_collection_for_select(@systems, :id, :name, @system), :prompt => 'Whole Region' %>
-    <% end %>
-    <br/><br/>
-    <%= label_tag  :station_yield %>
-    <%= select_tag :station_yield, options_for_select(['50','40','35','30','25'], @station_yield) %>
-    <br/><br/>
-    <%= label_tag  :refining_skill %>
-    <%= select_tag :refining_skill, options_for_select(['0','1','2','3','4','5'], @refining_skill) %>
-    <br/><br/>
-    <%= label_tag  :refinery_efficiency_skill %>
-    <%= select_tag :refinery_efficiency_skill, options_for_select(['0','1','2','3','4','5'], @refinery_efficiency_skill) %>
-    <br/><br/>
-    <%= label_tag  :refinery_tax %>
-    <%= text_field_tag :refinery_tax, @refinery_tax, :size => 3 %>    
-    <br/><br/>
-    <%= label_tag  :market_tax %>
-    <%= text_field_tag :market_tax, @market_tax, :size => 3 %>    
-    <br/><br/>
-    <%= submit_tag 'Calculate' %>
+    <h2>Parameters</h2>
+    <div class="form-group">
+      <%= label_tag  :region %>
+      <%= select_tag :region, options_from_collection_for_select(@regions, :id, :name, @region), :prompt => 'Select Region', :onchange => 'updateSystems()', class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= label_tag    :system %>
+      <% if @systems.nil? %>
+        <%= select_tag :system, nil, :prompt => '-', class: 'form-control' %>
+      <% else %>
+        <%= select_tag :system, options_from_collection_for_select(@systems, :id, :name, @system), :prompt => 'Whole Region', class: 'form-control' %>
+      <% end %>
+    </div>
+    <div class="form-group">
+      <%= label_tag  :station_yield %>
+      <%= select_tag :station_yield, options_for_select(['50','40','35','30','25'], @station_yield), class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= label_tag  :refining_skill %>
+      <%= select_tag :refining_skill, options_for_select(['0','1','2','3','4','5'], @refining_skill), class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= label_tag  :refinery_efficiency_skill %>
+      <%= select_tag :refinery_efficiency_skill, options_for_select(['0','1','2','3','4','5'], @refinery_efficiency_skill), class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= label_tag  :refinery_tax %>
+      <%= text_field_tag :refinery_tax, @refinery_tax, :size => 3, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= label_tag  :market_tax %>
+      <%= text_field_tag :market_tax, @market_tax, :size => 3, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= label_tag 'Hide if no sell orders' %>
+    <div class="col-sm-2">
+      <%= check_box_tag :hide_empty, class: 'checkbox' %>
+    </div>
+  </div>
+    <div class="form-group">
+      <label>&nbsp;</label>
+      <%= submit_tag 'Calculate', class: 'btn btn-default full-width' %>
+    </div>
   </div>
   <div class="sub">
-    <h2 style="margin-top:0">Processing Skills</h2>
-    <table>
-      <% @ores.each do |o| %>
-        <tr>
-          <td><%= label_tag o.name %></td>
-          <td>&nbsp;&nbsp;<%= select_tag 'processing_skills[%s]' % o.name, options_for_select(['0','1','2','3','4','5'], @processing_skills[o.id]) %></td>
-        </tr>
-      <% end %>
-    </table>
+    <h2>Processing Skills</h2>
+    <% @ores.each do |o| %>
+      <div class="form-group">
+        <%= label_tag o.name %>
+        <%= select_tag 'processing_skills[%s]' % o.name, options_for_select(['0','1','2','3','4','5'], @processing_skills[o.id]), class: 'form-control' %>    
+      </div>
+    <% end %>
   </div>
 <% end %>
