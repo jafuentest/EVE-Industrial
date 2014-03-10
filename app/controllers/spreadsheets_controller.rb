@@ -13,8 +13,7 @@ class SpreadsheetsController < ApplicationController
       end
       
       # Retrieve user specific data
-      market_tax = params[:market_tax].to_f
-      customs_office_tax = params[:customs_office_tax].to_f
+      taxes = { market: params[:market_tax].to_f, customs_office: params[:customs_office_tax].to_f }
       processors = { }
       processors[1] = params[:basic_processors].to_i
       processors[2] = params[:advanced_processors].to_i
@@ -32,8 +31,8 @@ class SpreadsheetsController < ApplicationController
       @materials = []
       PlanetaryCommodity.where(:tier => 1).each do |pc|
         material = { :name => pc.name, :id => pc.id }
-        material[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], processors
-        material[:inversion_return] = pc.processing_revenue prices, customs_office_tax, market_tax
+        material[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], taxes, processors
+        material[:inversion_return] = pc.processing_revenue prices, taxes
         resource = pc.schematics[0].input
         material[:resource] = { :name => resource.name, :id => resource.id, :price => prices[:buy][resource.central_id] }
         @materials << material
@@ -41,8 +40,8 @@ class SpreadsheetsController < ApplicationController
       @commodities = []
       PlanetaryCommodity.where(:tier => 2).each do |pc|
         resource = { :name => pc.name, :id => pc.id }
-        resource[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], processors
-        resource[:inversion_return] = pc.processing_revenue prices, customs_office_tax, market_tax
+        resource[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], taxes, processors
+        resource[:inversion_return] = pc.processing_revenue prices, taxes
         @commodities << resource
       end
     end

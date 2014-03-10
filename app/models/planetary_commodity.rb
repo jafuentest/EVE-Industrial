@@ -1,7 +1,6 @@
 class PlanetaryCommodity < ActiveRecord::Base
   attr_accessible :central_id, :name, :quantity, :tier, :volume
   
-  has_one :schematic, :foreign_key => :input_id
   has_many :schematics, :foreign_key => :output_id
   has_many :requirements, :through => :schematics, :source => :output
   
@@ -29,9 +28,9 @@ class PlanetaryCommodity < ActiveRecord::Base
     end
   end
   
-  def processing_revenue(prices, custom_office_tax, market_tax)
-    market_tax = 1 - market_tax / 100.0
-    revenue = prices[:buy][central_id] * quantity * market_tax
+  def processing_revenue(prices, taxes)
+    market_tax = 1 - (taxes[:market] / 100.0)
+    revenue = (prices[:buy][central_id] * market_tax - custom_office_tax(:export, taxes[:customs_office])) * quantity
     cost = 0
     insufficient_sell_orders = false
     schematics.each do |schematic|
@@ -39,8 +38,7 @@ class PlanetaryCommodity < ActiveRecord::Base
       if price == 0
         insufficient_sell_orders = true
       else
-        cost += price * schematic.quantity
-        cost += schematic.quantity * schematic.input.custom_office_tax(:import, custom_office_tax)
+        cost += schematic.quantity * (price + schematic.input.custom_office_tax(:import, taxes[:customs_office]))
       end
     end
     
@@ -51,8 +49,9 @@ class PlanetaryCommodity < ActiveRecord::Base
     end
   end
   
-  def hour_revenue(price, processors)
+  def hour_revenue(price, taxes, processors)
+    market_tax = 1 - taxes[:market] / 100.0
     hourly_production = tier == 1 ? quantity * 2 : quantity
-    price * hourly_production * processors[tier]
+    ((price * market_tax) - (custom_office_tax(:export, taxes[:customs_office]))) * quantity * processors[tier]
   end
 end

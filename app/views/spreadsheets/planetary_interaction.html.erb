@@ -31,7 +31,7 @@
     <thead class="pointer-cursor">
       <tr>
         <th>Processed<br/>Material</th>
-        <th>Daily<br/>Revenues</th>
+        <th>Hourly<br/>Revenues</th>
         <th>Return on<br/>Investment</th>
       </tr>
     </thead>
@@ -66,15 +66,15 @@
     </div>
     <div class="form-group">
       <%= label_tag  :basic_processors %>
-      <%= select_tag :basic_processors, options_for_select(['0','1','2','3','4','5'], @basic_processors), class: 'form-control' %>
+      <%= select_tag :basic_processors, options_for_select(['0','1','2','3','4','5','6','7','8','9','10'], @basic_processors), class: 'form-control' %>
     </div>
     <div class="form-group">
       <%= label_tag  :advanced_processors %>
-      <%= select_tag :advanced_processors, options_for_select(['0','1','2','3','4','5'], @advanced_processors), class: 'form-control' %>
+      <%= select_tag :advanced_processors, options_for_select(['0','1','2','3','4','5','6','7','8','9','10'], @advanced_processors), class: 'form-control' %>
     </div>
     <div class="form-group">
       <%= label_tag  :high_tech_processors %>
-      <%= select_tag :high_tech_processors, options_for_select(['0','1','2','3','4','5'], @high_tech_processors), class: 'form-control' %>
+      <%= select_tag :high_tech_processors, options_for_select(['0','1','2','3','4','5','6','7','8','9','10'], @high_tech_processors), class: 'form-control' %>
     </div>
     <div class="form-group">
       <%= label_tag  :market_tax %>
@@ -84,7 +84,8 @@
       <%= label_tag  :customs_office_tax %>
       <%= text_field_tag :customs_office_tax, @customs_office_tax, class: 'form-control' %>
     </div>
-    
-    <%= submit_tag 'Calculate', class: 'btn btn-default ' %>
+    <div class="form-group">
+      <%= submit_tag 'Calculate', class: 'btn btn-default full-width' %>
+    </div>
   <% end %>
 </div>
