@@ -179,6 +179,7 @@ class SpreadsheetsController < ApplicationController
       skill_name = '%s_processing_skill' % o.name
       @processing_skills[o.id] = { }
       @processing_skills[o.id][:level] = cookies[skill_name]
+      @processing_skills[o.id][:group] = o.id / 4
     end
   end
   
