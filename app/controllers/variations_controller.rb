@@ -1,4 +1,6 @@
 class VariationsController < ApplicationController
+  skip_before_filter :is_admin only: [:index, :show]
+  
   def add_yields
     @variation = Variation.find(params[:id])
     @minerals = Mineral.all

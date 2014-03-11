@@ -1,4 +1,6 @@
 class MineralsController < ApplicationController
+  skip_before_filter :is_admin, only: [:index, :show]
+  
   def check_eve_central_ids
     minerals = Mineral.all
     @results = []

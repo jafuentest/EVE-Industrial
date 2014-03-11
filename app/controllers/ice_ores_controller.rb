@@ -1,4 +1,8 @@
 class IceOresController < ApplicationController
+  skip_before_filter :is_admin, only: [:index, :show]
+  
+  # GET /ice_ores/1/add_yields
+  # POST /ice_ores/1/add_yields
   def add_yields
     @ore = IceOre.find(params[:id])
     @products = IceProduct.all

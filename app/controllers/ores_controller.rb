@@ -1,4 +1,6 @@
 class OresController < ApplicationController
+  skip_before_filter :is_admin, only: [:index, :show]
+  
   # GET /ores
   # GET /ores.json
   def index
@@ -26,17 +28,6 @@ class OresController < ApplicationController
     
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @ore }
-    end
-  end
-  
-  # GET /ores/new
-  # GET /ores/new.json
-  def new
-    @ore = Ore.new
-    
-    respond_to do |format|
-      format.html # new.html.erb
       format.json { render json: @ore }
     end
   end

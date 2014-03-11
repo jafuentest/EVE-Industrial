@@ -1,4 +1,6 @@
 class YieldsController < ApplicationController
+  skip_before_filter :is_admin
+  
   # GET /yields
   # GET /yields.json
   def index

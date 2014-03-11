@@ -1,4 +1,6 @@
 class RegionsController < ApplicationController
+  skip_before_filter :is_admin, only: [:index, :show]
+  
   # GET /regions
   # GET /regions.json
   def index

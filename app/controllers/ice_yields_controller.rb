@@ -1,4 +1,6 @@
 class IceYieldsController < ApplicationController
+  skip_before_filter :is_admin
+  
   # GET /ice_yields
   # GET /ice_yields.json
   def index

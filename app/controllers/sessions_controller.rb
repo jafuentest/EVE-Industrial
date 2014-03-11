@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_filter :login
+  skip_before_filter :is_admin
   
   def new
   end
@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     user = User.authenticate(params[:session])
     if (user)
       session[:user_id] = user.id
-      session[:admin] = user.is_admin
+      session[:is_admin] = user.is_admin
       user.last_login = DateTime.now
       user.save
       redirect_to root_path, { :notice => 'Login success, welcome back!' }

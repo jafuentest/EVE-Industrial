@@ -1,4 +1,6 @@
 class IceProductsController < ApplicationController
+  skip_before_filter :is_admin, only: [:index, :show]
+  
   # GET /ice_products
   # GET /ice_products.json
   def index

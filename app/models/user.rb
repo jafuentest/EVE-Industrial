@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :login
   
   def self.authenticate(input)
-    user = find_by_login(input[:login])
-    if user && user.password == Digest::SHA1.hexdigest(input[:password])
+    user = find_by_login input[:login]
+    if user && user.password == (Digest::SHA1.hexdigest input[:password])
       user
     else
       nil

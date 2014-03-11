@@ -1,4 +1,6 @@
 class PlanetaryCommoditiesController < ApplicationController
+  skip_before_filter :is_admin, only: [:index, :show]
+  
   # GET /planetary_commodities
   # GET /planetary_commodities.json
   def index

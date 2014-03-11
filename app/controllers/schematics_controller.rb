@@ -1,4 +1,6 @@
 class SchematicsController < ApplicationController
+  skip_before_filter :is_admin
+  
   # GET /schematics
   # GET /schematics.json
   def index

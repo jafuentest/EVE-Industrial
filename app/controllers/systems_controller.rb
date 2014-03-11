@@ -1,5 +1,6 @@
 class SystemsController < ApplicationController
   helper_method :sort_column, :sort_direction
+  skip_before_filter :is_admin, only: [:index, :show]
   
   # GET /systems
   # GET /systems.json

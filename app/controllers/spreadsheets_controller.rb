@@ -1,6 +1,8 @@
 class SpreadsheetsController < ApplicationController
   require 'nokogiri'
   
+  skip_before_filter :is_admin
+  
   def planetary_interaction
     if (params.has_key? :region) && !params[:region].empty?
       items = PlanetaryCommodity.pluck :central_id
