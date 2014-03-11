@@ -1,5 +1,5 @@
 class VariationsController < ApplicationController
-  skip_before_filter :is_admin only: [:index, :show]
+  skip_before_filter :is_admin, only: [:index, :show]
   
   # GET /variations/check_central_ids
   def check_central_ids
