@@ -1,10 +1,10 @@
 class MineralsController < ApplicationController
   skip_before_filter :is_admin, only: [:index, :show]
   
-  def check_eve_central_ids
-    minerals = Mineral.all
+  # GET /minerals/check_eve_central_ids
+  def check_central_ids
     @results = []
-    minerals.each do |mineral|
+    Mineral.all.each do |mineral|
       request = 'http://api.eve-central.com/api/quicklook?typeid=%s' % [mineral.central_id]
       xml = Curl.get(request).body_str
       xml_doc  = Nokogiri::XML(xml)

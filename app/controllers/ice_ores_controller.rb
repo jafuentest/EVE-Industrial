@@ -1,6 +1,19 @@
 class IceOresController < ApplicationController
   skip_before_filter :is_admin, only: [:index, :show]
   
+  # GET /ice_ores/check_central_ids
+  def check_central_ids
+    @results = []
+    IceOre.all.each do |ice_ore|
+      request = 'http://api.eve-central.com/api/quicklook?typeid=%s' % [ice_ore.central_id]
+      xml = Curl.get(request).body_str
+      xml_doc  = Nokogiri::XML(xml)
+      ec_name = xml_doc.xpath('/evec_api/quicklook/itemname').text
+      result = { :name => ice_ore.name, :ec_name => ec_name, :match => ice_ore.name == ec_name }
+      @results << result
+    end
+  end
+  
   # GET /ice_ores/1/add_yields
   # POST /ice_ores/1/add_yields
   def add_yields

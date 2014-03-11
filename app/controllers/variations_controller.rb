@@ -1,6 +1,19 @@
 class VariationsController < ApplicationController
   skip_before_filter :is_admin only: [:index, :show]
   
+  # GET /variations/check_central_ids
+  def check_central_ids
+    @results = []
+    Variation.all.each do |variation|
+      request = 'http://api.eve-central.com/api/quicklook?typeid=%s' % [variation.central_id]
+      xml = Curl.get(request).body_str
+      xml_doc  = Nokogiri::XML(xml)
+      ec_name = xml_doc.xpath('/evec_api/quicklook/itemname').text
+      result = { :name => variation.name, :ec_name => ec_name, :match => variation.name == ec_name }
+      @results << result
+    end
+  end
+  
   def add_yields
     @variation = Variation.find(params[:id])
     @minerals = Mineral.all
@@ -20,19 +33,6 @@ class VariationsController < ApplicationController
         end
       end
       redirect_to @variation, :notice => 'Variation updated successfully'
-    end
-  end
-  
-  def check_central_ids
-    variations = Variation.all
-    @results = []
-    variations.each do |variation|
-      request = 'http://api.eve-central.com/api/quicklook?typeid=%s' % [variation.central_id]
-      xml = Curl.get(request).body_str
-      xml_doc  = Nokogiri::XML(xml)
-      ec_name = xml_doc.xpath('/evec_api/quicklook/itemname').text
-      result = { :name => variation.name, :ec_name => ec_name, :match => variation.name == ec_name }
-      @results << result
     end
   end
   
