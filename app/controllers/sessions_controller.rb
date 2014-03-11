@@ -9,8 +9,6 @@ class SessionsController < ApplicationController
     if (user)
       session[:user_id] = user.id
       session[:is_admin] = user.is_admin
-      user.last_login = DateTime.now
-      user.save
       redirect_to root_path, { :notice => 'Login success, welcome back!' }
     else
       redirect_to login_path, { :notice => 'Login failure' }

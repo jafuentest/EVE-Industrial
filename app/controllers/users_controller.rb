@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  skip_before_filter :is_admin, except: [:index]
   
   # GET /users
   # GET /users.json
