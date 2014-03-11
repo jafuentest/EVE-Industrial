@@ -218,11 +218,7 @@ class SpreadsheetsController < ApplicationController
         ore_hash[:refine_revenue] = refining_results[:revenue]
         ore_hash[:refine_yield] = refining_results[:yield]
         ore_hash[:volume] = refining_results[:volume]
-        if ore_hash[:price] == 0
-          ore_hash[:refining_gain] = 0
-        else
-          ore_hash[:refining_gain] = (ore_hash[:refine_revenue] / ore_hash[:price] - 1) * 100
-        end
+        ore_hash[:refining_gain] = (ore_hash[:refine_revenue] / ore_hash[:price] - 1) * 100
         @ores << ore_hash
       end
     end
