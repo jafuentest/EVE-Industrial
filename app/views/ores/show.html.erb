@@ -29,5 +29,5 @@
 
 <hr />
 
-<%= link_to 'Edit', edit_ore_path(@ore), class: 'btn btn-default' %>
+<%= link_to 'Edit', edit_ore_path(@ore), class: 'btn btn-default' if @can_edit %>
 <%= link_to 'Back to List', ores_path, class: 'btn btn-default' %>

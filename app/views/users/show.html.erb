@@ -5,5 +5,5 @@
   <%= @user.is_admin %>
 </p>
 
-<%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-default' %>
+<%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-default' if @can_edit %>
 <%= link_to 'Back to List', users_path, class: 'btn btn-default' %>

@@ -11,5 +11,5 @@
 
 <hr/>
 
-<%= link_to 'Edit', edit_system_path(@system), class: 'btn btn-default' %>
+<%= link_to 'Edit', edit_system_path(@system), class: 'btn btn-default' if @can_edit %>
 <%= link_to 'Back to List', systems_path, class: 'btn btn-default' %>

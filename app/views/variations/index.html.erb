@@ -5,7 +5,9 @@
       <th>Ore Family</th>
       <th>Name</th>
       <th>Bonus %</th>
-      <th class="edit-field">Edit</th>
+      <% if @can_edit %>
+        <th class="edit-field">Edit</th>
+      <% end %>
     </tr>
   </thead>
   
@@ -17,9 +19,9 @@
         <% end %>
         <td><%= link_to variation.name, variation %></td>
         <td><%= variation.bonus %></td>
-        <td class="edit-field">
-          <%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_variation_path(variation) %>
-        </td>
+        <% if @can_edit %>
+          <td class="edit-field"><%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_variation_path(variation) %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

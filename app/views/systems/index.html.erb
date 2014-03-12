@@ -7,7 +7,9 @@
       <th><%= sortable 'security', 'Security' %></th>
       <th>True Security</th>
       <th><%= sortable 'central_id', 'EVE-Central ID' %></th>
-      <th class="edit-field">Edit</th>
+      <% if @can_edit %>
+        <th class="edit-field">Edit</th>
+      <% end %>
     </tr>
   </thead>
   
@@ -19,9 +21,9 @@
         <td><%= '%.1f' % system.security %></td>
         <td><%= '%.5f' % system.security %></td>
         <td><%= system.central_id %></td>
-        <td class="edit-field">
-          <%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_system_path(system) %>
-        </td>
+        <% if @can_edit %>
+          <td class="edit-field"><%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_system_path(system) %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

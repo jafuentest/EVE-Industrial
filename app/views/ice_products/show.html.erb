@@ -31,5 +31,6 @@
 
 <hr />
 
-<%= link_to 'Edit', edit_ice_product_path(@ice_product), class: 'btn btn-default' %>
+<%= link_to 'Edit', edit_ice_product_path(@ice_product), class: 'btn btn-default' if @can_edit %>
 <%= link_to 'Back to List', ice_products_path, class: 'btn btn-default' %>
+

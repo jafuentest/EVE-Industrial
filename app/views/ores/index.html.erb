@@ -5,7 +5,9 @@
       <th>Name</th>
       <th>Refine</th>
       <th>Volume (m<sup>3</sup>)</th>
-      <th class="edit-field">Edit</th>
+      <% if @can_edit %>
+        <th class="edit-field">Edit</th>
+      <% end %>
     </tr>
   </thead>
   
@@ -15,9 +17,9 @@
         <td><%= link_to ore.name, ore %></td>
         <td><%= ore.refine %></td>
         <td><%= ore.volume %></td>
-        <td class="edit-field">
-          <%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_ore_path(ore) %>
-        </td>
+        <% if @can_edit %>
+          <td class="edit-field"><%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_ore_path(ore) %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

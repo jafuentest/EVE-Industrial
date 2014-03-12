@@ -31,7 +31,11 @@
 
 <hr />
 
-<%= link_to 'Edit Yields', add_yields_variation_path(@variation), class: 'btn btn-primary' %>
-<hr />
-<%= link_to 'Edit', edit_variation_path(@variation), class: 'btn btn-default' %>
+<% if @can_edit %>
+  <%= link_to 'Edit Yields', add_yields_variation_path(@variation), class: 'btn btn-primary' %>
+  <hr />
+  <%= link_to 'Edit', edit_variation_path(@variation), class: 'btn btn-default' %>
+<% end %>
+
 <%= link_to 'Back to List', variations_path, class: 'btn btn-default' %>
+

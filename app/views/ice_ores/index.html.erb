@@ -5,7 +5,9 @@
       <th>Name</th>
       <th>Volume (m<sup>3</sup>)</th>
       <th>EVE-Central ID</th>
-      <th class="edit-field">Edit</th>
+      <% if @can_edit %>
+        <th class="edit-field">Edit</th>
+      <% end %>
     </tr>
   </thead>
 
@@ -15,9 +17,9 @@
         <td><%= link_to ice_ore.name, ice_ore %></td>
         <td><%= '%i' % ice_ore.volume %></td>
         <td><%= ice_ore.central_id %></td>
-        <td class="edit-field">
-          <%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_ice_ore_path(ice_ore) %>
-        </td>
+        <% if @can_edit %>
+          <td class="edit-field"><%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_ice_ore_path(ice_ore) %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

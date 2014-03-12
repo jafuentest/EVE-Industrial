@@ -5,7 +5,9 @@
       <th>Name</th>
       <th>Volume<br/>(m<sup>3</sup>)</th>
       <th>EVE-Central ID</th>
-      <th class="edit-field">Edit</th>
+      <% if @can_edit %>
+        <th class="edit-field">Edit</th>
+      <% end %>
     </tr>
   </thead>
   
@@ -15,9 +17,9 @@
         <td><%= link_to commodity.name, commodity %></td>
         <td><%= commodity.volume %></td>
         <td><%= commodity.central_id %></td>
-        <td class="edit-field">
-          <%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_planetary_commodity_path(commodity) %>
-        </td>
+        <% if @can_edit %>
+          <td class="edit-field"><%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_planetary_commodity_path(commodity) %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

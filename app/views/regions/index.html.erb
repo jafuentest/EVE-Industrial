@@ -4,7 +4,9 @@
     <tr>
       <th>Name</th>
       <th>EVE-Central ID</th>
-      <th class="edit-field">Edit</th>
+      <% if @can_edit %>
+        <th class="edit-field">Edit</th>
+      <% end %>
     </tr>
   </thead>
   
@@ -13,9 +15,9 @@
       <tr>
         <td><%= link_to region.name, region %></td>
         <td><%= region.central_id %></td>
-        <td class="edit-field">
-          <%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_region_path(region) %>
-        </td>
+        <% if @can_edit %>
+          <td class="edit-field"><%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_region_path(region) %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

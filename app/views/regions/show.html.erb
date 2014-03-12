@@ -28,5 +28,5 @@
 
 <hr/>
 
-<%= link_to 'Edit', edit_region_path(@region), class: 'btn btn-default' %>
+<%= link_to 'Edit', edit_region_path(@region), class: 'btn btn-default' if @can_edit %>
 <%= link_to 'Back to List', regions_path, class: 'btn btn-default' %>

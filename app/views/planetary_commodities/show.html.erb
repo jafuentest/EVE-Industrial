@@ -34,5 +34,5 @@
 </p>
 <% end %>
 
-<%= link_to 'Edit', edit_planetary_commodity_path(@planetary_commodity), class: 'btn btn-default' %>
+<%= link_to 'Edit', edit_planetary_commodity_path(@planetary_commodity), class: 'btn btn-default' if @can_edit %>
 <%= link_to 'Back to List', planetary_commodities_path, class: 'btn btn-default' %>
