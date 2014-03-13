@@ -1,5 +1,5 @@
 ﻿<h1><%= @variation.name %></h1>
-<%= form_tag add_yields_variation_path(@variation), class: 'form-horizontal' do %>
+<%= form_tag edit_yields_variation_path(@variation), class: 'form-horizontal' do %>
   <% @minerals.each do |mineral| %>
     <div class="form-group">
       <%= label_tag mineral.name, nil, class: 'control-label col-sm-1' %>

@@ -34,8 +34,8 @@ EVEIndustrial::Application.routes.draw do
       get 'check_central_ids'
     end
     member do
-      get  'add_yields'
-      post 'add_yields'
+      get  'edit_yields'
+      post 'edit_yields'
     end
   end
   
@@ -56,8 +56,8 @@ EVEIndustrial::Application.routes.draw do
       get 'check_central_ids'
     end
     member do
-      get  'add_yields'
-      post 'add_yields'
+      get  'edit_yields'
+      post 'edit_yields'
     end
   end
 end

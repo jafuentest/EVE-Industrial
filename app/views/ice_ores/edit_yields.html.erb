@@ -1,5 +1,5 @@
 ﻿<h1><%= @ore.name %></h1>
-<%= form_tag add_yields_ice_ore_path(@ore), class: 'form-horizontal' do %>
+<%= form_tag edit_yields_ice_ore_path(@ore), class: 'form-horizontal' do %>
   <% @products.each do |product| %>
     <div class="form-group">
       <%= label_tag product.name, nil, class: 'control-label col-sm-2' %>

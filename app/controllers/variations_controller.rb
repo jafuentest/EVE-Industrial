@@ -14,7 +14,7 @@ class VariationsController < ApplicationController
     end
   end
   
-  def add_yields
+  def edit_yields
     @variation = Variation.find(params[:id])
     @minerals = Mineral.all
     @yields = @variation.yields

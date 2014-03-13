@@ -23,7 +23,7 @@
           </td>
         <% end %>
         <% if @can_edit %>
-          <td class="edit-field"><%= link_to image_tag('/edit.png', :alt => 'Edit'), add_yields_variation_path(variation) %></td>
+          <td class="edit-field"><%= link_to image_tag('/edit.png', :alt => 'Edit'), edit_yields_variation_path(variation) %></td>
         <% end %>
       </tr>
     <% end %>

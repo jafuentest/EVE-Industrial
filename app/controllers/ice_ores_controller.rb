@@ -16,7 +16,7 @@ class IceOresController < ApplicationController
   
   # GET /ice_ores/1/add_yields
   # POST /ice_ores/1/add_yields
-  def add_yields
+  def edit_yields
     @ore = IceOre.find(params[:id])
     @products = IceProduct.all
     @yields = @ore.ice_yields
