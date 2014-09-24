@@ -20,9 +20,6 @@ gem 'curb', '>=0.8.5'
 # HTML, XML, SAX and Reader parser
 gem 'nokogiri', '>=1.6.1'
 
-# New Relic Heroku addon to prevent dyno from idling
-gem 'newrelic_rpm'
-
 group :development do
   # Automatically add model description to to the model.rb
   gem 'annotate', :github => 'ctran/annotate_models', :branch => 'develop'
