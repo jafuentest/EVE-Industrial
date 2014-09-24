@@ -44,11 +44,10 @@ class Variation < ActiveRecord::Base
   end
   
   def refining_yield(station_yield, skills, refinery_tax)
-    recycling_constant = 37.5
-    refining_factor = 1 + (skills[:refining_skill].to_i * 0.02)
-    efficiency_factor = 1 + (skills[:refinery_efficiency_skill].to_i * 0.04)
-    specialization_factor = 1 + (skills[ore.name].to_i * 0.05)
-    refining_yield = station_yield.to_f + recycling_constant * refining_factor * efficiency_factor * specialization_factor
+    refining_factor = 1 + (skills[:refining_skill].to_i * 0.03)
+    efficiency_factor = 1 + (skills[:refinery_efficiency_skill].to_i * 0.02)
+    specialization_factor = 1 + (skills[ore.name].to_i * 0.02)
+    refining_yield = station_yield.to_f * refining_factor * efficiency_factor * specialization_factor
     refining_yield = 100 if refining_yield > 100
     refining_yield *= (100 - refinery_tax.to_f) / 100
     refining_yield /= 100
