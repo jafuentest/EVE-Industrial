@@ -2,7 +2,7 @@ class PlanetaryCommodity < ActiveRecord::Base
   attr_accessible :central_id, :name, :quantity, :tier, :volume
   
   has_many :schematics, :foreign_key => :output_id
-  has_many :requirements, :through => :schematics, :source => :output
+  has_many :requirements, :through => :schematics, :source => :input
   
   def custom_office_tax (type, tax)
     tax /= 100.0

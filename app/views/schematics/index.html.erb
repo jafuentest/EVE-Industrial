@@ -11,7 +11,7 @@
   <tbody>
     <% @commodities.each do |commodity| %>
       <tr>
-        <td><%= commodity.name %></td>
+        <td><%= link_to commodity.name, commodity %></td>
         <td>
           <% commodity.requirements.each_with_index do |requirement, i| %>
             <% if i == commodity.requirements.size - 1 %>
