@@ -3,7 +3,62 @@ class SpreadsheetsController < ApplicationController
   
   skip_before_filter :is_admin
   
-  def planetary_interaction
+  def planetary_processing
+    if (params.has_key? :region) && !params[:region].empty?
+      items = PlanetaryCommodity.pluck :central_id
+      
+      # Get data from EVE-Central
+      if params[:system].empty?
+        prices = request_prices items, params[:region], :region
+      else
+        prices = request_prices items, params[:system], :system
+      end
+      
+      # Retrieve user specific data
+      taxes = { market: params[:market_tax].to_f, customs_office: params[:customs_office_tax].to_f }
+      processors = { }
+      processors[1] = params[:basic_processors].to_i
+      processors[2] = params[:advanced_processors].to_i
+      processors[3] = params[:advanced_processors].to_i
+      processors[4] = params[:high_tech_processors].to_i
+      
+      # Save in cookies
+      save_location_values
+      cookies[:basic_processors] = params[:basic_processors]
+      cookies[:advanced_processors] = params[:advanced_processors]
+      cookies[:high_tech_processors] = params[:high_tech_processors]
+      cookies[:market_tax] = params[:market_tax]
+      cookies[:customs_office_tax] = params[:customs_office_tax]
+      
+      @refined_commodities = []
+      PlanetaryCommodity.where(:tier => 2).each do |pc|
+        resource = { :name => pc.name, :id => pc.id, :t0 => {}, :t1 => {} }
+        resource[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], taxes, processors
+        resource[:t0][:return_on_investment] = pc.processing_revenue prices, taxes, 0
+        resource[:t1][:return_on_investment] = pc.processing_revenue prices, taxes, 1
+        @refined_commodities << resource
+      end
+      
+      @specialized_commodities = []
+      PlanetaryCommodity.where(:tier => 3).each do |pc|
+        resource = { :name => pc.name, :id => pc.id, :t0 => {}, :t1 => {}, :t2 => {} }
+        resource[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], taxes, processors
+        resource[:t0][:return_on_investment] = pc.processing_revenue prices, taxes, 0
+        resource[:t1][:return_on_investment] = pc.processing_revenue prices, taxes, 1
+        resource[:t2][:return_on_investment] = pc.processing_revenue prices, taxes, 2
+        @specialized_commodities << resource
+      end
+    end
+    
+    set_location_values
+    @basic_processors = cookies[:basic_processors]
+    @advanced_processors = cookies[:advanced_processors]
+    @high_tech_processors = cookies[:high_tech_processors]
+    @market_tax = cookies[:market_tax]
+    @customs_office_tax = cookies[:customs_office_tax]
+  end
+  
+  def planetary_extraction
     if (params.has_key? :region) && !params[:region].empty?
       items = PlanetaryCommodity.pluck :central_id
       
@@ -39,6 +94,7 @@ class SpreadsheetsController < ApplicationController
         material[:resource] = { :name => resource.name, :id => resource.id, :price => prices[:buy][resource.central_id] }
         @materials << material
       end
+      
       @commodities = []
       PlanetaryCommodity.where(:tier => 2).each do |pc|
         resource = { :name => pc.name, :id => pc.id }

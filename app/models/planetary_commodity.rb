@@ -28,12 +28,34 @@ class PlanetaryCommodity < ActiveRecord::Base
     end
   end
   
-  def processing_revenue(prices, taxes)
+  def inputs (desired_tier = -1)
+    if desired_tier == -1
+      desired_tier = tier - 1
+    end
+    
+    if desired_tier < tier
+      new_schematics = schematics
+      new_tier = tier - 1
+      while new_tier > desired_tier
+        aux_schematics = []          
+        new_schematics.each do |schematic|
+          aux_schematics.concat(schematic.input.schematics)
+        end
+        new_schematics = aux_schematics
+        new_tier -= 1
+      end
+      new_schematics
+    else
+      raise 'Invalid input tier'
+    end
+  end
+  
+  def processing_revenue (prices, taxes, base_tier = 0)
     market_tax = 1 - (taxes[:market] / 100.0)
     revenue = (prices[:buy][central_id] * market_tax - custom_office_tax(:export, taxes[:customs_office])) * quantity
     cost = 0
     insufficient_sell_orders = false
-    schematics.each do |schematic|
+    inputs(base_tier).each do |schematic|
       price = prices[:sell][schematic.input.central_id]
       if price == 0
         insufficient_sell_orders = true
@@ -49,9 +71,9 @@ class PlanetaryCommodity < ActiveRecord::Base
     end
   end
   
-  def hour_revenue(price, taxes, processors)
+  def hour_revenue (price, taxes, processors)
     market_tax = 1 - taxes[:market] / 100.0
     hourly_production = tier == 1 ? quantity * 2 : quantity
     ((price * market_tax) - (custom_office_tax(:export, taxes[:customs_office]))) * quantity * processors[tier]
-  end
+  end  
 end

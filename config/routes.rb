@@ -8,7 +8,9 @@ EVEIndustrial::Application.routes.draw do
   
   match 'spreadsheets/ice_mining' => 'spreadsheets#ice_mining', via: [:get, :post]
   match 'spreadsheets/ore_mining' => 'spreadsheets#ore_mining', via: [:get, :post]
-  match 'spreadsheets/planetary_interaction' => 'spreadsheets#planetary_interaction', via: [:get, :post]
+  match 'spreadsheets/planetary_interaction' => 'spreadsheets#planetary_extraction', via: [:get, :post]
+  match 'spreadsheets/planetary_extraction' => 'spreadsheets#planetary_extraction', via: [:get, :post]
+  match 'spreadsheets/planetary_processing' => 'spreadsheets#planetary_processing', via: [:get, :post]
   match 'spreadsheets/refining' => 'spreadsheets#refining', via: [:get, :post]
   
   resources :users

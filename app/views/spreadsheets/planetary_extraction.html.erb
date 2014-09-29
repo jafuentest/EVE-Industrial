@@ -1,0 +1,91 @@
+<h1>Planetary Extraction Spreadsheet</h1>
+<% unless @materials.nil? %>
+<div class="sub">
+  <table class="tablesorter table table-bordered table-striped">
+    <thead class="pointer-cursor">
+      <tr>
+        <th>Processed<br/>Material</th>
+        <th>Hourly<br/>Revenue</th>
+        <th>Resource</th>
+        <th>Unit<br/>Price</th>
+        <th>Return on<br/>Investment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @materials.each do |material| %>
+        <tr>
+          <td><%= link_to material[:name], planetary_commodity_path(material[:id]) %></td>
+          <td><%= '%d' % material[:revenue] %></td>
+          <td><%= link_to material[:resource][:name], planetary_commodity_path(material[:resource][:id]) %></td>
+          <td><%= '%.2f' % material[:resource][:price] %></td>
+          <% revenue = material[:inversion_return] %>
+          <td <%= 'class="text-warning"'.html_safe if (revenue < 0) %>><%= revenue == 0 ? ' - ' : '%.2f %' % revenue %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub">
+  <table class="tablesorter table table-bordered table-striped">
+    <thead class="pointer-cursor">
+      <tr>
+        <th>Processed<br/>Material</th>
+        <th>Hourly<br/>Revenues</th>
+        <th>Return on<br/>Investment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @commodities.each do |commoditiy| %>
+        <tr>
+          <td><%= link_to commoditiy[:name], planetary_commodity_path(commoditiy[:id]) %></td>
+          <td><%= '%d' % commoditiy[:revenue] %></td>
+          <% revenue = commoditiy[:inversion_return] %>
+          <td <%= 'class="text-warning"'.html_safe if (revenue < 0) %>><%= revenue == 0 ? ' - ' : '%.2f %' % revenue %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% end %>
+
+<div class="sub">
+  <h2>Parameters</h2>
+  <%= form_tag spreadsheets_planetary_extraction_path do %>
+    <div class="form-group">
+      <%= label_tag  :region %>
+      <%= select_tag :region, options_from_collection_for_select(@regions, :id, :name, @region), :prompt => 'Select Region', :onchange => 'updateSystems()', class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= label_tag    :system %>
+      <% if @systems.nil? %>
+        <%= select_tag :system, nil, :prompt => '-', class: 'form-control' %>
+      <% else %>
+        <%= select_tag :system, options_from_collection_for_select(@systems, :id, :name, @system), :prompt => 'Whole Region', class: 'form-control' %>
+      <% end %>
+    </div>
+    <div class="form-group">
+      <%= label_tag  :basic_processors %>
+      <%= select_tag :basic_processors, options_for_select(['0','1','2','3','4','5','6','7','8','9','10'], @basic_processors), class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= label_tag  :advanced_processors %>
+      <%= select_tag :advanced_processors, options_for_select(['0','1','2','3','4','5','6','7','8','9','10'], @advanced_processors), class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= label_tag  :high_tech_processors %>
+      <%= select_tag :high_tech_processors, options_for_select(['0','1','2','3','4','5','6','7','8','9','10'], @high_tech_processors), class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= label_tag  :market_tax %>
+      <%= text_field_tag :market_tax, @market_tax, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= label_tag  :customs_office_tax %>
+      <%= text_field_tag :customs_office_tax, @customs_office_tax, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= submit_tag 'Calculate', class: 'btn btn-default full-width' %>
+    </div>
+  <% end %>
+</div>
