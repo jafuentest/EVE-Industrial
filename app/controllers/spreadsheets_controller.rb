@@ -33,19 +33,17 @@ class SpreadsheetsController < ApplicationController
       @refined_commodities = []
       PlanetaryCommodity.where(:tier => 2).each do |pc|
         resource = { :name => pc.name, :id => pc.id, :t0 => {}, :t1 => {} }
-        resource[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], taxes, processors
-        resource[:t0][:return_on_investment] = pc.processing_revenue prices, taxes, 0
-        resource[:t1][:return_on_investment] = pc.processing_revenue prices, taxes, 1
+        resource[:t0] = pc.processing_revenue prices, taxes, processors, 0
+        resource[:t1] = pc.processing_revenue prices, taxes, processors, 1
         @refined_commodities << resource
       end
       
       @specialized_commodities = []
       PlanetaryCommodity.where(:tier => 3).each do |pc|
         resource = { :name => pc.name, :id => pc.id, :t0 => {}, :t1 => {}, :t2 => {} }
-        resource[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], taxes, processors
-        resource[:t0][:return_on_investment] = pc.processing_revenue prices, taxes, 0
-        resource[:t1][:return_on_investment] = pc.processing_revenue prices, taxes, 1
-        resource[:t2][:return_on_investment] = pc.processing_revenue prices, taxes, 2
+        resource[:t0] = pc.processing_revenue prices, taxes, processors, 0
+        resource[:t1] = pc.processing_revenue prices, taxes, processors, 1
+        resource[:t2] = pc.processing_revenue prices, taxes, processors, 2
         @specialized_commodities << resource
       end
     end
@@ -160,7 +158,7 @@ class SpreadsheetsController < ApplicationController
           refining_results = var.martket_refining prices, station_yield, skills, taxes
           variation[:price] = prices[:sell][var.central_id]
           variation[:efficiency] = refining_results[:efficiency]
-          variation[:return_on_investment] = refining_results[:return_on_investment]
+          variation = refining_results
           @variations << variation
         end
       end

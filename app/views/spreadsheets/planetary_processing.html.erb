@@ -5,20 +5,24 @@
     <thead class="pointer-cursor">
       <tr>
         <th>Refined<br/>Commodity</th>
+        <th>RoI on R0</th>
         <th>Hourly<br/>Revenue</th>
-        <th>RoI on Raw<br/>Materials</th>
-        <th>RoI on Processed<br/>Materials</th>
+        <th>RoI on P1</th>
+        <th>Hourly<br/>Revenue</th>
       </tr>
     </thead>
     <tbody>
       <% @refined_commodities.each do |commodity| %>
         <tr>
           <td><%= link_to commodity[:name], planetary_commodity_path(commodity[:id]) %></td>
-          <td><%= '%d' % commodity[:revenue] %></td>
-          <% t0_roi = commodity[:t0][:return_on_investment] %>
-          <td <%= 'class="text-warning"'.html_safe if (t0_roi < 0) %>><%= t0_roi == 0 ? ' - ' : '%.2f %' % t0_roi %></td>
-          <% t1_roi = commodity[:t1][:return_on_investment] %>
-          <td <%= 'class="text-warning"'.html_safe if (t1_roi < 0) %>><%= t1_roi == 0 ? ' - ' : '%.2f %' % t1_roi %></td>
+          <% t0_roi = commodity[:t0][:roi] %>
+          <td <%= "class=\"text-warning\"".html_safe if (t0_roi < 0) %>><%= t0_roi == 0 ? " - " : "%.2f %" % t0_roi %></td>
+          <% t0_rev = commodity[:t0][:revenue] %>
+          <td <%= "class=\"text-warning\"".html_safe if (t0_rev < 0) %>><%= t0_rev == 0 ? " - " : "%d" % t0_rev %></td>
+          <% t1_roi = commodity[:t1][:roi] %>
+          <td <%= "class=\"text-warning\"".html_safe if (t1_roi < 0) %>><%= t1_roi == 0 ? " - " : "%.2f %" % t1_roi %></td>
+          <% t1_rev = commodity[:t1][:revenue] %>
+          <td <%= "class=\"text-warning\"".html_safe if (t1_rev < 0) %>><%= t1_rev == 0 ? " - " : "%d" % t1_rev %></td>
         </tr>
       <% end %>
     </tbody>
@@ -30,23 +34,30 @@
     <thead class="pointer-cursor">
       <tr>
         <th>Specialized<br/>Commodity</th>
+        <th>RoI on R0</th>
         <th>Hourly<br/>Revenue</th>
-        <th>RoI on Raw<br/>Materials</th>
-        <th>RoI on Processed<br/>Materials</th>
-        <th>RoI on Refined<br/>Commodities</th>
+        <th>RoI on P1</th>
+        <th>Hourly<br/>Revenue</th>
+        <th>RoI on P2</th>
+        <th>Hourly<br/>Revenue</th>
       </tr>
     </thead>
     <tbody>
       <% @specialized_commodities.each do |commodity| %>
         <tr>
           <td><%= link_to commodity[:name], planetary_commodity_path(commodity[:id]) %></td>
-          <td><%= '%d' % commodity[:revenue] %></td>
-          <% t0_roi = commodity[:t0][:return_on_investment] %>
-          <td <%= 'class="text-warning"'.html_safe if (t0_roi < 0) %>><%= t0_roi == 0 ? ' - ' : '%.2f %' % t0_roi %></td>
-          <% t1_roi = commodity[:t1][:return_on_investment] %>
-          <td <%= 'class="text-warning"'.html_safe if (t1_roi < 0) %>><%= t1_roi == 0 ? ' - ' : '%.2f %' % t1_roi %></td>
-          <% t2_roi = commodity[:t2][:return_on_investment] %>
-          <td <%= 'class="text-warning"'.html_safe if (t2_roi < 0) %>><%= t2_roi == 0 ? ' - ' : '%.2f %' % t2_roi %></td>
+          <% t0_roi = commodity[:t0][:roi] %>
+          <td <%= "class=\"text-warning\"".html_safe if (t0_roi < 0) %>><%= t0_roi == 0 ? " - " : "%.2f %" % t0_roi %></td>
+          <% t0_rev = commodity[:t0][:revenue] %>
+          <td <%= "class=\"text-warning\"".html_safe if (t0_rev < 0) %>><%= t0_rev == 0 ? " - " : "%d" % t0_rev %></td>
+          <% t1_roi = commodity[:t1][:roi] %>
+          <td <%= "class=\"text-warning\"".html_safe if (t1_roi < 0) %>><%= t1_roi == 0 ? " - " : "%.2f %" % t1_roi %></td>
+          <% t1_rev = commodity[:t1][:revenue] %>
+          <td <%= "class=\"text-warning\"".html_safe if (t1_rev < 0) %>><%= t1_rev == 0 ? " - " : "%d" % t1_rev %></td>
+          <% t2_roi = commodity[:t2][:roi] %>
+          <td <%= "class=\"text-warning\"".html_safe if (t2_roi < 0) %>><%= t2_roi == 0 ? " - " : "%.2f %" % t2_roi %></td>
+          <% t2_rev = commodity[:t2][:revenue] %>
+          <td <%= "class=\"text-warning\"".html_safe if (t2_rev < 0) %>><%= t2_rev == 0 ? " - " : "%d" % t2_rev %></td>
         </tr>
       <% end %>
     </tbody>
@@ -59,38 +70,38 @@
   <%= form_tag spreadsheets_planetary_processing_path do %>
     <div class="form-group">
       <%= label_tag  :region %>
-      <%= select_tag :region, options_from_collection_for_select(@regions, :id, :name, @region), :prompt => 'Select Region', :onchange => 'updateSystems()', class: 'form-control' %>
+      <%= select_tag :region, options_from_collection_for_select(@regions, :id, :name, @region), :prompt => "Select Region", :onchange => "updateSystems()", class: "form-control" %>
     </div>
     <div class="form-group">
       <%= label_tag    :system %>
       <% if @systems.nil? %>
-        <%= select_tag :system, nil, :prompt => '-', class: 'form-control' %>
+        <%= select_tag :system, nil, :prompt => "-", class: "form-control" %>
       <% else %>
-        <%= select_tag :system, options_from_collection_for_select(@systems, :id, :name, @system), :prompt => 'Whole Region', class: 'form-control' %>
+        <%= select_tag :system, options_from_collection_for_select(@systems, :id, :name, @system), :prompt => "Whole Region", class: "form-control" %>
       <% end %>
     </div>
     <div class="form-group">
       <%= label_tag  :basic_processors %>
-      <%= select_tag :basic_processors, options_for_select(['0','1','2','3','4','5','6','7','8','9','10'], @basic_processors), class: 'form-control' %>
+      <%= select_tag :basic_processors, options_for_select(["0","1","2","3","4","5","6","7","8","9","10"], @basic_processors), class: "form-control" %>
     </div>
     <div class="form-group">
       <%= label_tag  :advanced_processors %>
-      <%= select_tag :advanced_processors, options_for_select(['0','1','2','3','4','5','6','7','8','9','10'], @advanced_processors), class: 'form-control' %>
+      <%= select_tag :advanced_processors, options_for_select(["0","1","2","3","4","5","6","7","8","9","10"], @advanced_processors), class: "form-control" %>
     </div>
     <div class="form-group">
       <%= label_tag  :high_tech_processors %>
-      <%= select_tag :high_tech_processors, options_for_select(['0','1','2','3','4','5','6','7','8','9','10'], @high_tech_processors), class: 'form-control' %>
+      <%= select_tag :high_tech_processors, options_for_select(["0","1","2","3","4","5","6","7","8","9","10"], @high_tech_processors), class: "form-control" %>
     </div>
     <div class="form-group">
       <%= label_tag  :market_tax %>
-      <%= text_field_tag :market_tax, @market_tax, class: 'form-control' %>
+      <%= text_field_tag :market_tax, @market_tax, class: "form-control" %>
     </div>
     <div class="form-group">
       <%= label_tag  :customs_office_tax %>
-      <%= text_field_tag :customs_office_tax, @customs_office_tax, class: 'form-control' %>
+      <%= text_field_tag :customs_office_tax, @customs_office_tax, class: "form-control" %>
     </div>
     <div class="form-group">
-      <%= submit_tag 'Calculate', class: 'btn btn-default full-width' %>
+      <%= submit_tag "Calculate", class: "btn btn-default full-width" %>
     </div>
   <% end %>
 </div>

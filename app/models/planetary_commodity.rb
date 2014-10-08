@@ -50,9 +50,8 @@ class PlanetaryCommodity < ActiveRecord::Base
     end
   end
   
-  def processing_revenue (prices, taxes, base_tier = 0)
+  def processing_cost (prices, taxes, base_tier)
     market_tax = 1 - (taxes[:market] / 100.0)
-    revenue = (prices[:buy][central_id] * market_tax - custom_office_tax(:export, taxes[:customs_office])) * quantity
     cost = 0
     insufficient_sell_orders = false
     inputs(base_tier).each do |schematic|
@@ -67,7 +66,19 @@ class PlanetaryCommodity < ActiveRecord::Base
     if insufficient_sell_orders
       0
     else
-      ((revenue - cost) / cost) * 100
+      cost
+    end
+  end
+  
+  def processing_revenue (prices, taxes, processors, base_tier = 0)
+    market_tax = 1 - (taxes[:market] / 100.0)
+    revenue = (prices[:buy][central_id] * market_tax - custom_office_tax(:export, taxes[:customs_office])) * quantity
+    cost = processing_cost(prices, taxes, base_tier)
+    hourly_production = tier == 1 ? 2 : 1
+    if cost == 0
+      { :revenue => 0, :roi => 0 }
+    else
+      { :revenue => (hourly_production * revenue) - cost, :roi => ((revenue - cost) / cost) * 100 }
     end
   end
   
