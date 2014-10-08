@@ -70,6 +70,13 @@ class PlanetaryCommodity < ActiveRecord::Base
     end
   end
   
+  def extracting_revenue (prices, taxes, processors)
+    market_tax = 1 - (taxes[:market] / 100.0)
+    revenue = (prices[:buy][central_id] * market_tax - custom_office_tax(:export, taxes[:customs_office])) * quantity
+    hourly_production = tier == 1 ? 2 : 1
+    revenue * hourly_production
+  end
+  
   def processing_revenue (prices, taxes, processors, base_tier = 0)
     market_tax = 1 - (taxes[:market] / 100.0)
     revenue = (prices[:buy][central_id] * market_tax - custom_office_tax(:export, taxes[:customs_office])) * quantity

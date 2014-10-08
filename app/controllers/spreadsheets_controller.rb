@@ -86,18 +86,18 @@ class SpreadsheetsController < ApplicationController
       @materials = []
       PlanetaryCommodity.where(:tier => 1).each do |pc|
         material = { :name => pc.name, :id => pc.id }
-        material[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], taxes, processors
-        material[:inversion_return] = pc.processing_revenue prices, taxes
-        resource = pc.schematics[0].input
-        material[:resource] = { :name => resource.name, :id => resource.id, :price => prices[:buy][resource.central_id] }
+        material[:resource] = { :name => pc.schematics[0].name, :id => pc.schematics[0].id }
+        material[:revenue] = pc.extracting_revenue prices, taxes, processors
+        material[:price] = prices[:buy][pc.central_id]
         @materials << material
       end
       
       @commodities = []
       PlanetaryCommodity.where(:tier => 2).each do |pc|
         resource = { :name => pc.name, :id => pc.id }
-        resource[:revenue] = pc.hour_revenue prices[:buy][pc.central_id], taxes, processors
-        resource[:inversion_return] = pc.processing_revenue prices, taxes
+        material[:resources] = pc.requirements
+        resource[:revenue] = pc.extracting_revenue prices, taxes, processors
+        resource[:price] = prices[:buy][pc.central_id]
         @commodities << resource
       end
     end
