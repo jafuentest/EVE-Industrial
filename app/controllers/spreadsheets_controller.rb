@@ -158,7 +158,7 @@ class SpreadsheetsController < ApplicationController
           refining_results = var.martket_refining prices, station_yield, skills, taxes
           variation[:price] = prices[:sell][var.central_id]
           variation[:efficiency] = refining_results[:efficiency]
-          variation = refining_results
+          variation[:return_on_investment] = refining_results[:return_on_investment]
           @variations << variation
         end
       end
