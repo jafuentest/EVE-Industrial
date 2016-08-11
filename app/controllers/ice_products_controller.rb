@@ -4,7 +4,7 @@ class IceProductsController < ApplicationController
   # GET /ice_products/check_central_ids
   def check_central_ids
     @results = []
-    ice_products = IceProduct.all.each do |ice_product|
+    IceProduct.all.each do |ice_product|
       request = 'http://api.eve-central.com/api/quicklook?typeid=%s' % [ice_product.central_id]
       xml = Curl.get(request).body_str
       xml_doc  = Nokogiri::XML(xml)
