@@ -12,12 +12,14 @@
 class PlanetaryCommodity < ApplicationRecord
   include CSVImportable
 
-  def hash_from_csv_row
+  self.primary_key = :id
+
+  def self.hash_from_csv_row(row)
     {
       id: row['ID'],
       name: row['Name'],
       tier: row['Tier'],
-      volume: row['volume'],
+      volume: row['Volume'],
       batch_size: row['Batch Size']
     }
   end
