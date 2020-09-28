@@ -10,4 +10,15 @@
 #  input      :text
 #
 class PlanetaryCommodity < ApplicationRecord
+  include CSVImportable
+
+  def hash_from_csv_row
+    {
+      id: row['ID'],
+      name: row['Name'],
+      tier: row['Tier'],
+      volume: row['volume'],
+      batch_size: row['Batch Size']
+    }
+  end
 end
