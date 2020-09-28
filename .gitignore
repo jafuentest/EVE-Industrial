@@ -36,3 +36,7 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# Sublime project files
+/eve-industrial.sublime-project
+/eve-industrial.sublime-workspace
