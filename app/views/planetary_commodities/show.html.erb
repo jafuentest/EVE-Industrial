@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @planetary_commodity.name %>
+</p>
+
+<p>
+  <strong>Batch size:</strong>
+  <%= @planetary_commodity.batch_size %>
+</p>
+
+<p>
+  <strong>Tier:</strong>
+  <%= @planetary_commodity.tier %>
+</p>
+
+<p>
+  <strong>Volume:</strong>
+  <%= @planetary_commodity.volume %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @planetary_commodity.price %>
+</p>
+
+<p>
+  <strong>Input:</strong>
+  <%= @planetary_commodity.input %>
+</p>
+
+<%= link_to 'Edit', edit_planetary_commodity_path(@planetary_commodity) %> |
+<%= link_to 'Back', planetary_commodities_path %>
