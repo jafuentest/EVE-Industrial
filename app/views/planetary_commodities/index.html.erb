@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Planetary Commodities</h1>
+
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Batch size</th>
+      <th>Tier</th>
+      <th>Volume</th>
+      <th>Input</th>
+    </tr>
+  </thead>
+
+  <tbody class="table-hover">
+    <% @planetary_commodities.each do |planetary_commodity| %>
+      <tr>
+        <td><%= link_to planetary_commodity.name, planetary_commodity %></td>
+        <td><%= planetary_commodity.batch_size %></td>
+        <td><%= planetary_commodity.tier %></td>
+        <td><%= planetary_commodity.volume %></td>
+        <td><%= planetary_commodity.input %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
