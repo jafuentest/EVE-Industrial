@@ -3,6 +3,10 @@ class PlanetaryCommoditiesController < ApplicationController
   # GET /planetary_commodities.json
   def index
     @planetary_commodities = PlanetaryCommodity.all
+      .select('id, name, tier, volume, buy_price, sell_price, input')
+      .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
+      .where('items_prices.star_id = 30000142')
+      .order(buy_price: 'desc')
   end
 
   # GET /planetary_commodities/1

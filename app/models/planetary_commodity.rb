@@ -15,6 +15,8 @@ class PlanetaryCommodity < ApplicationRecord
 
   self.primary_key = :id
 
+  has_many :items_prices, as: :item
+
   def self.hash_from_csv_row(row)
     {
       id: row['ID'],

@@ -6,9 +6,10 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Batch size</th>
       <th>Tier</th>
       <th>Volume</th>
+      <th>Buy Price</th>
+      <th>Sell Price</th>
       <th>Input</th>
     </tr>
   </thead>
@@ -17,9 +18,10 @@
     <% @planetary_commodities.each do |planetary_commodity| %>
       <tr>
         <td><%= link_to planetary_commodity.name, planetary_commodity %></td>
-        <td><%= planetary_commodity.batch_size %></td>
         <td><%= planetary_commodity.tier %></td>
         <td><%= planetary_commodity.volume %></td>
+        <td><%= planetary_commodity['buy_price'] %></td>
+        <td><%= planetary_commodity['sell_price'] %></td>
         <td><%= planetary_commodity.input %></td>
       </tr>
     <% end %>

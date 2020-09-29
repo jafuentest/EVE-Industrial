@@ -13,7 +13,7 @@ class ItemsPrices < ApplicationRecord
   belongs_to :star
 
   def save!
-    return super if persisted?
+    return super unless persisted?
 
     self.class.where(star_id: star_id, item_id: item_id).update_all(
       buy_price: buy_price,
