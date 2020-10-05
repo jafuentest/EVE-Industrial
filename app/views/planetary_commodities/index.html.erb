@@ -22,8 +22,8 @@
         <td><%= link_to planetary_commodity.name, planetary_commodity %></td>
         <td><%= planetary_commodity.tier %></td>
         <td><%= planetary_commodity.volume %></td>
-        <td><%= planetary_commodity['buy_price'] %></td>
-        <td><%= planetary_commodity['sell_price'] %></td>
+        <td><%= number_with_delimiter(planetary_commodity[:buy_price]) %></td>
+        <td><%= number_with_delimiter(planetary_commodity[:sell_price]) %></td>
         <td><%= planetary_commodity.input %></td>
       </tr>
     <% end %>
