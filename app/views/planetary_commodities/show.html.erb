@@ -7,7 +7,8 @@
       <h4 class="my-0 font-weight-normal"><%= @planetary_commodity.name %></h4>
     </div>
     <div class="card-body">
-      <h1 class="card-title pricing-card-title">0 ISK <small class="text-muted">(Jita)</small></h1>
+      <h1 class="card-title pricing-card-title"><%= @planetary_commodity[:buy_price] %> <small class="text-muted">(Buy)</small></h1>
+      <h1 class="card-title pricing-card-title"><%= @planetary_commodity[:sell_price] %> <small class="text-muted">(Sell)</small></h1>
       <div class="row">
         <div class="col text-right">
           <strong>Batch Size</strong>
@@ -42,7 +43,7 @@
           </div>
         </div>
       <% end %>
-      <%= link_to 'Back to List', planetary_commodities_path, class: 'btn btn-lg btn-block btn-outline-primary' %>
+      <%= link_to 'Back to List', planetary_commodities_path, class: 'btn btn-lg btn-block btn-outline-primary mt-2' %>
     </div>
   </div>
   </div>
