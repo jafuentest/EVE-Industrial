@@ -13,7 +13,7 @@ module MarketeerAPI
     private
 
     def request_uri(items, star_id)
-      url = "#{BASE_URL}?typeid=#{items.join(',')}&use_system=#{star_id}"
+      url = "#{BASE_URL}?typeid=#{items.join(',')}&usesystem=#{star_id}"
       URI(url)
     end
   end
