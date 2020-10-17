@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_29_004724) do
+ActiveRecord::Schema.define(version: 2020_10_13_045710) do
 
   create_table "items_prices", id: false, force: :cascade do |t|
     t.integer "star_id", null: false
@@ -39,6 +39,32 @@ ActiveRecord::Schema.define(version: 2020_09_29_004724) do
     t.integer "constellation_id", null: false
     t.integer "region_id", null: false
     t.index ["id"], name: "index_stars_on_id", unique: true
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "esi_refresh_token"
+    t.string "esi_auth_token"
+    t.datetime "esi_expires_on"
+    t.bigint "character_id"
+    t.string "character_name"
+    t.string "scopes"
+    t.string "token_type"
+    t.string "owner_hash"
+    t.string "email"
+    t.string "encrypted_password"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["esi_refresh_token"], name: "index_users_on_esi_refresh_token", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "items_prices", "stars"
