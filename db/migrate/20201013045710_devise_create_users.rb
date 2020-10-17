@@ -1,6 +1,16 @@
 class DeviseCreateUsers < ActiveRecord::Migration[6.0]
   def change
     create_table :users do |t|
+      t.string :esi_refresh_token
+      t.string :esi_auth_token
+      t.datetime :esi_expires_on
+
+      t.bigint :character_id
+      t.string :character_name
+      t.string :scopes
+      t.string :token_type
+      t.string :owner_hash
+
       # Database authenticatable
       t.string :email
       t.string :encrypted_password
@@ -22,6 +32,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       t.timestamps null: false
     end
 
+    add_index :users, :esi_refresh_token,    unique: true
     add_index :users, :email,                unique: true
     add_index :users, :reset_password_token, unique: true
     # add_index :users, :confirmation_token,   unique: true
