@@ -11,6 +11,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
       t.string :scopes
       t.string :token_type
       t.string :owner_hash
+      t.string :role
 
       # Database authenticatable
       t.string :email

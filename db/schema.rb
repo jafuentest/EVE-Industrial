@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_045710) do
     t.string "scopes"
     t.string "token_type"
     t.string "owner_hash"
+    t.string "role"
     t.string "email"
     t.string "encrypted_password"
     t.string "reset_password_token"
