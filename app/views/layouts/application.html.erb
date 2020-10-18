@@ -35,10 +35,10 @@
                 <li><%= button_to 'Logout', logout_path, method: :delete, class: 'dropdown-item' %></li>
               </ul>
             </div>
-          </div>
-        <% else %>
-          <%= esi_login_button %>
-        <% end %>
+          <% else %>
+            <%= esi_login_button %>
+          <% end %>
+        </div>
       </div>
     </nav>
     <main>
