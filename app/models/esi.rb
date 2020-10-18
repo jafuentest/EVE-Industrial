@@ -1,7 +1,10 @@
 class ESI
-  BASE_URL = 'https://login.eveonline.com'
-  OAUTH_URI = URI("#{BASE_URL}/v2/oauth/token")
-  VERIFY_URI = URI("#{BASE_URL}/oauth/verify")
+  AUTH_BASE_URL = 'https://login.eveonline.com'
+  OAUTH_URI = URI("#{AUTH_BASE_URL}/v2/oauth/token")
+  VERIFY_URI = URI("#{AUTH_BASE_URL}/oauth/verify")
+
+  ESI_BASE_URL = 'https://esi.evetech.net/latest'
+  PORTRAIT_URL =
 
   def self.authenticate(code, refresh: false)
     endpoint = refresh ? :refresh_token_request : :fetch_token_request
@@ -16,7 +19,7 @@ class ESI
     JSON.parse(res.body)
   end
 
-  def self.fetch_character_info(access_token)
+  def self.verify_access_token(access_token)
     req = Net::HTTP::Get.new(VERIFY_URI)
     req['Authorization'] = "Bearer #{access_token}"
 
@@ -25,6 +28,17 @@ class ESI
     end
 
     return nil unless res.is_a?(Net::HTTPOK)
+
+    JSON.parse(res.body)
+  end
+
+  def self.fetch_character_portrait(character_id)
+    uri = URI("#{ESI_BASE_URL}/characters/#{character_id}/portrait/")
+    req = Net::HTTP::Get.new(uri)
+
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
 
     JSON.parse(res.body)
   end
@@ -53,4 +67,3 @@ class ESI
     end
   end
 end
-161

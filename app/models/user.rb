@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   def self.find_or_register(code)
     auth_response = ESI.authenticate(code)
-    data = ESI.fetch_character_info(auth_response['access_token'])
+    data = ESI.verify_access_token(auth_response['access_token'])
 
     user = find_or_initialize_by(character_id: data['']).tap do |u|
       u.esi_auth_token = auth_response['access_token']

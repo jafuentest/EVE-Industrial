@@ -2,10 +2,11 @@ module ESIHelper
   ESI_URL = 'https://login.eveonline.com/v2/oauth/authorize'.freeze
   LOGIN_IMAGE_URL = 'https://web.ccpgamescdn.com/eveonlineassets/developers/eve-sso-login-white-small.png'.freeze
   DEFAULT_PARAMS = {
+    response_type: 'code',
     redirect_uri: Rails.application.routes.url_helpers.login_url,
     client_id: ENV['ESI_CLIENT_ID'],
     scope: 'esi-planets.manage_planets.v1 esi-planets.read_customs_offices.v1',
-    state: 'state'
+    state: Time.now.to_i
   }
 
   def esi_login_button
