@@ -7,6 +7,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.0]
 
       t.bigint :character_id
       t.string :character_name
+      t.string :character_portrait
       t.string :scopes
       t.string :token_type
       t.string :owner_hash

@@ -30,6 +30,14 @@ class User < ApplicationRecord
     self.esi_refresh_token = auth_response['refresh_token']
   end
 
+  def avatar
+    return character_portrait if character_portrait.present?
+
+    portraits = ESI.fetch_character_portrait(character_id)
+    update(character_portrait: portraits['px64x64'])
+    character_portrait
+  end
+
   protected
 
   def password_required?

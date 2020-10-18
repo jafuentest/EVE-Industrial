@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_045710) do
     t.datetime "esi_expires_on"
     t.bigint "character_id"
     t.string "character_name"
+    t.string "character_portrait"
     t.string "scopes"
     t.string "token_type"
     t.string "owner_hash"
