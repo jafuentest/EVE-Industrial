@@ -15,3 +15,14 @@
  */
 
 @import "bootstrap";
+
+main > .container {
+  padding-top: 56px;
+}
+
+.user-avatar {
+  margin-bottom: -8px;
+  margin-top: -8px;
+  max-height: 38px;
+  display: inline-block;
+}

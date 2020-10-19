@@ -12,8 +12,39 @@
   </head>
 
   <body>
-    <div class="container">
-      <%= yield %>
-    </div>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <%= link_to 'EVE-Industrial', root_path, class: 'navbar-brand' %>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_collapse" aria-controls="navbar_collapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar_collapse">
+          <ul class="navbar-nav mr-auto mb-2 mb-md-0">
+            <li class="nav-item active">
+              <%= link_to 'PI Price Table', planetary_commodities_path, class: 'nav-link' %>
+            </li>
+          </ul>
+          <% if signed_in? %>
+            <div class="btn-group navbar-nav">
+              <a class="nav-link" href="#" id="user_menu" data-toggle="dropdown" aria-expanded="false">
+                <%= current_user.character_name %>
+                <%= image_tag current_user.avatar, class: 'user-avatar' %>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="user_menu">
+                <li><%= button_to 'Logout', logout_path, method: :delete, class: 'dropdown-item' %></li>
+              </ul>
+            </div>
+          <% else %>
+            <%= esi_login_button %>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <div class="container">
+        <%= yield %>
+      </div>
+    </main>
   </body>
 </html>
