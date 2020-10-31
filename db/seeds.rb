@@ -46,7 +46,7 @@ PlanetaryCommodity.create(id: 2328, name: 'Water-Cooled CPU', tier: 2, volume: 0
 PlanetaryCommodity.create(id: 2329, name: 'Biocells', tier: 2, volume: 0.15e1, batch_size: 5, input: nil)
 PlanetaryCommodity.create(id: 2463, name: 'Nanites', tier: 2, volume: 0.15e1, batch_size: 5, input: nil)
 PlanetaryCommodity.create(id: 3689, name: 'Mechanical Parts', tier: 2, volume: 0.15e1, batch_size: 5, input: nil)
-PlanetaryCommodity.create(id: 3691, name: 'Synthetic Oil', tier: 9, volume: 0.15e1, batch_size: 5, input: nil)
+PlanetaryCommodity.create(id: 3691, name: 'Synthetic Oil', tier: 2, volume: 0.15e1, batch_size: 5, input: nil)
 PlanetaryCommodity.create(id: 3693, name: 'Fertilizer', tier: 2, volume: 0.15e1, batch_size: 5, input: nil)
 PlanetaryCommodity.create(id: 3695, name: 'Polytextiles', tier: 2, volume: 0.15e1, batch_size: 5, input: nil)
 PlanetaryCommodity.create(id: 3697, name: 'Silicate Glass', tier: 2, volume: 0.15e1, batch_size: 5, input: nil)

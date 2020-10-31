@@ -40,7 +40,7 @@ class PlanetaryCommodity < ApplicationRecord
     all.select(fields)
       .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
       .where("items_prices.star_id = #{system_id}")
-      .order(buy_price: 'asc')
+      .order(name: 'asc')
   end
 
   def self.with_price(id, system_id)
