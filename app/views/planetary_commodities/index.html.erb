@@ -7,7 +7,7 @@
 <table class="table table-striped table-bordered mt-4" data-toggle="table">
   <thead>
     <tr>
-      <th data-sortable="true">Name</th>
+      <th data-sortable="true" data-sorter="nameSorter">Name</th>
       <th data-sortable="true">Tier</th>
       <th data-sortable="true" data-sorter="priceSorter">ISK / Volume (buy)</th>
       <th data-sortable="true" data-sorter="priceSorter">ISK / Volume (sell)</th>
@@ -36,5 +36,9 @@
     var bb = parseFloat(b.replaceAll(',', ''))
 
     return aa - bb
+  }
+
+  function nameSorter(a, b) {
+    return a.replace(/\d+/,'').localeCompare(b.replace(/\d+/,''))
   }
 </script>
