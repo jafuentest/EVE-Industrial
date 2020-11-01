@@ -6,6 +6,7 @@
 import 'jquery'
 import 'popper.js'
 import 'bootstrap'
+import 'bootstrap-table'
 
 require("@rails/ujs").start()
 require("turbolinks").start()

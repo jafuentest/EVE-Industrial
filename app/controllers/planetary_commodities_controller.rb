@@ -2,21 +2,13 @@ class PlanetaryCommoditiesController < ApplicationController
   # GET /planetary_commodities
   # GET /planetary_commodities.json
   def index
-    @planetary_commodities = PlanetaryCommodity.all
-      .select('id, name, tier, volume, buy_price, sell_price, input')
-      .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
-      .where('items_prices.star_id = 30000142')
-      .order(buy_price: 'desc')
+    @planetary_commodities = PlanetaryCommodity.price_list(30000142)
   end
 
   # GET /planetary_commodities/1
   # GET /planetary_commodities/1.json
   def show
-    @planetary_commodity = PlanetaryCommodity.all
-      .select('name, buy_price, sell_price, batch_size, tier, volume, input')
-      .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
-      .where('items_prices.star_id = 30000142')
-      .where(id: params[:id]).first
+    @planetary_commodity = PlanetaryCommodity.with_price(params[:id], 30000142)
   end
 
   # POST /planetary_commodities/update_prices

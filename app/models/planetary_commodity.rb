@@ -33,6 +33,23 @@ class PlanetaryCommodity < ApplicationRecord
     end
   end
 
+  def self.price_list(system_id)
+    fields = 'id, name, tier, buy_price, sell_price, buy_price / volume AS buy_isk_per_volume, ' +
+             'sell_price / volume AS sell_isk_per_volume'
+
+    all.select(fields)
+      .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
+      .where("items_prices.star_id = #{system_id}")
+      .order(name: 'asc')
+  end
+
+  def self.with_price(id, system_id)
+    all.select('name, buy_price, sell_price, batch_size, tier, volume, input')
+      .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
+      .where("planetary_commodities.id = #{id} AND items_prices.star_id = #{system_id}")
+      .first
+  end
+
   private_class_method def self.update_star_prices(star_id)
     fetch_prices_for(star_id: star_id, items: pluck(:id)).each do |item|
       item_id = item['buy']['forQuery']['types'].first
