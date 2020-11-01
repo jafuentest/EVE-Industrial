@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Planetary Commodities</h1>
 
 <%= button_to 'Update Prices', update_prices_planetary_commodities_path, class: 'btn btn-lg btn-block btn-outline-primary mt-2' %>
@@ -30,15 +28,4 @@
   </tbody>
 </table>
 
-<script>
-  function priceSorter(a, b) {
-    var aa = parseFloat(a.replaceAll(',', ''))
-    var bb = parseFloat(b.replaceAll(',', ''))
-
-    return aa - bb
-  }
-
-  function nameSorter(a, b) {
-    return a.replace(/\d+/,'').localeCompare(b.replace(/\d+/,''))
-  }
-</script>
+<%= javascript_pack_tag 'table-sorting' %>
