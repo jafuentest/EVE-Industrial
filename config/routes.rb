@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   resources :planetary_commodities, only: %i[index show] do
     post :update_prices, on: :collection
+    get :my, on: :collection
   end
 
   scope '', controller: :pages do
