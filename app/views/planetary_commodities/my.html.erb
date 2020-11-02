@@ -1,4 +1,57 @@
-<% @planets.each do |planet| %>
- <p><%= planet %></p>
+<div class="row text-center">
+  <% @planets.each do |planet| %>
+    <div class="col-md-6 col-lg-4">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h3 class="my-0 font-weight-normal"><%= planet['planet_type'].capitalize %> planet</h3>
+        </div>
+        <div class="card-body">
+          <h4>Planet ID: <%= planet['planet_id'] %></h4>
+          <h4>System ID: <%= planet['solar_system_id'] %></h4>
+          <h4>Command Center: Level <%= planet['upgrade_level'] %></h4>
+          <% planet['pins'].each do |pin| %>
+            <div class="row">
+              <div class="col text-right">
+                <strong><%= pin['extractor_details']['product_type_id'] %></strong>
+              </div>
+              <div class="col text-left">
+                <%= pin['expiry_time'] %>
+              </div>
+            </div>
+          <% end %>
+          <%= link_to 'Back to List', planetary_commodities_path, class: 'btn btn-lg btn-block btn-outline-primary mt-2' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
 
-<% end %>
+"extractor_details" => {
+  "cycle_time"=>3600,
+  "head_radius"=>0.01808914728462696,
+  "heads"=> [
+    {
+      "head_id"=>0,
+      "latitude"=>1.0214653015136719,
+      "longitude"=>0.2386624664068222
+    },
+    {
+      "head_id"=>1,
+      "latitude"=>1.0760442018508911,
+      "longitude"=>6.0926947593688965
+    },
+    {
+      "head_id"=>2,
+      "latitude"=>1.043302059173584,
+      "longitude"=>6.0743794441223145
+    },
+    {
+      "head_id"=>3,
+      "latitude"=>1.073689579963684,
+      "longitude"=>6.051633834838867
+    }
+  ],
+  "product_type_id"=>2307,
+  "qty_per_cycle"=>6435
+}
+helper.time_ago_in_words(Time.parse('2020-11-01T05:31:36Z')
