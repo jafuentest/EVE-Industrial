@@ -53,13 +53,11 @@ class ESI
       http.request(req)
     end
 
-    fetch_planets_details(user, JSON.parse(res.body))
+    JSON.parse(res.body)
   end
 
-  private_class_method def self.fetch_planets_details(user, planets)
-    # debugger
+  def self.fetch_planets_details(user, planets)
     planets.map do |planet|
-      # debugger
       planet.merge(fetch_planet_details(user, planet['planet_id']))
     end
   end

@@ -13,9 +13,25 @@ class PlanetaryCommodity < ApplicationRecord
   include CSVImportable
   include MarketeerAPI
 
+  PLANET_DETAILS_KEYS = %w(last_update planet_id planet_type solar_system_id upgrade_level)
+  PIN_DETAILS_KEYS = %w(expiry_time extractor_details)
+
   self.primary_key = :id
 
   has_many :items_prices, as: :item, class_name: 'ItemsPrices'
+
+  def self.character_colonies(user)
+    planet_list = ESI.fetch_character_planets(user)
+    planets = ESI.fetch_planets_details(user, planet_list)
+
+    planets.map do |planet|
+      filtered_planet = planet.slice(*PLANET_DETAILS_KEYS)
+      filtered_planet['pins'] = planet['pins'].reduce([]) do |pins, pin|
+        pin.key?('extractor_details') ? pins << extractor_details(pin) : pins
+      end
+      filtered_planet
+    end
+  end
 
   def self.hash_from_csv_row(row)
     {
@@ -48,6 +64,14 @@ class PlanetaryCommodity < ApplicationRecord
       .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
       .where("planetary_commodities.id = #{id} AND items_prices.star_id = #{system_id}")
       .first
+  end
+
+  private_class_method def self.extractor_details(pin)
+    details = pin['extractor_details'].slice('cycle_time', 'product_type_id', 'qty_per_cycle')
+    {
+      'expiry_time' => pin['expiry_time'],
+      'extractor_details' => details
+    }
   end
 
   private_class_method def self.update_star_prices(star_id)

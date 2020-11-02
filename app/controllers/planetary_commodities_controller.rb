@@ -14,7 +14,7 @@ class PlanetaryCommoditiesController < ApplicationController
   def my
     return redirect_to esi_login_url(redirect_uri: my_planetary_commodities_url) unless signed_in?
 
-    @planets = ESI.fetch_character_planets(current_user)
+    @planets = PlanetaryCommodity.character_colonies(current_user)
   end
 
   # POST /planetary_commodities/update_prices
