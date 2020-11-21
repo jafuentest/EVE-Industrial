@@ -12,7 +12,7 @@ class PlanetaryCommoditiesController < ApplicationController
   end
 
   def my
-    return redirect_to esi_login_url(redirect_uri: my_planetary_commodities_url) unless signed_in?
+    return redirect_to helpers.esi_login_url unless signed_in?
 
     @planets = PlanetaryCommodity.character_colonies(current_user)
   end
