@@ -3,16 +3,17 @@
     <div class="col-md-6 col-lg-4">
       <div class="card mb-4 shadow-sm">
         <div class="card-header">
-          <h3 class="my-0 font-weight-normal"><%= planet['planet_type'].capitalize %> planet</h3>
+          <% planet_id = planet['planet_id'] %>
+          <h3 class="my-0 font-weight-normal" data-esi-type="planet" data-esi-id="<%= planet_id %>"><%= planet_id %></h3>
         </div>
         <div class="card-body">
-          <h4>Planet ID: <%= planet['planet_id'] %></h4>
-          <h4>System ID: <%= planet['solar_system_id'] %></h4>
-          <h4>Command Center: Level <%= planet['upgrade_level'] %></h4>
+          <h4>Planet Type: <%= planet['planet_type'].capitalize %></span></h4>
+          <h4>Command Center Level: <%= planet['upgrade_level'] %></h4>
           <% planet['pins'].each do |pin| %>
             <div class="row">
               <div class="col text-right">
-                <strong><%= pin['extractor_details']['product_type_id'] %></strong>
+                <% item_id = pin['extractor_details']['product_type_id'] %>
+                <strong data-esi-type="item" data-esi-id="<%= item_id %>"><%= item_id %></strong>
               </div>
               <div class="col text-left">
                 <%= pin['expiry_time'] %>
@@ -25,3 +26,21 @@
     </div>
   <% end %>
 </div>
+
+<script type="text/javascript">
+  $("[data-esi-id]").each(function (i, e) {
+    var id = e.attributes['data-esi-id'].value
+    var type = e.attributes['data-esi-type'].value
+
+    if (type === 'item')
+      var url = "https://esi.evetech.net/latest/universe/types/" + id
+    else if (type === 'planet')
+      var url = "https://esi.evetech.net/latest/universe/planets/" + id
+    else if (type === 'system')
+      var url = "https://esi.evetech.net/latest/universe/systems/" + id
+
+    $.ajax(url).done(function(data) {
+      e.innerHTML = data.name
+    })
+  })
+</script>
