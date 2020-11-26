@@ -1,3 +1,5 @@
+<h1>My Colonies</h1>
+
 <div class="row text-center">
   <% @planets.each do |planet| %>
     <div class="col-md-6 col-lg-4">
@@ -16,31 +18,13 @@
                 <strong data-esi-type="item" data-esi-id="<%= item_id %>"><%= item_id %></strong>
               </div>
               <div class="col text-left">
-                <%= pin['expiry_time'] %>
+                <%= distance_of_time_in_words(Time.zone.now, pin['expiry_time']) %> left
               </div>
             </div>
           <% end %>
-          <%= link_to 'Back to List', planetary_commodities_path, class: 'btn btn-lg btn-block btn-outline-primary mt-2' %>
         </div>
       </div>
     </div>
   <% end %>
 </div>
 
-<script type="text/javascript">
-  $("[data-esi-id]").each(function (i, e) {
-    var id = e.attributes['data-esi-id'].value
-    var type = e.attributes['data-esi-type'].value
-
-    if (type === 'item')
-      var url = "https://esi.evetech.net/latest/universe/types/" + id
-    else if (type === 'planet')
-      var url = "https://esi.evetech.net/latest/universe/planets/" + id
-    else if (type === 'system')
-      var url = "https://esi.evetech.net/latest/universe/systems/" + id
-
-    $.ajax(url).done(function(data) {
-      e.innerHTML = data.name
-    })
-  })
-</script>

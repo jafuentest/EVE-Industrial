@@ -3,8 +3,6 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-import $ from 'jquery';
-
 import 'popper.js'
 import 'bootstrap'
 import 'bootstrap-table'
@@ -19,3 +17,20 @@ require("turbolinks").start()
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+document.addEventListener("turbolinks:load", () => {
+  $("[data-esi-id]").each((i, e) => {
+    const id = e.attributes['data-esi-id'].value
+    const type = e.attributes['data-esi-type'].value
+    let url = 'https://esi.evetech.net/latest/universe/'
+
+    if (type === "item")
+      url += "types/" + id
+    else if (type === "planet")
+      url += "planets/" + id
+    else if (type === "system")
+      url += "systems/" + id
+
+    $.ajax(url).done(data => { e.innerHTML = data.name })
+  })
+})
