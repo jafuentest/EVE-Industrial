@@ -15,6 +15,9 @@ class PlanetaryCommodity < ApplicationRecord
 
   PLANET_DETAILS_KEYS = %w(last_update planet_id planet_type solar_system_id upgrade_level)
   PIN_DETAILS_KEYS = %w(expiry_time extractor_details)
+  HIGH_TECH_FACTORY_TYPE_IDS = [2475, 2482].freeze
+  ADVANCED_FACTORY_TYPE_IDS = [2470, 2472, 2474, 2480, 2484, 2485, 2491, 2494].freeze
+  BASIC_FACTORY_TYPE_IDS = [2469, 2471, 2473, 2481, 2483, 2490, 2492, 2493].freeze
 
   self.primary_key = :id
 
@@ -22,14 +25,16 @@ class PlanetaryCommodity < ApplicationRecord
 
   def self.character_colonies(user)
     planet_list = ESI.fetch_character_planets(user)
-    planets = ESI.fetch_planets_details(user, planet_list)
-
+    planets = ESI.fetch_planets_details(user, planet_list)[..0]
     planets.map do |planet|
       filtered_planet = planet.slice(*PLANET_DETAILS_KEYS)
-      filtered_planet['pins'] = planet['pins'].reduce([]) do |pins, pin|
+        .merge('extractors' => nil, 'factories' => nil)
+
+      filtered_planet['extractors'] = planet['pins'].reduce([]) do |pins, pin|
         pin.key?('extractor_details') ? pins << extractor_details(pin) : pins
       end
-      filtered_planet
+
+      filtered_planet.merge('factories' => fetch_top_level_factories(planet['pins']))
     end
   end
 
@@ -88,5 +93,18 @@ class PlanetaryCommodity < ApplicationRecord
       item_price.sell_price = sell_price
       item_price.save!
     end
+  end
+
+  private_class_method def fetch_top_level_factories(pins)
+    top_level_factories = nil
+    type_ids = [HIGH_TECH_FACTORY_TYPE_IDS, ADVANCED_FACTORY_TYPE_IDS, BASIC_FACTORY_TYPE_IDS]
+    i = 0
+    loop do
+      top_level_factories = pins.filter { |e| type_ids[i].include? e['type_id'] }
+      i += 1
+      break if top_level_factories.present? || type_ids[i].blank?
+    end
+
+    top_level_factories
   end
 end
