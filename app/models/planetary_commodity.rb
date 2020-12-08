@@ -23,9 +23,17 @@ class PlanetaryCommodity < ApplicationRecord
 
   has_many :items_prices, as: :item, class_name: 'ItemsPrices'
 
+  def isk_per_hour(factories, buy_or_sell = :buy)
+    batch_size * buy_price * factories * cycles_per_day
+  end
+
+  def cycles_per_day
+    tier == 1 ? 48 : 24
+  end
+
   def self.character_colonies(user)
     planet_list = ESI.fetch_character_planets(user)
-    planets = ESI.fetch_planets_details(user, planet_list)[..0]
+    planets = ESI.fetch_planets_details(user, planet_list)
     planets.map do |planet|
       filtered_planet = planet.slice(*PLANET_DETAILS_KEYS)
         .merge('extractors' => nil, 'factories' => nil)
@@ -34,7 +42,7 @@ class PlanetaryCommodity < ApplicationRecord
         pin.key?('extractor_details') ? pins << extractor_details(pin) : pins
       end
 
-      filtered_planet.merge('factories' => fetch_top_level_factories(planet['pins']))
+      filtered_planet.merge('factories' => self.fetch_top_level_factories(planet['pins']))
     end
   end
 
@@ -65,9 +73,16 @@ class PlanetaryCommodity < ApplicationRecord
   end
 
   def self.with_price(id, system_id)
-    all.select('name, buy_price, sell_price, batch_size, tier, volume, input')
+    all.select('name, buy_price, sell_price, batch_size, tier, volume')
       .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
       .where("planetary_commodities.id = #{id} AND items_prices.star_id = #{system_id}")
+      .first
+  end
+
+  def self.with_price_by(by, system_id)
+    where(by).select('id, name, tier, buy_price, sell_price, batch_size, volume')
+      .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
+      .where("items_prices.star_id = #{system_id}")
       .first
   end
 
@@ -95,7 +110,7 @@ class PlanetaryCommodity < ApplicationRecord
     end
   end
 
-  private_class_method def fetch_top_level_factories(pins)
+  private_class_method def self.fetch_top_level_factories(pins)
     top_level_factories = nil
     type_ids = [HIGH_TECH_FACTORY_TYPE_IDS, ADVANCED_FACTORY_TYPE_IDS, BASIC_FACTORY_TYPE_IDS]
     i = 0
