@@ -9,9 +9,9 @@ module CSVImportable
 
       table = CSV.read(path_to_csv_file, headers: true)
 
-      insert_all! table.map { |row| self.hash_from_csv_row(row) }
-    rescue => ex
-      "#{ex.class} -> #{ex.message}"
+      insert_all!(table.map { |row| hash_from_csv_row(row) })
+    rescue StandardError => e
+      "#{e.class} -> #{e.message}"
     end
   end
 end

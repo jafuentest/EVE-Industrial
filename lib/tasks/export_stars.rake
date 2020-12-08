@@ -1,5 +1,5 @@
 namespace :export do
-  desc "Export Stars"
+  desc 'Export Stars'
   task stars: :environment do
     Star.all.each do |star|
       serialized = star.serializable_hash.symbolize_keys
