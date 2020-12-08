@@ -43,8 +43,35 @@ class ESI
     JSON.parse(res.body)
   end
 
-  def self.fetch_planet_stuff
+  def self.fetch_character_planets(user)
+    uri = URI("#{ESI_BASE_URL}/characters/#{user.character_id}/planets/")
+    req = Net::HTTP::Get.new(uri)
+    req['Authorization'] = "Bearer #{user.auth_token}"
+    req['Accept'] = 'application/json'
 
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
+
+    JSON.parse(res.body)
+  end
+
+  def self.fetch_planets_details(user, planets)
+    planets.map do |planet|
+      planet.merge(fetch_planet_details(user, planet['planet_id']))
+    end
+  end
+
+  private_class_method def self.fetch_planet_details(user, planet_id)
+    uri = URI("#{ESI_BASE_URL}/characters/#{user.character_id}/planets/#{planet_id}")
+    req = Net::HTTP::Get.new(uri)
+    req['Authorization'] = "Bearer #{user.auth_token}"
+
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+      http.request(req)
+    end
+
+    JSON.parse(res.body)
   end
 
   private_class_method def self.fetch_token_request(code)

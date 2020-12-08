@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_045710) do
 
   create_table "planetary_commodities", id: false, force: :cascade do |t|
     t.integer "id", null: false
+    t.integer "schematic_id"
     t.string "name", null: false
     t.integer "tier", null: false
     t.decimal "volume", precision: 5, scale: 2

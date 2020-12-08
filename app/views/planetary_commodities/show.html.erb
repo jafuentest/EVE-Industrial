@@ -1,50 +1,48 @@
-<p id="notice"><%= notice %></p>
-
 <div class="row text-center">
   <div class="col-sm-8 col-md-6 col-lg-4">
     <div class="card mb-4 shadow-sm">
-    <div class="card-header">
-      <h4 class="my-0 font-weight-normal"><%= @planetary_commodity.name %></h4>
-    </div>
-    <div class="card-body">
-      <h1 class="card-title pricing-card-title"><%= number_with_delimiter(@planetary_commodity[:buy_price]) %> <small class="text-muted">(Buy)</small></h1>
-      <h1 class="card-title pricing-card-title"><%= number_with_delimiter(@planetary_commodity[:sell_price]) %> <small class="text-muted">(Sell)</small></h1>
-      <div class="row">
-        <div class="col text-right">
-          <strong>Batch Size</strong>
-        </div>
-        <div class="col text-left">
-          <%= @planetary_commodity.batch_size %>
-        </div>
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal"><%= @planetary_commodity.name %></h4>
       </div>
-      <div class="row">
-        <div class="col text-right">
-          <strong>Tier</strong>
-        </div>
-        <div class="col text-left">
-          <%= @planetary_commodity.tier %>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col text-right">
-          <strong>Volume</strong>
-        </div>
-        <div class="col text-left">
-          <%= @planetary_commodity.volume %>
-        </div>
-      </div>
-      <% if @planetary_commodity.input.present? %>
+      <div class="card-body">
+        <h1><%= number_with_delimiter(@planetary_commodity[:buy_price]) %> <small class="text-muted">(Buy)</small></h1>
+        <h1><%= number_with_delimiter(@planetary_commodity[:sell_price]) %> <small class="text-muted">(Sell)</small></h1>
         <div class="row">
           <div class="col text-right">
-            <strong>Input</strong>
+            <strong>Batch Size</strong>
           </div>
           <div class="col text-left">
-            <%= @planetary_commodity.inputs %>
+            <%= @planetary_commodity.batch_size %>
           </div>
         </div>
-      <% end %>
-      <%= link_to 'Back to List', planetary_commodities_path, class: 'btn btn-lg btn-block btn-outline-primary mt-2' %>
+        <div class="row">
+          <div class="col text-right">
+            <strong>Tier</strong>
+          </div>
+          <div class="col text-left">
+            <%= @planetary_commodity.tier %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-right">
+            <strong>Volume</strong>
+          </div>
+          <div class="col text-left">
+            <%= @planetary_commodity.volume %>
+          </div>
+        </div>
+        <% if @planetary_commodity.input.present? %>
+          <div class="row">
+            <div class="col text-right">
+              <strong>Input</strong>
+            </div>
+            <div class="col text-left">
+              <%= @planetary_commodity.inputs %>
+            </div>
+          </div>
+        <% end %>
+        <%= link_to 'Back to List', planetary_commodities_path, class: 'btn btn-lg btn-block btn-outline-primary mt-2' %>
+      </div>
     </div>
-  </div>
   </div>
 </div>

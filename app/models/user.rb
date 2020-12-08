@@ -22,12 +22,11 @@ class User < ApplicationRecord
   def auth_token
     # Treat tokens as expired 5 seconds earlier
     expired_token = DateTime.now.utc + 5.seconds >= esi_expires_on
-    return esi_refresh_token if expired_token
-
+    return esi_auth_token unless expired_token
     auth_response = ESI.authenticate(esi_refresh_token, refresh: true)
 
-    self.esi_auth_token = auth_response['access_token']
     self.esi_refresh_token = auth_response['refresh_token']
+    self.esi_auth_token = auth_response['access_token']
   end
 
   def avatar
