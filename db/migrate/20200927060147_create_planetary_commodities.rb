@@ -2,6 +2,7 @@ class CreatePlanetaryCommodities < ActiveRecord::Migration[6.0]
   def change
     create_table :planetary_commodities, id: false do |t|
       t.integer :id, null: false
+      t.integer :schematic_id
       t.string :name, null: false
       t.integer :tier, null: false
       t.decimal :volume, precision: 5, scale: 2

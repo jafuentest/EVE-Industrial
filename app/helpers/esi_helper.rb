@@ -13,15 +13,15 @@ module ESIHelper
     link_to(esi_login_url) { esi_login_image }
   end
 
-  private
-
-  def esi_login_image
-    image_tag LOGIN_IMAGE_URL, alt: 'LOG IN with EVE Online'
-  end
-
   def esi_login_url(custom_params = {})
     uri = URI(ESI_URL)
     uri.query = DEFAULT_PARAMS.merge(custom_params).to_query
     uri.to_s
+  end
+
+  private
+
+  def esi_login_image
+    image_tag LOGIN_IMAGE_URL, alt: 'LOG IN with EVE Online'
   end
 end
