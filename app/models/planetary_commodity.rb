@@ -13,8 +13,8 @@ class PlanetaryCommodity < ApplicationRecord
   include CSVImportable
   include MarketeerAPI
 
-  PLANET_DETAILS_KEYS = %w(last_update planet_id planet_type solar_system_id upgrade_level)
-  PIN_DETAILS_KEYS = %w(expiry_time extractor_details)
+  PLANET_DETAILS_KEYS = %w[last_update planet_id planet_type solar_system_id upgrade_level].freeze
+  PIN_DETAILS_KEYS = %w[expiry_time extractor_details].freeze
   HIGH_TECH_FACTORY_TYPE_IDS = [2475, 2482].freeze
   ADVANCED_FACTORY_TYPE_IDS = [2470, 2472, 2474, 2480, 2484, 2485, 2491, 2494].freeze
   BASIC_FACTORY_TYPE_IDS = [2469, 2471, 2473, 2481, 2483, 2490, 2492, 2493].freeze
@@ -42,7 +42,7 @@ class PlanetaryCommodity < ApplicationRecord
         pin.key?('extractor_details') ? pins << extractor_details(pin) : pins
       end
 
-      filtered_planet.merge('factories' => self.fetch_top_level_factories(planet['pins']))
+      filtered_planet.merge('factories' => fetch_top_level_factories(planet['pins']))
     end
   end
 
@@ -63,8 +63,8 @@ class PlanetaryCommodity < ApplicationRecord
   end
 
   def self.price_list(system_id)
-    fields = 'id, name, tier, buy_price, sell_price, buy_price / volume AS buy_isk_per_volume, ' +
-             'sell_price / volume AS sell_isk_per_volume'
+    fields = 'id, name, tier, buy_price, sell_price, buy_price / volume AS buy_isk_per_volume, ' \
+      'sell_price / volume AS sell_isk_per_volume'
 
     all.select(fields)
       .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
@@ -75,15 +75,14 @@ class PlanetaryCommodity < ApplicationRecord
   def self.with_price(id, system_id)
     all.select('name, buy_price, sell_price, batch_size, tier, volume')
       .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
-      .where("planetary_commodities.id = #{id} AND items_prices.star_id = #{system_id}")
-      .first
+      .find_by("planetary_commodities.id = #{id} AND items_prices.star_id = #{system_id}")
   end
 
   def self.with_price_by(by, system_id)
-    where(by).select('id, name, tier, buy_price, sell_price, batch_size, volume')
+    all.select('id, name, tier, buy_price, sell_price, batch_size, volume')
       .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
       .where("items_prices.star_id = #{system_id}")
-      .first
+      .find_by(by)
   end
 
   private_class_method def self.extractor_details(pin)

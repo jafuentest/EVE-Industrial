@@ -5,7 +5,7 @@ class User < ApplicationRecord
     auth_response = ESI.authenticate(code)
     data = ESI.verify_access_token(auth_response['access_token'])
 
-    user = find_or_initialize_by(character_id: data['']).tap do |u|
+    find_or_initialize_by(character_id: data['']).tap do |u|
       u.esi_auth_token = auth_response['access_token']
       u.esi_refresh_token = auth_response['refresh_token']
       u.esi_expires_on = DateTime.parse(data['ExpiresOn'])
@@ -23,6 +23,7 @@ class User < ApplicationRecord
     # Treat tokens as expired 5 seconds earlier
     expired_token = DateTime.now.utc + 5.seconds >= esi_expires_on
     return esi_auth_token unless expired_token
+
     auth_response = ESI.authenticate(esi_refresh_token, refresh: true)
 
     self.esi_refresh_token = auth_response['refresh_token']

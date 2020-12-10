@@ -2,13 +2,13 @@ class PlanetaryCommoditiesController < ApplicationController
   # GET /planetary_commodities
   # GET /planetary_commodities.json
   def index
-    @planetary_commodities = PlanetaryCommodity.price_list(30000142)
+    @planetary_commodities = PlanetaryCommodity.price_list(30_000_142)
   end
 
   # GET /planetary_commodities/1
   # GET /planetary_commodities/1.json
   def show
-    @planetary_commodity = PlanetaryCommodity.with_price(params[:id], 30000142)
+    @planetary_commodity = PlanetaryCommodity.with_price(params[:id], 30_000_142)
   end
 
   def my

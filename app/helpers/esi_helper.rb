@@ -7,7 +7,7 @@ module ESIHelper
     client_id: ENV['ESI_CLIENT_ID'],
     scope: 'esi-planets.manage_planets.v1 esi-planets.read_customs_offices.v1',
     state: Time.now.to_i
-  }
+  }.freeze
 
   def esi_login_button
     link_to(esi_login_url) { esi_login_image }
