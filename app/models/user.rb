@@ -3,20 +3,22 @@ class User < ApplicationRecord
 
   def self.find_or_register(code)
     auth_response = ESI.authenticate(code)
-    data = ESI.verify_access_token(auth_response['access_token'])
+    verification_data = ESI.verify_access_token(auth_response['access_token'])
 
-    find_or_initialize_by(character_id: data['']).tap do |u|
+    find_or_initialize_by(character_id: verification_data['CharacterID']).tap do |u|
       u.esi_auth_token = auth_response['access_token']
       u.esi_refresh_token = auth_response['refresh_token']
-      u.esi_expires_on = DateTime.parse(data['ExpiresOn'])
-
-      u.character_id = data['CharacterID']
-      u.character_name = data['CharacterName']
-      u.scopes = data['Scopes']
-      u.token_type = data['TokenType']
-      u.owner_hash = data['CharacterOwnerHash']
+      u.verification_data = verification_data
       u.save!
     end
+  end
+
+  def verification_data=(verification_data)
+    self.character_name = verification_data['CharacterName']
+    self.scopes = verification_data['Scopes']
+    self.token_type = verification_data['TokenType']
+    self.owner_hash = verification_data['CharacterOwnerHash']
+    self.esi_expires_on = DateTime.parse(verification_data['ExpiresOn'])
   end
 
   def auth_token
