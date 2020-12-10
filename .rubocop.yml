@@ -28,7 +28,7 @@ Metrics/BlockLength:
   Exclude:
     - config/routes.rb
     - db/*
-  ExcludedMethods:
+  IgnoredMethods:
     - configure
     - included  # Concerns
     - setup     # Becaus of devise
