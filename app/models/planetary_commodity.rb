@@ -21,10 +21,12 @@ class PlanetaryCommodity < ApplicationRecord
 
   self.primary_key = :id
 
-  has_many :items_prices, as: :item, class_name: 'ItemsPrices'
+  has_many :items_prices, as: :item, class_name: 'ItemsPrices', dependent: :destroy
 
   def isk_per_hour(factories, buy_or_sell = :buy)
-    batch_size * buy_price * factories * cycles_per_day
+    price = buy_or_sell == :buy ? buy_price : sell_price
+    daily_production = batch_size * factories * cycles_per_day
+    daily_production * price
   end
 
   def cycles_per_day
