@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2020_12_11_043821) do
     t.integer "item_id", null: false
     t.integer "esi_id"
     t.integer "location_id"
-    t.integer "character_id"
+    t.integer "user_id"
     t.decimal "price"
     t.datetime "issued"
     t.integer "duration"

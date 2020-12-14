@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :trackable
 
+  has_many :orders
+
   def self.find_or_register(code)
     auth_response = ESI.authenticate(code)
     verification_data = ESI.verify_access_token(auth_response['access_token'])
@@ -41,18 +43,8 @@ class User < ApplicationRecord
   end
 
   def update_market_orders
-    orders = ESI.fetch_character_market_orders(self)
-    Item.create_items(orders.pluck('type_id'))
-    orders.each { |esi_order| upsert_order(esi_order) }
-  end
-
-  private_class_method def self.upsert_order(esi_order)
-    o = find_or_initialize_by(esi_id: esi_order['order_id'])
-    o.assign_attributes(esi_order.slice(ESI_ATTRIBUTES))
-    o.user = self
-    o.item_id = esi_order['type_id']
-    o.buy_order = esi_order['is_buy_order'].present?
-    o.save!
+    Order.where(user_id: id).delete_all
+    Order.update_character_orders(self)
   end
 
   protected
