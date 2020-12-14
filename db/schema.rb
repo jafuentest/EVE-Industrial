@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_045710) do
+ActiveRecord::Schema.define(version: 2020_12_11_043821) do
+
+  create_table "items", id: false, force: :cascade do |t|
+    t.integer "id", null: false
+    t.string "name"
+    t.index ["id"], name: "index_items_on_id", unique: true
+  end
 
   create_table "items_prices", id: false, force: :cascade do |t|
     t.integer "star_id", null: false
@@ -21,6 +27,20 @@ ActiveRecord::Schema.define(version: 2020_10_13_045710) do
     t.index ["item_id", "star_id"], name: "index_items_prices_on_item_id_and_star_id"
     t.index ["item_id"], name: "index_items_prices_on_item_id"
     t.index ["star_id"], name: "index_items_prices_on_star_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "item_id", null: false
+    t.integer "esi_id"
+    t.integer "location_id"
+    t.integer "character_id"
+    t.decimal "price"
+    t.datetime "issued"
+    t.integer "duration"
+    t.boolean "buy_order"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_orders_on_item_id"
   end
 
   create_table "planetary_commodities", id: false, force: :cascade do |t|
@@ -71,4 +91,5 @@ ActiveRecord::Schema.define(version: 2020_10_13_045710) do
   end
 
   add_foreign_key "items_prices", "stars"
+  add_foreign_key "orders", "items"
 end
