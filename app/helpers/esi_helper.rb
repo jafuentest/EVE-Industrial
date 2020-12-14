@@ -7,7 +7,7 @@ module ESIHelper
     'esi-markets.structure_markets.v1',
     'esi-planets.manage_planets.v1',
     'esi-planets.read_customs_offices.v1'
-  ]
+  ].freeze
   DEFAULT_PARAMS = {
     response_type: 'code',
     redirect_uri: Rails.application.routes.url_helpers.login_url,

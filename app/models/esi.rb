@@ -18,36 +18,19 @@ class ESI
   def self.verify_access_token(access_token)
     uri = URI("#{AUTH_BASE_URL}/oauth/verify")
     req = request_from_uri(uri, access_token)
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    return nil unless res.is_a?(Net::HTTPOK)
-
-    JSON.parse(res.body)
+    parsed_response(uri, req)
   end
 
   def self.fetch_character_portrait(character_id)
     uri = URI("#{ESI_BASE_URL}/characters/#{character_id}/portrait/")
     req = Net::HTTP::Get.new(uri)
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    JSON.parse(res.body)
+    parsed_response(uri, req)
   end
 
   def self.fetch_character_planets(user)
     uri = URI("#{ESI_BASE_URL}/characters/#{user.character_id}/planets/")
     req = request_from_uri(uri, user.auth_token)
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    JSON.parse(res.body)
+    parsed_response(uri, req)
   end
 
   def self.fetch_planets_details(user, planets)
@@ -59,22 +42,17 @@ class ESI
   def self.fetch_character_market_orders(user)
     uri = URI("#{ESI_BASE_URL}/characters/#{user.character_id}/orders/")
     req = request_from_uri(uri, user.auth_token)
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    JSON.parse(res.body)
+    parsed_response(uri, req)
   end
 
   private_class_method def self.fetch_planet_details(user, planet_id)
     uri = URI("#{ESI_BASE_URL}/characters/#{user.character_id}/planets/#{planet_id}")
-    req = request_from_uri(uri, user)
+    req = request_from_uri(uri, user.auth_token)
+    parsed_response(uri, req)
+  end
 
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
+  private_class_method def self.parsed_response(uri, req)
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
     JSON.parse(res.body)
   end
 
