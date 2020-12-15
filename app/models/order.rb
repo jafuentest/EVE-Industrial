@@ -34,13 +34,14 @@ class Order < ApplicationRecord
     buy_order ? price - market_best : market_best - price
   end
 
-  def self.update_citadel_orders(user, structure_id)
+  def self.update_citadel_orders(user, structure_id, item_ids = nil)
     page = 0
     loop do
       page += 1
       esi_orders = ESI.fetch_citadel_orders(user, structure_id, page)
       break if esi_orders.blank?
 
+      esi_orders = esi_orders.select { |e| item_ids.include?(e['type_id']) } if item_ids.present?
       Item.create_items(esi_orders.pluck('type_id'))
       esi_orders.each { |esi_order| upsert_order(esi_order) }
     end
@@ -48,8 +49,14 @@ class Order < ApplicationRecord
 
   def self.update_character_orders(user)
     orders = ESI.fetch_character_market_orders(user)
-    Item.create_items(orders.pluck('type_id'))
+    item_ids = orders.pluck('type_id')
+    Item.create_items(item_ids)
+
     orders.each { |esi_order| upsert_order(esi_order, user) }
+
+    orders.group_by { |e| e['location_id'] }.each do |location_id, location_orders|
+      update_citadel_orders(user, location_id, location_orders.pluck('type_id'))
+    end
   end
 
   private_class_method def self.upsert_order(esi_order, user = nil)

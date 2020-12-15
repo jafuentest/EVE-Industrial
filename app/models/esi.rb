@@ -57,7 +57,7 @@ class ESI
     res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
     body = JSON.parse(res.body)
 
-    return body.is_a?(Array) ? body : nil
+    body.is_a?(Array) ? body : nil
   end
 
   private_class_method def self.fetch_planet_details(user, planet_id)
