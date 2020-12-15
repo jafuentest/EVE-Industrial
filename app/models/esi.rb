@@ -51,6 +51,15 @@ class ESI
     parsed_response(uri, req)
   end
 
+  def self.fetch_citadel_orders(user, structure_id, page)
+    uri = URI("https://esi.evetech.net/latest/markets/structures/#{structure_id}?page=#{page}")
+    req = request_from_uri(uri, user.auth_token)
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+    body = JSON.parse(res.body)
+
+    return body.is_a?(Array) ? body : nil
+  end
+
   private_class_method def self.fetch_planet_details(user, planet_id)
     uri = URI("#{ESI_BASE_URL}/characters/#{user.character_id}/planets/#{planet_id}")
     req = request_from_uri(uri, user.auth_token)

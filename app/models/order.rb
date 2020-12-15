@@ -18,12 +18,24 @@
 #
 class Order < ApplicationRecord
   belongs_to :item
-  belongs_to :user
+  belongs_to :user, optional: true
 
   ESI_ATTRIBUTES = %w[location_id price issued duration volume_remain volume_total].freeze
 
   def placed_in_npc_station
     location_id < 100_000_000
+  end
+
+  def self.update_citadel_orders(user, structure_id)
+    page = 0
+    loop do
+      page += 1
+      esi_orders = ESI.fetch_citadel_orders(user, structure_id, page)
+      break if esi_orders.blank?
+
+      Item.create_items(esi_orders.pluck('type_id'))
+      esi_orders.each { |esi_order| upsert_order(esi_order) }
+    end
   end
 
   def self.update_character_orders(user)
@@ -32,10 +44,10 @@ class Order < ApplicationRecord
     orders.each { |esi_order| upsert_order(esi_order, user) }
   end
 
-  private_class_method def self.upsert_order(esi_order, user)
+  private_class_method def self.upsert_order(esi_order, user = nil)
     o = find_or_initialize_by(esi_id: esi_order['order_id'])
     o.assign_attributes(esi_order.slice(*ESI_ATTRIBUTES))
-    o.user = user
+    o.user = user if user.present?
     o.item_id = esi_order['type_id']
     o.buy_order = esi_order['is_buy_order'].present?
     o.save!
