@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 2020_12_11_043821) do
     t.decimal "price"
     t.datetime "issued"
     t.integer "duration"
+    t.integer "volume_remain"
+    t.integer "volume_total"
     t.boolean "buy_order"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

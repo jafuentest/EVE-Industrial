@@ -8,6 +8,8 @@ class CreateOrders < ActiveRecord::Migration[6.0]
       t.decimal :price
       t.datetime :issued
       t.integer :duration
+      t.integer :volume_remain
+      t.integer :volume_total
       t.boolean :buy_order
 
       t.timestamps
