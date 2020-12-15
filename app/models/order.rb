@@ -26,6 +26,14 @@ class Order < ApplicationRecord
     location_id < 100_000_000
   end
 
+  def market_diff
+    matching = Order.where(item_id: item_id, location_id: location_id, buy_order: buy_order)
+
+    market_best = buy_order ? matching.maximum(:price) : matching.minimum(:price)
+
+    buy_order ? price - market_best : market_best - price
+  end
+
   def self.update_citadel_orders(user, structure_id)
     page = 0
     loop do

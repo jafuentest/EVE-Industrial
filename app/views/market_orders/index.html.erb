@@ -9,6 +9,7 @@
       <th data-sortable="true">Remaining</th>
       <th data-sortable="true">Total</th>
       <th data-sortable="true" data-sorter="priceSorter">Price</th>
+      <th data-sortable="true" data-sorter="priceSorter">Market Diff</th>
       <th data-sortable="true" data-sorter="nameSorter">Location</th>
       <th data-sortable="true" data-sorter="nameSorter">Issued</th>
     </tr>
@@ -21,6 +22,7 @@
         <td><%= order.volume_remain %></td>
         <td><%= order.volume_total %></td>
         <td><%= number_with_delimiter(order.price.round(2)) %></td>
+        <td><%= number_with_delimiter(order.market_diff.round(2)) %></td>
         <td><%= order.location_id %></td>
         <td><%= order.issued %></td>
       </tr>
