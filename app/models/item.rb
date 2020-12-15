@@ -1,3 +1,10 @@
+# == Schema Information
+#
+# Table name: items
+#
+#  id   :integer          not null, primary key
+#  name :string
+#
 class Item < ApplicationRecord
   self.primary_key = :id
 
