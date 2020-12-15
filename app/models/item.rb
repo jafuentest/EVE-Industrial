@@ -10,6 +10,12 @@ class Item < ApplicationRecord
 
   has_many :orders, dependent: :destroy
 
+  before_save :set_name
+
+  def set_name
+    self.name = ESI.fetch_item_name(id)
+  end
+
   def self.create_items(item_ids)
     item_ids.each do |item_id|
       Item.find_or_create_by!(id: item_id)

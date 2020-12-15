@@ -29,7 +29,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :trackable
 
-  has_many :orders
+  has_many :orders, dependent: :nullify
 
   def self.find_or_register(code)
     auth_response = ESI.authenticate(code)

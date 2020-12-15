@@ -27,6 +27,12 @@ class ESI
     parsed_response(uri, req)
   end
 
+  def self.fetch_item_name(type_id)
+    uri = URI("#{ESI_BASE_URL}/universe/types/#{type_id}/")
+    req = Net::HTTP::Get.new(uri)
+    parsed_response(uri, req)['name']
+  end
+
   def self.fetch_character_planets(user)
     uri = URI("#{ESI_BASE_URL}/characters/#{user.character_id}/planets/")
     req = request_from_uri(uri, user.auth_token)

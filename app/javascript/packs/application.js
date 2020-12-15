@@ -19,20 +19,18 @@ require("turbolinks").start()
 // const imagePath = (name) => images(name, true)
 
 document.addEventListener("turbolinks:load", () => {
-  setTimeout(() => {
-    $("[data-esi-id]").each((i, e) => {
-      const id = e.attributes['data-esi-id'].value
-      const type = e.attributes['data-esi-type'].value
-      let url = 'https://esi.evetech.net/latest/universe/'
+  $("[data-esi-id]").each((i, e) => {
+    const id = e.attributes['data-esi-id'].value
+    const type = e.attributes['data-esi-type'].value
+    let url = 'https://esi.evetech.net/latest/universe/'
 
-      if (type === "item")
-        url += "types/" + id
-      else if (type === "planet")
-        url += "planets/" + id
-      else if (type === "system")
-        url += "systems/" + id
+    if (type === "item")
+      url += "types/" + id
+    else if (type === "planet")
+      url += "planets/" + id
+    else if (type === "system")
+      url += "systems/" + id
 
-      $.ajax(url).done(data => { e.innerHTML = data.name })
-    })
-  }, 1000);
+    $.ajax(url).done(data => { e.innerHTML = data.name })
+  })
 })

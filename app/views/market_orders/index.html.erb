@@ -6,8 +6,8 @@
   <thead>
     <tr>
       <th data-sortable="true" data-sorter="nameSorter">Name</th>
-      <th data-sortable="true" data-sorter="nameSorter">Remaining</th>
-      <th data-sortable="true" data-sorter="nameSorter">Total</th>
+      <th data-sortable="true">Remaining</th>
+      <th data-sortable="true">Total</th>
       <th data-sortable="true" data-sorter="priceSorter">Price</th>
       <th data-sortable="true" data-sorter="nameSorter">Location</th>
       <th data-sortable="true" data-sorter="nameSorter">Issued</th>
@@ -17,7 +17,7 @@
   <tbody class="table-hover">
     <% @orders.each do |order| %>
       <tr>
-        <td><span data-esi-type="item" data-esi-id="<%= order.item_id %>"><%= order.item_id %></span></td>
+        <td><span data-esi-type="item" data-esi-id="<%= order.item_id %>"><%= order.item.name %></span></td>
         <td><%= order.volume_remain %></td>
         <td><%= order.volume_total %></td>
         <td><%= number_with_delimiter(order.price.round(2)) %></td>
