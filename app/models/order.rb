@@ -6,6 +6,7 @@
 #  item_id       :integer          not null
 #  esi_id        :integer
 #  location_id   :integer
+#  region_id   :integer
 #  user_id       :integer
 #  price         :decimal(, )
 #  issued        :datetime
@@ -22,11 +23,25 @@ class Order < ApplicationRecord
 
   ESI_ATTRIBUTES = %w[location_id price issued duration volume_remain volume_total].freeze
 
-  def placed_in_npc_station
+  SYSTEMS_FOR_REGION = {
+    10000002 => [30000144, 30000145]
+  }
+
+  def placed_in_npc_station?
     location_id < 100_000_000
   end
 
   def market_diff
+    return market_diff_citadel unless placed_in_npc_station?
+
+    matching = Order.where(item_id: item_id, region_id: region_id, buy_order: buy_order)
+
+    market_best = buy_order ? matching.maximum(:price) : matching.minimum(:price)
+
+    buy_order ? price - market_best : market_best - price
+  end
+
+  def market_diff_citadel
     matching = Order.where(item_id: item_id, location_id: location_id, buy_order: buy_order)
 
     market_best = buy_order ? matching.maximum(:price) : matching.minimum(:price)
@@ -47,6 +62,15 @@ class Order < ApplicationRecord
     end
   end
 
+  def self.update_region_orders(region_id, item_ids)
+    Item.create_items(item_ids)
+    item_ids.each do |item_id|
+      esi_orders = ESI.fetch_region_orders(region_id, item_id, 'all')
+        .select { |e| SYSTEMS_FOR_REGION[region_id].include?(e['system_id']) }
+        .each { |esi_order| upsert_order(esi_order) }
+    end
+  end
+
   def self.update_character_orders(user)
     orders = ESI.fetch_character_market_orders(user)
     item_ids = orders.pluck('type_id')
@@ -55,8 +79,16 @@ class Order < ApplicationRecord
     orders.each { |esi_order| upsert_order(esi_order, user) }
 
     orders.group_by { |e| e['location_id'] }.each do |location_id, location_orders|
-      update_citadel_orders(user, location_id, location_orders.pluck('type_id'))
+      if npc_station?(location_id)
+        update_region_orders(location_orders.first['region_id'], location_orders.pluck('type_id'))
+      else
+        update_citadel_orders(user, location_id, location_orders.pluck('type_id'))
+      end
     end
+  end
+
+  private_class_method def self.npc_station?(location_id)
+    location_id < 100_000_000
   end
 
   private_class_method def self.upsert_order(esi_order, user = nil)

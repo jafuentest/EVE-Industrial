@@ -60,6 +60,15 @@ class ESI
     body.is_a?(Array) ? body : nil
   end
 
+  def self.fetch_region_orders(region_id, item_id, buy_or_sell)
+    uri = URI("#{ESI_BASE_URL}/markets/#{region_id}/orders/?order_type=#{buy_or_sell}&page=1&type_id=#{item_id}")
+    req = request_from_uri(uri)
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+    body = JSON.parse(res.body)
+
+    body.is_a?(Array) ? body : nil
+  end
+
   private_class_method def self.fetch_planet_details(user, planet_id)
     uri = URI("#{ESI_BASE_URL}/characters/#{user.character_id}/planets/#{planet_id}")
     req = request_from_uri(uri, user.auth_token)

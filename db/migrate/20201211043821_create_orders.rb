@@ -4,6 +4,7 @@ class CreateOrders < ActiveRecord::Migration[6.0]
       t.references :item, null: false, foreign_key: true
       t.integer :esi_id
       t.integer :location_id
+      t.integer :region_id
       t.integer :user_id
       t.decimal :price
       t.datetime :issued
