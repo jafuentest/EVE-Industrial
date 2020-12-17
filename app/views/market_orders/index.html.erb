@@ -2,32 +2,37 @@
 
 <%= button_to 'Update Orders', update_all_market_orders_path, class: 'btn btn-lg btn-block btn-outline-primary mt-2' %>
 
-<table class="table table-striped table-bordered mt-4" data-toggle="table">
-  <thead>
-    <tr>
-      <th data-sortable="true" data-sorter="nameSorter">Name</th>
-      <th data-sortable="true">Remaining</th>
-      <th data-sortable="true">Total</th>
-      <th data-sortable="true" data-sorter="priceSorter">Price</th>
-      <th data-sortable="true" data-sorter="priceSorter">Market Diff</th>
-      <th data-sortable="true" data-sorter="nameSorter">Location</th>
-      <th data-sortable="true" data-sorter="nameSorter">Issued</th>
-    </tr>
-  </thead>
-
-  <tbody class="table-hover">
-    <% @orders.each do |order| %>
+<% @orders.group_by(&:character).each do |character, orders| %>
+  <table class="table table-striped table-bordered mt-4" data-toggle="table">
+    <thead>
       <tr>
-        <td><span data-esi-type="item" data-esi-id="<%= order.item_id %>"><%= order.item.name %></span></td>
-        <td><%= order.volume_remain %></td>
-        <td><%= order.volume_total %></td>
-        <td><%= number_with_delimiter(order.price.round(2)) %></td>
-        <td><%= number_with_delimiter(order.market_diff.round(2)) %></td>
-        <td><%= order.location_id %></td>
-        <td><%= order.issued %></td>
+        <th colspan="7"><%= character.character_name %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tr>
+        <th data-sortable="true" data-sorter="nameSorter">Name</th>
+        <th data-sortable="true">Remaining</th>
+        <th data-sortable="true">Total</th>
+        <th data-sortable="true" data-sorter="priceSorter">Price</th>
+        <th data-sortable="true" data-sorter="priceSorter">Market Diff</th>
+        <th data-sortable="true" data-sorter="nameSorter">Location</th>
+        <th data-sortable="true" data-sorter="nameSorter">Issued</th>
+      </tr>
+    </thead>
+
+    <tbody class="table-hover">
+      <% orders.each do |order| %>
+        <tr>
+          <td><span data-esi-type="item" data-esi-id="<%= order.item_id %>"><%= order.item.name %></span></td>
+          <td><%= order.volume_remain %></td>
+          <td><%= order.volume_total %></td>
+          <td><%= number_with_delimiter(order.price.round(2)) %></td>
+          <td><%= number_with_delimiter(order.market_diff.round(2)) %></td>
+          <td><%= order.location_id %></td>
+          <td><%= order.issued %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 
 <%= javascript_pack_tag 'table-sorting' %>
