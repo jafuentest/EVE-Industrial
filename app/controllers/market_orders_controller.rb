@@ -1,6 +1,6 @@
 class MarketOrdersController < ApplicationController
   def index
-    @orders = current_user.orders
+    @orders = current_user.orders.joins(:item)
   end
 
   def update_all

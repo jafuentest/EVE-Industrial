@@ -6,7 +6,7 @@
 #  item_id       :integer          not null
 #  esi_id        :integer
 #  location_id   :integer
-#  region_id   :integer
+#  region_id     :integer
 #  user_id       :integer
 #  price         :decimal(, )
 #  issued        :datetime
@@ -24,7 +24,7 @@ class Order < ApplicationRecord
   ESI_ATTRIBUTES = %w[location_id price issued duration volume_remain volume_total].freeze
 
   SYSTEMS_FOR_REGION = {
-    10000002 => [30000144, 30000145]
+    10000002 => [30000142, 30000144, 30000145]
   }
 
   def placed_in_npc_station?
@@ -67,7 +67,7 @@ class Order < ApplicationRecord
     item_ids.each do |item_id|
       esi_orders = ESI.fetch_region_orders(region_id, item_id, 'all')
         .select { |e| SYSTEMS_FOR_REGION[region_id].include?(e['system_id']) }
-        .each { |esi_order| upsert_order(esi_order) }
+        .each { |esi_order| upsert_order(esi_order, region_id: region_id) }
     end
   end
 
@@ -76,7 +76,7 @@ class Order < ApplicationRecord
     item_ids = orders.pluck('type_id')
     Item.create_items(item_ids)
 
-    orders.each { |esi_order| upsert_order(esi_order, user) }
+    orders.each { |esi_order| upsert_order(esi_order, user: user) }
 
     orders.group_by { |e| e['location_id'] }.each do |location_id, location_orders|
       if npc_station?(location_id)
@@ -91,11 +91,12 @@ class Order < ApplicationRecord
     location_id < 100_000_000
   end
 
-  private_class_method def self.upsert_order(esi_order, user = nil)
+  private_class_method def self.upsert_order(esi_order, user: nil, region_id: nil)
     o = find_or_initialize_by(esi_id: esi_order['order_id'])
     o.assign_attributes(esi_order.slice(*ESI_ATTRIBUTES))
     o.user = user if user.present?
     o.item_id = esi_order['type_id']
+    o.region_id = region_id
     o.buy_order = esi_order['is_buy_order'].present?
     o.save!
   end
