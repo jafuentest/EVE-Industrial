@@ -29,8 +29,8 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :trackable
 
-  has_many :orders, dependent: :nullify
   has_many :characters, dependent: :destroy
+  has_many :orders, through: :characters
 
   def self.find_or_register(code)
     auth_response = ESI.authenticate(code)
@@ -85,8 +85,10 @@ class User < ApplicationRecord
   end
 
   def update_market_orders
-    Order.where(user_id: id).delete_all
-    Order.update_character_orders(self)
+    characters.each do |character|
+      Order.where(character_id: character.id).delete_all
+      Order.update_character_orders(character)
+    end
   end
 
   protected

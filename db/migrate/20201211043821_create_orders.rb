@@ -5,7 +5,7 @@ class CreateOrders < ActiveRecord::Migration[6.0]
       t.integer :esi_id
       t.integer :location_id
       t.integer :region_id
-      t.integer :user_id
+      t.integer :character_id
       t.decimal :price
       t.datetime :issued
       t.integer :duration

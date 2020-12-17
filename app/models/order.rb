@@ -7,7 +7,7 @@
 #  esi_id        :integer
 #  location_id   :integer
 #  region_id     :integer
-#  user_id       :integer
+#  character_id  :integer
 #  price         :decimal(, )
 #  issued        :datetime
 #  duration      :integer
@@ -19,7 +19,7 @@
 #
 class Order < ApplicationRecord
   belongs_to :item
-  belongs_to :user, optional: true
+  belongs_to :character, optional: true
 
   ESI_ATTRIBUTES = %w[location_id price issued duration volume_remain volume_total].freeze
 
@@ -50,11 +50,11 @@ class Order < ApplicationRecord
     buy_order ? price - market_best : market_best - price
   end
 
-  def self.update_citadel_orders(user, structure_id, item_ids = nil)
+  def self.update_citadel_orders(character, structure_id, item_ids = nil)
     page = 0
     loop do
       page += 1
-      esi_orders = ESI.fetch_citadel_orders(user, structure_id, page)
+      esi_orders = ESI.fetch_citadel_orders(character, structure_id, page)
       break if esi_orders.blank?
 
       esi_orders = esi_orders.select { |e| item_ids.include?(e['type_id']) } if item_ids.present?
@@ -72,16 +72,16 @@ class Order < ApplicationRecord
     end
   end
 
-  def self.update_character_orders(user)
-    orders = ESI.fetch_character_market_orders(user)
+  def self.update_character_orders(character)
+    orders = ESI.fetch_character_market_orders(character)
     Item.create_items(orders.pluck('type_id'))
-    orders.each { |esi_order| upsert_order(esi_order, user: user) }
+    orders.each { |esi_order| upsert_order(esi_order, character: character) }
 
     orders.group_by { |e| e['location_id'] }.each do |location_id, location_orders|
       if npc_station?(location_id)
         update_region_orders(location_orders.first['region_id'], location_orders.pluck('type_id'))
       else
-        update_citadel_orders(user, location_id, location_orders.pluck('type_id'))
+        update_citadel_orders(character, location_id, location_orders.pluck('type_id'))
       end
     end
   end
@@ -90,10 +90,10 @@ class Order < ApplicationRecord
     location_id < 100_000_000
   end
 
-  private_class_method def self.upsert_order(esi_order, user: nil, region_id: nil)
+  private_class_method def self.upsert_order(esi_order, character: nil, region_id: nil)
     o = find_or_initialize_by(esi_id: esi_order['order_id'])
     o.assign_attributes(esi_order.slice(*ESI_ATTRIBUTES))
-    o.user = user if user.present?
+    o.character = character if character.present?
     o.item_id = esi_order['type_id']
     o.region_id = region_id
     o.buy_order = esi_order['is_buy_order'].present?

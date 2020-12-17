@@ -33,27 +33,27 @@ class ESI
     parsed_response(uri, req)['name']
   end
 
-  def self.fetch_character_planets(user)
-    uri = URI("#{ESI_BASE_URL}/characters/#{user.character_id}/planets/")
-    req = request_from_uri(uri, user.auth_token)
+  def self.fetch_character_planets(character)
+    uri = URI("#{ESI_BASE_URL}/characters/#{character.character_id}/planets/")
+    req = request_from_uri(uri, character.auth_token)
     parsed_response(uri, req)
   end
 
-  def self.fetch_planets_details(user, planets)
+  def self.fetch_planets_details(character, planets)
     planets.map do |planet|
-      planet.merge(fetch_planet_details(user, planet['planet_id']))
+      planet.merge(fetch_planet_details(character, planet['planet_id']))
     end
   end
 
-  def self.fetch_character_market_orders(user)
-    uri = URI("#{ESI_BASE_URL}/characters/#{user.character_id}/orders/")
-    req = request_from_uri(uri, user.auth_token)
+  def self.fetch_character_market_orders(character)
+    uri = URI("#{ESI_BASE_URL}/characters/#{character.character_id}/orders/")
+    req = request_from_uri(uri, character.auth_token)
     parsed_response(uri, req)
   end
 
-  def self.fetch_citadel_orders(user, structure_id, page)
+  def self.fetch_citadel_orders(character, structure_id, page)
     uri = URI("https://esi.evetech.net/latest/markets/structures/#{structure_id}?page=#{page}")
-    req = request_from_uri(uri, user.auth_token)
+    req = request_from_uri(uri, character.auth_token)
     res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
     body = JSON.parse(res.body)
 
@@ -69,9 +69,9 @@ class ESI
     body.is_a?(Array) ? body : nil
   end
 
-  private_class_method def self.fetch_planet_details(user, planet_id)
-    uri = URI("#{ESI_BASE_URL}/characters/#{user.character_id}/planets/#{planet_id}")
-    req = request_from_uri(uri, user.auth_token)
+  private_class_method def self.fetch_planet_details(character, planet_id)
+    uri = URI("#{ESI_BASE_URL}/characters/#{character.character_id}/planets/#{planet_id}")
+    req = request_from_uri(uri, character.auth_token)
     parsed_response(uri, req)
   end
 

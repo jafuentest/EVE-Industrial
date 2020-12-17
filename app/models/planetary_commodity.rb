@@ -34,9 +34,9 @@ class PlanetaryCommodity < ApplicationRecord
     tier == 1 ? 48 : 24
   end
 
-  def self.character_colonies(user)
-    planet_list = ESI.fetch_character_planets(user)
-    planets = ESI.fetch_planets_details(user, planet_list)
+  def self.character_colonies(character)
+    planet_list = ESI.fetch_character_planets(character)
+    planets = ESI.fetch_planets_details(character, planet_list)
     planets.map do |planet|
       filtered_planet = planet.slice(*PLANET_DETAILS_KEYS)
         .merge('extractors' => nil, 'factories' => nil)
