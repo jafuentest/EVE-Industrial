@@ -24,8 +24,9 @@ class Order < ApplicationRecord
   ESI_ATTRIBUTES = %w[location_id price issued duration volume_remain volume_total].freeze
 
   SYSTEMS_FOR_REGION = {
-    10000002 => [30000142, 30000144, 30000145]
-  }
+    # The Forge => [Jita, Perimeter, New Caldari]
+    10_000_002 => [30_000_142, 30_000_144, 30_000_145]
+  }.freeze
 
   def placed_in_npc_station?
     location_id < 100_000_000
@@ -73,9 +74,7 @@ class Order < ApplicationRecord
 
   def self.update_character_orders(user)
     orders = ESI.fetch_character_market_orders(user)
-    item_ids = orders.pluck('type_id')
-    Item.create_items(item_ids)
-
+    Item.create_items(orders.pluck('type_id'))
     orders.each { |esi_order| upsert_order(esi_order, user: user) }
 
     orders.group_by { |e| e['location_id'] }.each do |location_id, location_orders|

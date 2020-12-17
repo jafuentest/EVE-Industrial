@@ -12,15 +12,19 @@ module ESIHelper
     response_type: 'code',
     redirect_uri: Rails.application.routes.url_helpers.login_url,
     client_id: ENV['ESI_CLIENT_ID'],
-    scope: SCOPES.join(' '),
-    state: Time.now.to_i
+    scope: SCOPES.join(' ')
   }.freeze
+
+  def add_character_button
+    link_to(esi_login_url('character')) { esi_login_image }
+  end
 
   def esi_login_button
     link_to(esi_login_url) { esi_login_image }
   end
 
-  def esi_login_url(custom_params = {})
+  def esi_login_url(intention = 'account', custom_params = {})
+    custom_params[:state] = "#{intention}-#{Time.now.to_i}"
     uri = URI(ESI_URL)
     uri.query = DEFAULT_PARAMS.merge(custom_params).to_query
     uri.to_s

@@ -1,0 +1,10 @@
+<h1>Users#settings</h1>
+<p>Find me in app/views/users/settings.html.erb</p>
+
+<% current_user.characters.each do |c| %>
+  <%= c.character_id %>
+<% end %>
+
+<br>
+
+<%= add_character_button %>
