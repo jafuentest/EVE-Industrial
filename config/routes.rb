@@ -7,6 +7,10 @@ Rails.application.routes.draw do
     get 'login', to: 'users/sessions#new'
   end
 
+  resources :market_orders, only: %i[index] do
+    post :update_all, on: :collection
+  end
+
   resources :planetary_commodities, only: %i[index show] do
     post :update_prices, on: :collection
     get :my, on: :collection

@@ -2,12 +2,13 @@
 #
 # Table name: planetary_commodities
 #
-#  id         :integer          not null, primary key
-#  name       :string           not null
-#  tier       :integer          not null
-#  volume     :decimal(5, 2)
-#  batch_size :integer          not null
-#  input      :text
+#  id           :integer          not null, primary key
+#  schematic_id :integer
+#  name         :string           not null
+#  tier         :integer          not null
+#  volume       :decimal(5, 2)
+#  batch_size   :integer          not null
+#  input        :text
 #
 class PlanetaryCommodity < ApplicationRecord
   include CSVImportable
