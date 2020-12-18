@@ -17,6 +17,10 @@
 @import "bootstrap";
 @import "bootstrap-table/bootstrap-table";
 
+body {
+  background-color: #f8f9fa;
+}
+
 main > .container-md {
   padding-top: 56px;
 }
@@ -25,5 +29,11 @@ main > .container-md {
   margin-bottom: -8px;
   margin-top: -8px;
   max-height: 38px;
+  display: inline-block;
+}
+
+.character-avatar {
+  margin-right: 8px;
+  max-height: 64px;
   display: inline-block;
 }

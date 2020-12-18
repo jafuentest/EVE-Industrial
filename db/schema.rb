@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_11_043821) do
+ActiveRecord::Schema.define(version: 2020_12_17_023959) do
+
+  create_table "characters", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "esi_refresh_token"
+    t.string "esi_auth_token"
+    t.datetime "esi_expires_on"
+    t.bigint "character_id"
+    t.string "character_name"
+    t.string "character_portrait"
+    t.string "scopes"
+    t.string "token_type"
+    t.string "owner_hash"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_characters_on_user_id"
+  end
 
   create_table "items", id: false, force: :cascade do |t|
     t.integer "id", null: false
@@ -34,7 +50,7 @@ ActiveRecord::Schema.define(version: 2020_12_11_043821) do
     t.integer "esi_id"
     t.integer "location_id"
     t.integer "region_id"
-    t.integer "user_id"
+    t.integer "character_id"
     t.decimal "price"
     t.datetime "issued"
     t.integer "duration"
@@ -93,6 +109,7 @@ ActiveRecord::Schema.define(version: 2020_12_11_043821) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "characters", "users"
   add_foreign_key "items_prices", "stars"
   add_foreign_key "orders", "items"
 end

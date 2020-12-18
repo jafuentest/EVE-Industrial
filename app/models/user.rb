@@ -29,7 +29,8 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :trackable
 
-  has_many :orders, dependent: :nullify
+  has_many :characters, dependent: :destroy
+  has_many :orders, through: :characters
 
   def self.find_or_register(code)
     auth_response = ESI.authenticate(code)
@@ -40,6 +41,19 @@ class User < ApplicationRecord
       u.esi_refresh_token = auth_response['refresh_token']
       u.verification_data = verification_data
       u.save!
+    end
+  end
+
+  def self.add_character(code, user_id)
+    auth_response = ESI.authenticate(code)
+    verification_data = ESI.verify_access_token(auth_response['access_token'])
+
+    Character.find_or_initialize_by(character_id: verification_data['CharacterID']).tap do |c|
+      c.user_id = user_id
+      c.esi_auth_token = auth_response['access_token']
+      c.esi_refresh_token = auth_response['refresh_token']
+      c.verification_data = verification_data
+      c.save!
     end
   end
 
@@ -71,8 +85,10 @@ class User < ApplicationRecord
   end
 
   def update_market_orders
-    Order.where(user_id: id).delete_all
-    Order.update_character_orders(self)
+    characters.each do |character|
+      Order.where(character_id: character.id).delete_all
+      Order.update_character_orders(character)
+    end
   end
 
   protected
