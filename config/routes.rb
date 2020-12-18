@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   end
 
   get 'settings', to: 'users#settings'
+  delete 'remove_character(/:id)', to: 'users#remove_character', as: :remove_character
 
   root 'pages#dashboard'
 
