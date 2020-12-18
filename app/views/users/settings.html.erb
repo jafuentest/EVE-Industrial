@@ -1,10 +1,18 @@
-<h1>Users#settings</h1>
-<p>Find me in app/views/users/settings.html.erb</p>
+<h1>Settings</h1>
 
-<% current_user.characters.each do |c| %>
-  <%= c.character_id %>
-<% end %>
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+  <h2 class="border-bottom pb-2 mb-0">Characters</h2>
+  <p>User the login button to add more characters</p>
+  <p><%= add_character_button %></p>
+  <% current_user.characters.each do |c| %>
+    <div class="d-flex text-muted pt-3">
+      <%= image_tag c.avatar, class: 'character-avatar' %>
 
-<br>
-
-<%= add_character_button %>
+      <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+        <div class="d-flex justify-content-between">
+          <h3><%= c.character_name %></h3>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
