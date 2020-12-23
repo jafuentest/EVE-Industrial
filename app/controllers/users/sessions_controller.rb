@@ -4,11 +4,11 @@ class Users::SessionsController < Devise::SessionsController
 
   # GET /login
   def new
-    return redirect_to root_path if params[:code].blank?
+    return redirect_to root_path if (code = params[:code]).blank?
 
-    do_sign_in(params[:code]) unless signed_in?
+    do_sign_in(code) unless signed_in?
 
-    add_character(params[:code]) if params[:state].include?('character')
+    add_character(code) if params[:state].include?('character')
 
     redirect_to settings_path
   end

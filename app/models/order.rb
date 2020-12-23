@@ -21,7 +21,9 @@ class Order < ApplicationRecord
   belongs_to :item
   belongs_to :character, optional: true
 
-  ESI_ATTRIBUTES = %w[location_id price issued duration volume_remain volume_total].freeze
+  alias_attribute :type_id, :item_id
+
+  ESI_ATTRIBUTES = %w[location_id type_id price issued duration volume_remain volume_total].freeze
 
   SYSTEMS_FOR_REGION = {
     # The Forge => [Jita, Perimeter, New Caldari]
@@ -66,7 +68,7 @@ class Order < ApplicationRecord
   def self.update_region_orders(region_id, item_ids)
     Item.create_items(item_ids)
     item_ids.each do |item_id|
-      esi_orders = ESI.fetch_region_orders(region_id, item_id, 'all')
+      ESI.fetch_region_orders(region_id, item_id, 'all')
         .select { |e| SYSTEMS_FOR_REGION[region_id].include?(e['system_id']) }
         .each { |esi_order| upsert_order(esi_order, region_id: region_id) }
     end
@@ -93,10 +95,11 @@ class Order < ApplicationRecord
   private_class_method def self.upsert_order(esi_order, character: nil, region_id: nil)
     o = find_or_initialize_by(esi_id: esi_order['order_id'])
     o.assign_attributes(esi_order.slice(*ESI_ATTRIBUTES))
-    o.character = character if character.present?
-    o.item_id = esi_order['type_id']
     o.region_id = region_id
     o.buy_order = esi_order['is_buy_order'].present?
+    o.character = character if character.present?
+    # o.item_id = esi_order['type_id']
+    o.updated_at = Time.current if o.persisted?
     o.save!
   end
 end
