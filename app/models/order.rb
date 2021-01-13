@@ -78,7 +78,7 @@ class Order < ApplicationRecord
         if npc_station?(location_id)
           orders.where(region_id: location_orders.first['region_id'])
         else
-          orders = orders.where(location_id: location_id)
+          orders.where(location_id: location_id)
         end
       orders.delete_all
     end
