@@ -27,7 +27,7 @@
     <tbody class="table-hover">
       <% orders.each do |order| %>
       <% next if params[:filter] == 'relevant' && order.market_diff == 0 %>
-        <tr>
+        <tr class="<%= row_class(order) %>">
           <td><span data-esi-type="item" data-esi-id="<%= order.item_id %>"><%= order.item.name %></span></td>
           <td><%= order.volume_remain %></td>
           <td><%= order.volume_total %></td>
