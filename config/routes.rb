@@ -16,6 +16,10 @@ Rails.application.routes.draw do
     get :my, on: :collection
   end
 
+  scope :industry, controller: :industry do
+    get :jobs
+  end
+
   scope '', controller: :pages do
     get :character_data
   end
