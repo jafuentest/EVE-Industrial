@@ -6,7 +6,7 @@ class CreateOrders < ActiveRecord::Migration[6.0]
       t.integer :location_id
       t.integer :region_id
       t.integer :character_id
-      t.decimal :price
+      t.decimal :price, precision: 12, scale: 2
       t.datetime :issued
       t.integer :duration
       t.integer :volume_remain

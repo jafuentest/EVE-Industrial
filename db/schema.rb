@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_17_023959) do
+ActiveRecord::Schema.define(version: 2021_01_18_025455) do
 
   create_table "characters", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -26,6 +26,24 @@ ActiveRecord::Schema.define(version: 2020_12_17_023959) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_characters_on_user_id"
+  end
+
+  create_table "industry_jobs", id: false, force: :cascade do |t|
+    t.integer "id", null: false
+    t.integer "character_id"
+    t.integer "blueprint_id"
+    t.integer "blueprint_type_id"
+    t.integer "product_type_id"
+    t.integer "activity_id"
+    t.integer "station_id"
+    t.integer "installer_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer "runs"
+    t.integer "licensed_runs"
+    t.decimal "probability", precision: 5, scale: 4
+    t.string "status"
+    t.index ["id"], name: "index_industry_jobs_on_id", unique: true
   end
 
   create_table "items", id: false, force: :cascade do |t|
@@ -51,7 +69,7 @@ ActiveRecord::Schema.define(version: 2020_12_17_023959) do
     t.integer "location_id"
     t.integer "region_id"
     t.integer "character_id"
-    t.decimal "price"
+    t.decimal "price", precision: 12, scale: 2
     t.datetime "issued"
     t.integer "duration"
     t.integer "volume_remain"

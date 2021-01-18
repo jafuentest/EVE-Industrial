@@ -14,7 +14,7 @@ class CreateIndustryJobs < ActiveRecord::Migration[6.0]
       t.datetime :end_date
       t.integer :runs
       t.integer :licensed_runs
-      t.decimal :probability, precision: 12, scale: 2
+      t.decimal :probability, precision: 5, scale: 4
       t.string :status
 
       t.index :id, unique: true
