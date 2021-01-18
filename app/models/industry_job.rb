@@ -38,4 +38,14 @@ class IndustryJob < ApplicationRecord
   def activity
     JOB_ACTIVITY_ID[activity_id]
   end
+
+  def time_left
+    return 0 if end_date < Time.current
+
+    end_date - Time.current
+  end
+
+  def status
+    end_date < Time.current ? 'ready' : self[:status]
+  end
 end
