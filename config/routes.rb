@@ -16,8 +16,9 @@ Rails.application.routes.draw do
     get :my, on: :collection
   end
 
-  scope :industry, controller: :industry do
+  namespace :industry do
     get :jobs
+    post :update_jobs
   end
 
   scope '', controller: :pages do
