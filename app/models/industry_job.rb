@@ -4,6 +4,18 @@ class IndustryJob < ApplicationRecord
     start_date end_date runs licensed_runs probability status
   ].freeze
 
+  JOB_ACTIVITY_ID = [
+    '',
+    'Manufacturing',
+    'Researching Technology',
+    'Researching Time Productivity',
+    'Researching Material Productivity',
+    'Copying',
+    'Duplicating',
+    'Reverse Engineering',
+    'Invention'
+  ].freeze
+
   self.primary_key = :id
 
   def self.update_character_industry_jobs(character)
@@ -14,5 +26,9 @@ class IndustryJob < ApplicationRecord
       job.assign_attributes(esi_job.slice(*ESI_ATTRIBUTES))
       job.save!
     end
+  end
+
+  def activity
+    JOB_ACTIVITY_ID[activity_id]
   end
 end

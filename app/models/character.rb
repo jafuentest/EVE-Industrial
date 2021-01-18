@@ -1,5 +1,6 @@
 class Character < ApplicationRecord
   belongs_to :user
+  has_many :industry_jobs, dependent: :destroy
   has_many :orders, dependent: :nullify
 
   def verification_data=(verification_data)
