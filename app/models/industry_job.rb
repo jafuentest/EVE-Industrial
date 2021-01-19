@@ -27,8 +27,8 @@ class IndustryJob < ApplicationRecord
     '',
     'Manufacturing',
     'Researching Technology',
-    'Researching TE',
-    'Researching ME',
+    'TE Research',
+    'ME Research',
     'Copying',
     'Duplicating',
     'Reverse Engineering',
@@ -38,7 +38,7 @@ class IndustryJob < ApplicationRecord
   self.primary_key = :id
 
   belongs_to :character
-  belongs_to :output, foreign_key: :product_type_id, class_name: 'Item'
+  belongs_to :output, foreign_key: :product_type_id, class_name: 'Item', inverse_of: :industry_jobs
 
   def self.update_character_industry_jobs(character)
     esi_jobs = ESI.fetch_character_industry_jobs(character).each
@@ -70,5 +70,11 @@ class IndustryJob < ApplicationRecord
 
   def status
     end_date < Time.current ? 'ready' : self[:status]
+  end
+
+  def probability
+    return '' unless activity == 'Invention'
+
+    "#{(self[:probability] * 100).round(2)}%"
   end
 end
