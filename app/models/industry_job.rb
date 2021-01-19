@@ -24,7 +24,7 @@ class IndustryJob < ApplicationRecord
   def self.update_character_industry_jobs(character)
     esi_jobs = ESI.fetch_character_industry_jobs(character).each
     Item.create_items(esi_jobs.pluck('product_type_id'))
-
+    remove_missing_jobs(character, esi_jobs)
     esi_jobs.each do |esi_job|
       job = find_or_initialize_by(id: esi_job['job_id'])
       next if job.persisted?
@@ -33,6 +33,10 @@ class IndustryJob < ApplicationRecord
       job.character = character
       job.save!
     end
+  end
+
+  private_class_method def self.remove_missing_jobs(character, esi_jobs)
+    character.industry_jobs.where.not(id: esi_jobs.pluck('job_id')).delete_all
   end
 
   def activity
