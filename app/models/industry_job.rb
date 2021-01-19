@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: industry_jobs
+#
+#  id                :integer          not null, primary key
+#  character_id      :integer
+#  blueprint_id      :integer
+#  blueprint_type_id :integer
+#  product_type_id   :integer
+#  activity_id       :integer
+#  station_id        :integer
+#  installer_id      :integer
+#  start_date        :datetime
+#  end_date          :datetime
+#  runs              :integer
+#  licensed_runs     :integer
+#  probability       :decimal(5, 4)
+#  status            :string
+#
 class IndustryJob < ApplicationRecord
   ESI_ATTRIBUTES = %w[
     character_id blueprint_id blueprint_type_id product_type_id activity_id station_id installer_id

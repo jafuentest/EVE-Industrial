@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: characters
+#
+#  id                 :integer          not null, primary key
+#  user_id            :integer          not null
+#  esi_refresh_token  :string
+#  esi_auth_token     :string
+#  esi_expires_on     :datetime
+#  character_id       :bigint
+#  character_name     :string
+#  character_portrait :string
+#  scopes             :string
+#  token_type         :string
+#  owner_hash         :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
 class Character < ApplicationRecord
   belongs_to :user
   has_many :industry_jobs, dependent: :destroy
