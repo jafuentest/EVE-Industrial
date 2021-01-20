@@ -9,26 +9,26 @@
         <th colspan="7"><%= character.character_name %></th>
       </tr>
       <tr>
-        <th data-sortable="true">Output</th>
+        <th>Time Left</th>
+        <th data-sortable="true">Runs</th>
         <th data-sortable="true">Activity</th>
+        <th data-sortable="true">Success %</th>
+        <th data-sortable="true">Output</th>
         <th data-sortable="true">Location</th>
         <th data-sortable="true">End Date</th>
-        <th data-sortable="true">Runs</th>
-        <th data-sortable="true">Success %</th>
-        <th>Time Left</th>
       </tr>
     </thead>
 
     <tbody class="table-hover">
       <% jobs.each do |job| %>
         <tr class="<%= row_class(job) %>">
-          <td><%= job.output.name %></td>
+          <td><%= distance_of_time_in_words(job.time_left) if job.time_left > 0 %></td>
+          <td><%= job.runs %></td>
           <td><%= job.activity %></td>
+          <td><%= job.probability %></td>
+          <td><%= job.output.name %></td>
           <td><%= job.station_id %></td>
           <td><%= job.end_date %></td>
-          <td><%= job.runs %></td>
-          <td><%= job.probability %></td>
-          <td><%= distance_of_time_in_words(job.time_left) if job.time_left > 0 %></td>
         </tr>
       <% end %>
     </tbody>
