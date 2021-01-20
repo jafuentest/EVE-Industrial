@@ -8,7 +8,7 @@
 #  location_id   :integer
 #  region_id     :integer
 #  character_id  :integer
-#  price         :decimal(, )
+#  price         :decimal(12, 2)
 #  issued        :datetime
 #  duration      :integer
 #  volume_remain :integer

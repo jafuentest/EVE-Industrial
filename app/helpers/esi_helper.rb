@@ -2,6 +2,8 @@ module ESIHelper
   ESI_URL = 'https://login.eveonline.com/v2/oauth/authorize'.freeze
   LOGIN_IMAGE_URL = 'https://web.ccpgamescdn.com/eveonlineassets/developers/eve-sso-login-white-small.png'.freeze
   SCOPES = [
+    'esi-characters.read_blueprints.v1',
+    'esi-industry.read_character_jobs.v1',
     'esi-markets.read_character_orders.v1',
     'esi-markets.read_corporation_orders.v1',
     'esi-markets.structure_markets.v1',

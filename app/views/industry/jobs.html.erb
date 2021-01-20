@@ -1,0 +1,43 @@
+<h1>Industry Jobs</h1>
+
+<%= button_to 'Update Jobs', industry_update_jobs_path, class: 'btn btn-outline-primary mt-2', form: { style: 'display: inline' } %>
+
+<% @jobs.group_by(&:character).each do |character, jobs| %>
+  <table class="table table-striped table-bordered mt-4" data-toggle="table">
+    <thead>
+      <tr>
+        <th colspan="7"><%= character.character_name %></th>
+      </tr>
+      <tr>
+        <th>Time Left</th>
+        <th data-sortable="true">Runs</th>
+        <th data-sortable="true">Activity</th>
+        <th data-sortable="true">Success %</th>
+        <th data-sortable="true">Output</th>
+        <th data-sortable="true">Location</th>
+        <th data-sortable="true">End Date</th>
+      </tr>
+    </thead>
+
+    <tbody class="table-hover">
+      <% jobs.each do |job| %>
+        <tr class="<%= row_class(job) %>">
+          <td>
+            <%= job.time_left <= 0 ? '&nbsp;'.html_safe : distance_of_time_in_words(job.time_left) %>
+            <div class="job-progress-bar">
+              <div style="width: <%= job.completion_percent %>;"></div>
+            </div>
+          </td>
+          <td><%= job.runs %></td>
+          <td><%= job.activity %></td>
+          <td><%= job.probability %></td>
+          <td><%= job.output.name %></td>
+          <td><%= job.station_id %></td>
+          <td><%= job.end_date %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<%= javascript_pack_tag 'table-sorting' %>

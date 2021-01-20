@@ -21,30 +21,14 @@ class ESI
     parsed_response(uri, req)
   end
 
-  def self.fetch_character_portrait(character_id)
-    uri = URI("#{ESI_BASE_URL}/characters/#{character_id}/portrait/")
-    req = Net::HTTP::Get.new(uri)
-    parsed_response(uri, req)
-  end
-
+  # General Items
   def self.fetch_item_name(type_id)
     uri = URI("#{ESI_BASE_URL}/universe/types/#{type_id}/")
     req = Net::HTTP::Get.new(uri)
     parsed_response(uri, req)['name']
   end
 
-  def self.fetch_character_planets(character)
-    uri = URI("#{ESI_BASE_URL}/characters/#{character.character_id}/planets/")
-    req = request_from_uri(uri, character.auth_token)
-    parsed_response(uri, req)
-  end
-
-  def self.fetch_planets_details(character, planets)
-    planets.map do |planet|
-      planet.merge(fetch_planet_details(character, planet['planet_id']))
-    end
-  end
-
+  # Item Market
   def self.fetch_character_market_orders(character)
     uri = URI("#{ESI_BASE_URL}/characters/#{character.character_id}/orders/")
     req = request_from_uri(uri, character.auth_token)
@@ -69,12 +53,40 @@ class ESI
     body.is_a?(Array) ? body : nil
   end
 
+  # Industry
+  def self.fetch_character_industry_jobs(character)
+    uri = URI("https://esi.evetech.net/latest/characters/#{character.character_id}/industry/jobs/")
+    req = request_from_uri(uri, character.auth_token)
+    parsed_response(uri, req)
+  end
+
+  # Planetary Interaction (PI)
+  def self.fetch_character_planets(character)
+    uri = URI("#{ESI_BASE_URL}/characters/#{character.character_id}/planets/")
+    req = request_from_uri(uri, character.auth_token)
+    parsed_response(uri, req)
+  end
+
+  def self.fetch_planets_details(character, planets)
+    planets.map do |planet|
+      planet.merge(fetch_planet_details(character, planet['planet_id']))
+    end
+  end
+
+  # User Data
+  def self.fetch_character_portrait(character_id)
+    uri = URI("#{ESI_BASE_URL}/characters/#{character_id}/portrait/")
+    req = Net::HTTP::Get.new(uri)
+    parsed_response(uri, req)
+  end
+
   private_class_method def self.fetch_planet_details(character, planet_id)
     uri = URI("#{ESI_BASE_URL}/characters/#{character.character_id}/planets/#{planet_id}")
     req = request_from_uri(uri, character.auth_token)
     parsed_response(uri, req)
   end
 
+  # Utility
   private_class_method def self.parsed_response(uri, req)
     res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
     JSON.parse(res.body)

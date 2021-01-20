@@ -9,6 +9,7 @@ class Item < ApplicationRecord
   self.primary_key = :id
 
   has_many :orders, dependent: :destroy
+  has_many :industry_jobs, dependent: :destroy
 
   before_save :set_name
 

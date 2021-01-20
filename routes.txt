@@ -1,0 +1,31 @@
+                             Prefix Verb   URI Pattern                                    Controller#Action
+                   new_user_session GET    /users/sign_in(.:format)                       users/sessions#new
+                       user_session POST   /users/sign_in(.:format)                       users/sessions#create
+               destroy_user_session DELETE /users/sign_out(.:format)                      users/sessions#destroy
+                  new_user_password GET    /users/password/new(.:format)                  devise/passwords#new
+                 edit_user_password GET    /users/password/edit(.:format)                 devise/passwords#edit
+                      user_password PATCH  /users/password(.:format)                      devise/passwords#update
+                                    PUT    /users/password(.:format)                      devise/passwords#update
+                                    POST   /users/password(.:format)                      devise/passwords#create
+           cancel_user_registration GET    /users/cancel(.:format)                        devise/registrations#cancel
+              new_user_registration GET    /users/sign_up(.:format)                       devise/registrations#new
+             edit_user_registration GET    /users/edit(.:format)                          devise/registrations#edit
+                  user_registration PATCH  /users(.:format)                               devise/registrations#update
+                                    PUT    /users(.:format)                               devise/registrations#update
+                                    DELETE /users(.:format)                               devise/registrations#destroy
+                                    POST   /users(.:format)                               devise/registrations#create
+                             logout DELETE /logout(.:format)                              users/sessions#destroy
+                              login POST   /login(.:format)                               users/sessions#create
+                                    GET    /login(.:format)                               users/sessions#new
+           update_all_market_orders POST   /market_orders/update_all(.:format)            market_orders#update_all
+                      market_orders GET    /market_orders(.:format)                       market_orders#index
+update_prices_planetary_commodities POST   /planetary_commodities/update_prices(.:format) planetary_commodities#update_prices
+           my_planetary_commodities GET    /planetary_commodities/my(.:format)            planetary_commodities#my
+              planetary_commodities GET    /planetary_commodities(.:format)               planetary_commodities#index
+                planetary_commodity GET    /planetary_commodities/:id(.:format)           planetary_commodities#show
+                      industry_jobs GET    /industry/jobs(.:format)                       industry#jobs
+               industry_update_jobs POST   /industry/update_jobs(.:format)                industry#update_jobs
+                     character_data GET    /character_data(.:format)                      pages#character_data
+                           settings GET    /settings(.:format)                            users#settings
+                   remove_character DELETE /remove_character(/:id)(.:format)              users#remove_character
+                               root GET    /                                              pages#dashboard

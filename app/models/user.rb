@@ -30,6 +30,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :trackable
 
   has_many :characters, dependent: :destroy
+  has_many :industry_jobs, through: :characters
   has_many :orders, through: :characters
 
   def self.find_or_register(code)
@@ -88,6 +89,12 @@ class User < ApplicationRecord
     characters.each do |character|
       Order.where(character_id: character.id).delete_all
       Order.update_character_orders(character)
+    end
+  end
+
+  def update_industry_jobs
+    characters.each do |character|
+      IndustryJob.update_character_industry_jobs(character)
     end
   end
 
