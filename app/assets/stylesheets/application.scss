@@ -46,7 +46,11 @@ tr.bg-success {
   background-color: #99ffd0 !important;
 }
 
-.progress-bar {
-  background-color: #444;
-  height: 3px;
+.job-progress-bar {
+  border: 1px solid #000;
+
+  div {
+    background-color: #444;
+    height: 2px;
+  }
 }

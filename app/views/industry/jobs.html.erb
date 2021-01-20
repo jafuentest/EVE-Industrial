@@ -24,7 +24,9 @@
         <tr class="<%= row_class(job) %>">
           <td>
             <%= distance_of_time_in_words(job.time_left) if job.time_left > 0 %>
-            <div class="progress-bar" style="width: <%= job.completion_percent %>;"></div>
+            <div class="job-progress-bar">
+              <div style="width: <%= job.completion_percent %>;"></div>
+            </div>
           </td>
           <td><%= job.runs %></td>
           <td><%= job.activity %></td>
