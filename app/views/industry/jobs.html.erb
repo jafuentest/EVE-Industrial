@@ -23,7 +23,7 @@
       <% jobs.each do |job| %>
         <tr class="<%= row_class(job) %>">
           <td>
-            <%= distance_of_time_in_words(job.time_left) if job.time_left > 0 %>
+            <%= job.time_left <= 0 ? '&nbsp;'.html_safe : distance_of_time_in_words(job.time_left) %>
             <div class="job-progress-bar">
               <div style="width: <%= job.completion_percent %>;"></div>
             </div>
