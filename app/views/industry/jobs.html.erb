@@ -22,7 +22,10 @@
     <tbody class="table-hover">
       <% jobs.each do |job| %>
         <tr class="<%= row_class(job) %>">
-          <td><%= distance_of_time_in_words(job.time_left) if job.time_left > 0 %></td>
+          <td>
+            <%= distance_of_time_in_words(job.time_left) if job.time_left > 0 %>
+            <div class="progress-bar" style="width: <%= job.completion_percent %>;"></div>
+          </td>
           <td><%= job.runs %></td>
           <td><%= job.activity %></td>
           <td><%= job.probability %></td>

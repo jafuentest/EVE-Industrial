@@ -77,4 +77,12 @@ class IndustryJob < ApplicationRecord
 
     "#{(self[:probability] * 100).round(2)}%"
   end
+
+  def completion_percent
+    return 0 if time_left <= 0
+
+    total_time = end_date - start_date
+    percent = (total_time - time_left) * 100 / total_time
+    "#{percent}%"
+  end
 end
