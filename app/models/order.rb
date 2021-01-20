@@ -52,16 +52,19 @@ class Order < ApplicationRecord
     location_id < NPC_ID_THRESHOLD
   end
 
-  def self.update_character_orders(character)
+  def self.update_character_orders(character, update_competition: true)
     start_time = Time.current
     orders = ESI.fetch_character_market_orders(character)
     Item.create_items(orders.pluck('type_id'))
     orders.each { |esi_order| upsert_order(esi_order, character: character) }
-    update_relevant_orders(orders, character)
-    destroy_missing_orders(orders, start_time)
+
+    if update_competition
+      update_competing_orders(orders, character)
+      destroy_missing_orders(orders, start_time)
+    end
   end
 
-  private_class_method def self.update_relevant_orders(orders, character)
+  def self.update_competing_orders(orders, character)
     orders.group_by { |e| e['location_id'] }.each do |location_id, location_orders|
       if npc_station?(location_id)
         update_region_orders(location_orders.first['region_id'], location_orders.pluck('type_id'))
