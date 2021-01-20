@@ -60,10 +60,10 @@ class Order < ApplicationRecord
       upsert_order(esi_order, character: character, region_id: esi_order['region_id'])
     end
 
-    if update_competition
-      update_competing_orders(orders, character)
-      destroy_missing_orders(orders, start_time)
-    end
+    return unless update_competition
+
+    update_competing_orders(orders, character)
+    destroy_missing_orders(orders, start_time)
   end
 
   def self.update_competing_orders(orders, character)
