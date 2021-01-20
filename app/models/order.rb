@@ -56,7 +56,9 @@ class Order < ApplicationRecord
     start_time = Time.current
     orders = ESI.fetch_character_market_orders(character)
     Item.create_items(orders.pluck('type_id'))
-    orders.each { |esi_order| upsert_order(esi_order, character: character) }
+    orders.each do |esi_order|
+      upsert_order(esi_order, character: character, region_id: esi_order['region_id'])
+    end
 
     if update_competition
       update_competing_orders(orders, character)
