@@ -85,6 +85,10 @@ class User < ApplicationRecord
     character_portrait
   end
 
+  def remember_me
+    super.nil? ? true : super
+  end
+
   def update_market_orders
     characters.each do |character|
       Order.where(character_id: character.id).delete_all
