@@ -18,7 +18,7 @@
                 <strong data-esi-type="item" data-esi-id="<%= item_id %>"><%= item_id %></strong>
               </div>
               <div class="col text-left">
-                <%= distance_of_time_in_words(Time.zone.now, pin['expiry_time']) %> left
+                <%= time_left(pin) %>
               </div>
             </div>
           <% end %>
