@@ -11,17 +11,6 @@ class PlanetaryCommoditiesController < ApplicationController
     @planetary_commodity = PlanetaryCommodity.with_price(system_id: 30_000_142, id: params[:id])
   end
 
-  def update_colonies
-    @planets = current_user.update_planetary_colonies
-    redirect_to my_planets_path
-  end
-
-  def my
-    return redirect_to helpers.esi_login_url unless signed_in?
-
-    @planets = Character.first.planetary_colonies
-  end
-
   # POST /planetary_commodities/update_prices
   def update_prices
     PlanetaryCommodity.update_prices

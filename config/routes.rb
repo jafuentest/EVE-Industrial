@@ -7,18 +7,21 @@ Rails.application.routes.draw do
     get 'login', to: 'users/sessions#new'
   end
 
+  namespace :industry do
+    get :jobs
+    post :update_jobs
+  end
+
   resources :market_orders, only: %i[index] do
     post :update_all, on: :collection
   end
 
-  resources :planetary_commodities, only: %i[index show] do
-    post :update_prices, on: :collection
-    get :my, on: :collection
+  resources :planetary_colonies, only: %i[index] do
+    post :update, on: :collection, as: :update
   end
 
-  namespace :industry do
-    get :jobs
-    post :update_jobs
+  resources :planetary_commodities, only: %i[index show] do
+    post :update_prices, on: :collection
   end
 
   scope '', controller: :pages do

@@ -104,7 +104,7 @@ class User < ApplicationRecord
 
   def update_planetary_colonies
     characters.each do |character|
-      IndustryJob.update_character_colonies(character)
+      PlanetaryColony.update_character_colonies(character)
     end
   end
 

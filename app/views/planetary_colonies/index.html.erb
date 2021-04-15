@@ -1,5 +1,7 @@
 <h1>My Planetary Colonies</h1>
 
+<%= button_to 'Update Planets', planetary_colonies_path, class: 'btn btn-outline-primary mt-2', form: { style: 'display: inline' } %>
+
 <% @planets.group_by(&:character).each do |character, planets| %>
   <table class="table table-bordered mt-4">
     <thead>
