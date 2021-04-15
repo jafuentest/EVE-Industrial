@@ -82,9 +82,11 @@ ActiveRecord::Schema.define(version: 2021_04_15_042847) do
 
   create_table "planetary_colonies", force: :cascade do |t|
     t.integer "character_id", null: false
+    t.integer "solar_system_id", null: false
     t.integer "planet_id", null: false
     t.string "planet_type", null: false
     t.integer "upgrade_level", null: false
+    t.datetime "last_update"
     t.string "extractors", default: "{}"
     t.string "factories", default: "{}"
     t.datetime "created_at", precision: 6, null: false

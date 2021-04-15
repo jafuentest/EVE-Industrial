@@ -98,7 +98,13 @@ class User < ApplicationRecord
 
   def update_industry_jobs
     characters.each do |character|
-      IndustryJob.update_character_industry_jobs(character)
+      IndustryJob.update_character_jobs(character)
+    end
+  end
+
+  def update_planetary_colonies
+    characters.each do |character|
+      IndustryJob.update_character_colonies(character)
     end
   end
 
