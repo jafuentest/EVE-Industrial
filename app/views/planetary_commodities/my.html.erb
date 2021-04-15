@@ -5,13 +5,13 @@
     <div class="col-md-6 col-lg-4">
       <div class="card mb-4 shadow-sm">
         <div class="card-header">
-          <% planet_id = planet['planet_id'] %>
+          <% planet_id = planet.planet_id %>
           <h3 class="my-0 font-weight-normal" data-esi-type="planet" data-esi-id="<%= planet_id %>"><%= planet_id %></h3>
         </div>
         <div class="card-body">
-          <h4><%= planet['planet_type'].capitalize %> Planet lvl <%= planet['upgrade_level'] %></h4>
+          <h4><%= planet.planet_type.capitalize %> Planet lvl <%= planet.upgrade_level %></h4>
           Extractors:
-          <% planet['extractors'].each do |pin| %>
+          <% planet.extractors.each do |pin| %>
             <div class="row">
               <div class="col text-right">
                 <% item_id = pin['extractor_details']['product_type_id'] %>
@@ -23,11 +23,11 @@
             </div>
           <% end %>
           Factories:
-          <% schematics = planet['factories'].group_by { |e| e['schematic_id'] } %>
+          <% schematics = planet.factories.group_by { |e| e['schematic_id'] } %>
           <% schematics.each do |schematic_id, factories| %>
             <div class="row">
               <div class="col text-right">
-                <% item_id = (schematic = PlanetaryCommodity.with_price_by(system_id: 30000142, schematic_id: schematic_id)).id %>
+                <% item_id = (schematic = PlanetaryCommodity.with_price(system_id: 30000142, schematic_id: schematic_id)).id %>
                 <strong data-esi-type="item" data-esi-id="<%= item_id %>"><%= item_id %></strong>
               </div>
               <div data-esi-type="batch-size-times-cycle" data-esi-id="<%= schematic_id %>" class="col text-left">
@@ -40,4 +40,3 @@
     </div>
   <% end %>
 </div>
-
