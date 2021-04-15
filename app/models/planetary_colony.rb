@@ -8,19 +8,32 @@ class PlanetaryColony < ApplicationRecord
   BASIC_FACTORY_TYPE_IDS = [2469, 2471, 2473, 2481, 2483, 2490, 2492, 2493].freeze
 
   def extractors
-    JSON.parse(self[:extractors]).map &:with_indifferent_access
+    JSON.parse(self[:extractors]).map(&:with_indifferent_access)
   end
 
-  def extractors=(o)
-    self[:extractors] = o.to_json
+  def extractors=(extractors)
+    self[:extractors] = extractors.to_json
   end
 
   def factories
-    JSON.parse(self[:factories]).map &:with_indifferent_access
+    JSON.parse(self[:factories]).map(&:with_indifferent_access)
   end
 
-  def factories=(o)
-    self[:factories] = o.to_json
+  def factories=(factories)
+    self[:factories] = factories.to_json
+  end
+
+  def expiry_time
+    Time.zone.parse extractors.pluck(:expiry_time).min
+  end
+
+  def isk_per_day
+    factories.pluck(:schematic_id)
+      .reduce(Hash.new(0)) { |total, e| total[e] += 1; total }
+      .reduce(0) do |iph, (schematic_id, count)|
+        commodity = PlanetaryCommodity.with_price(system_id: 30_000_142, schematic_id: schematic_id)
+        iph += commodity.isk_per_hour(count) * 24
+      end
   end
 
   def self.update_character_colonies(character)

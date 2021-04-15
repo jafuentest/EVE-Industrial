@@ -20,12 +20,12 @@ class PlanetaryCommodity < ApplicationRecord
 
   def isk_per_hour(factories, buy_or_sell = :buy)
     price = buy_or_sell == :buy ? buy_price : sell_price
-    daily_production = batch_size * factories * cycles_per_day
+    daily_production = batch_size * factories * cycles_per_hour
     daily_production * price
   end
 
-  def cycles_per_day
-    tier == 1 ? 48 : 24
+  def cycles_per_hour
+    tier == 1 ? 2 : 1
   end
 
   def self.hash_from_csv_row(row)
