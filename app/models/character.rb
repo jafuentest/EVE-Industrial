@@ -20,6 +20,7 @@ class Character < ApplicationRecord
   belongs_to :user
   has_many :industry_jobs, dependent: :destroy
   has_many :orders, dependent: :nullify
+  has_many :planetary_colonies, dependent: :destroy
 
   def verification_data=(verification_data)
     self.character_name = verification_data['CharacterName']

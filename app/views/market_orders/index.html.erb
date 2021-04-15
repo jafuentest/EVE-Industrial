@@ -1,6 +1,5 @@
 <h1>Market Orders</h1>
 
-<%= button_to 'Update Orders', update_all_market_orders_path, class: 'btn btn-outline-primary mt-2', form: { style: 'display: inline' } %>
 <% if ['all', nil].include?(params[:filter]) %>
   <%= link_to 'Only Relevant Orders', market_orders_path(filter: 'relevant'), class: 'btn btn-outline-primary mt-2' %>
 <% elsif params[:filter] == 'relevant' %>

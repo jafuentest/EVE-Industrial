@@ -40,7 +40,7 @@ class IndustryJob < ApplicationRecord
   belongs_to :character
   belongs_to :output, foreign_key: :product_type_id, class_name: 'Item', inverse_of: :industry_jobs
 
-  def self.update_character_industry_jobs(character)
+  def self.update_character_jobs(character)
     esi_jobs = ESI.fetch_character_industry_jobs(character).each
     Item.create_items(esi_jobs.pluck('product_type_id'))
     remove_missing_jobs(character, esi_jobs)

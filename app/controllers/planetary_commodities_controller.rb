@@ -8,13 +8,7 @@ class PlanetaryCommoditiesController < ApplicationController
   # GET /planetary_commodities/1
   # GET /planetary_commodities/1.json
   def show
-    @planetary_commodity = PlanetaryCommodity.with_price(params[:id], 30_000_142)
-  end
-
-  def my
-    return redirect_to helpers.esi_login_url unless signed_in?
-
-    @planets = PlanetaryCommodity.character_colonies(current_user)
+    @planetary_commodity = PlanetaryCommodity.with_price(system_id: 30_000_142, id: params[:id])
   end
 
   # POST /planetary_commodities/update_prices

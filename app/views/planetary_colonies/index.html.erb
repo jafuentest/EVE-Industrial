@@ -1,0 +1,32 @@
+<h1>My Planetary Colonies</h1>
+
+<%= button_to 'Update Planets', planetary_colonies_path, class: 'btn btn-outline-primary mt-2', form: { style: 'display: inline' } %>
+
+<% @planets.group_by(&:character).each do |character, planets| %>
+  <table class="table table-bordered mt-4">
+    <thead>
+      <tr>
+        <th colspan="7"><%= character.character_name %></th>
+      </tr>
+      <tr>
+        <th>Name</th>
+        <th>Type & Upgrade lvl</th>
+        <th>End Products</th>
+        <th>Isk / day</th>
+        <th>Time Left</th>
+      </tr>
+    </thead>
+
+    <tbody class="table-hover">
+      <% planets.each do |planet| %>
+        <tr class="<%= row_class(planet) %>">
+          <td data-esi-type="planet" data-esi-id="<%= planet.planet_id %>"><%= planet.planet_id %></td>
+          <td><%= planet.planet_type.capitalize %> Planet lvl <%= planet.upgrade_level %></td>
+          <td><%= end_products(planet) %></td>
+          <td><%= number_with_delimiter(planet.isk_per_day) %></td>
+          <td><%= time_left(planet.expiry_time) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

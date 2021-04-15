@@ -61,21 +61,21 @@ class ESI
   end
 
   # Planetary Interaction (PI)
-  def self.fetch_character_planets(character)
+  def self.fetch_planets_details(character)
+    fetch_character_planets(character).map do |planet|
+      planet.merge(fetch_planet_details(character, planet['planet_id']))
+    end
+  end
+
+  private_class_method def self.fetch_character_planets(character)
     uri = URI("#{ESI_BASE_URL}/characters/#{character.character_id}/planets/")
     req = request_from_uri(uri, character.auth_token)
     parsed_response(uri, req)
   end
 
-  def self.fetch_planets_details(character, planets)
-    planets.map do |planet|
-      planet.merge(fetch_planet_details(character, planet['planet_id']))
-    end
-  end
-
   # User Data
-  def self.fetch_character_portrait(character_id)
-    uri = URI("#{ESI_BASE_URL}/characters/#{character_id}/portrait/")
+  def self.fetch_character_portrait(character)
+    uri = URI("#{ESI_BASE_URL}/characters/#{character.character_id}/portrait/")
     req = Net::HTTP::Get.new(uri)
     parsed_response(uri, req)
   end
