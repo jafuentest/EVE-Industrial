@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_18_025455) do
+ActiveRecord::Schema.define(version: 2021_04_15_042847) do
 
   create_table "characters", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -80,6 +80,18 @@ ActiveRecord::Schema.define(version: 2021_01_18_025455) do
     t.index ["item_id"], name: "index_orders_on_item_id"
   end
 
+  create_table "planetary_colonies", force: :cascade do |t|
+    t.integer "character_id", null: false
+    t.integer "planet_id", null: false
+    t.string "planet_type", null: false
+    t.integer "upgrade_level", null: false
+    t.string "extractors", default: "{}"
+    t.string "factories", default: "{}"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["character_id"], name: "index_planetary_colonies_on_character_id"
+  end
+
   create_table "planetary_commodities", id: false, force: :cascade do |t|
     t.integer "id", null: false
     t.integer "schematic_id"
@@ -131,4 +143,5 @@ ActiveRecord::Schema.define(version: 2021_01_18_025455) do
   add_foreign_key "characters", "users"
   add_foreign_key "items_prices", "stars"
   add_foreign_key "orders", "items"
+  add_foreign_key "planetary_colonies", "characters"
 end
