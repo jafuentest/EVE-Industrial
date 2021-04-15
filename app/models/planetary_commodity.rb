@@ -14,12 +14,6 @@ class PlanetaryCommodity < ApplicationRecord
   include CSVImportable
   include MarketeerAPI
 
-  PLANET_DETAILS_KEYS = %w[last_update planet_id planet_type solar_system_id upgrade_level].freeze
-  PIN_DETAILS_KEYS = %w[expiry_time extractor_details].freeze
-  HIGH_TECH_FACTORY_TYPE_IDS = [2475, 2482].freeze
-  ADVANCED_FACTORY_TYPE_IDS = [2470, 2472, 2474, 2480, 2484, 2485, 2491, 2494].freeze
-  BASIC_FACTORY_TYPE_IDS = [2469, 2471, 2473, 2481, 2483, 2490, 2492, 2493].freeze
-
   self.primary_key = :id
 
   has_many :items_prices, as: :item, class_name: 'ItemsPrices', dependent: :destroy
@@ -32,21 +26,6 @@ class PlanetaryCommodity < ApplicationRecord
 
   def cycles_per_day
     tier == 1 ? 48 : 24
-  end
-
-  def self.character_colonies(character)
-    planet_list = ESI.fetch_character_planets(character)
-    planets = ESI.fetch_planets_details(character, planet_list)
-    planets.map do |planet|
-      filtered_planet = planet.slice(*PLANET_DETAILS_KEYS)
-        .merge('extractors' => nil, 'factories' => nil)
-
-      filtered_planet['extractors'] = planet['pins'].reduce([]) do |pins, pin|
-        pin.key?('extractor_details') ? pins << extractor_details(pin) : pins
-      end
-
-      filtered_planet.merge('factories' => fetch_top_level_factories(planet['pins']))
-    end
   end
 
   def self.hash_from_csv_row(row)
@@ -83,14 +62,6 @@ class PlanetaryCommodity < ApplicationRecord
     query.find_by(by)
   end
 
-  private_class_method def self.extractor_details(pin)
-    details = pin['extractor_details'].slice('cycle_time', 'product_type_id', 'qty_per_cycle')
-    {
-      'expiry_time' => pin['expiry_time'],
-      'extractor_details' => details
-    }
-  end
-
   private_class_method def self.update_star_prices(star_id)
     fetch_prices_for(star_id: star_id, items: pluck(:id)).each do |item|
       item_id = item['buy']['forQuery']['types'].first
@@ -105,18 +76,5 @@ class PlanetaryCommodity < ApplicationRecord
       item_price.sell_price = sell_price
       item_price.save!
     end
-  end
-
-  private_class_method def self.fetch_top_level_factories(pins)
-    top_level_factories = nil
-    type_ids = [HIGH_TECH_FACTORY_TYPE_IDS, ADVANCED_FACTORY_TYPE_IDS, BASIC_FACTORY_TYPE_IDS]
-    i = 0
-    loop do
-      top_level_factories = pins.filter { |e| type_ids[i].include? e['type_id'] }
-      i += 1
-      break if top_level_factories.present? || type_ids[i].blank?
-    end
-
-    top_level_factories
   end
 end
