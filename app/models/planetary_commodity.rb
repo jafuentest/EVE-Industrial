@@ -66,26 +66,21 @@ class PlanetaryCommodity < ApplicationRecord
   end
 
   def self.price_list(system_id)
-    fields = 'id, name, tier, buy_price, sell_price, buy_price / volume AS buy_isk_per_volume, ' \
-      'sell_price / volume AS sell_isk_per_volume'
-
-    all.select(fields)
+    fields = 'buy_price / volume AS buy_isk_per_volume, sell_price / volume AS sell_isk_per_volume'
+    all.select("id, name, tier, buy_price, sell_price, #{fields}")
       .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
       .where("items_prices.star_id = #{system_id}")
       .order(name: 'asc')
   end
 
-  def self.with_price(id, system_id)
-    all.select('name, buy_price, sell_price, batch_size, tier, volume')
-      .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
-      .find_by("planetary_commodities.id = #{id} AND items_prices.star_id = #{system_id}")
-  end
-
-  def self.with_price_by(by, system_id)
-    all.select('id, name, tier, buy_price, sell_price, batch_size, volume')
+  def self.with_price(system_id:, **by)
+    query = all.select('id, name, tier, volume, batch_size, buy_price, sell_price')
       .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
       .where("items_prices.star_id = #{system_id}")
-      .find_by(by)
+
+    return query if by.empty?
+
+    query.find_by(by)
   end
 
   private_class_method def self.extractor_details(pin)

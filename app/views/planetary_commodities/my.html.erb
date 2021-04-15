@@ -27,7 +27,7 @@
           <% schematics.each do |schematic_id, factories| %>
             <div class="row">
               <div class="col text-right">
-                <% item_id = (schematic = PlanetaryCommodity.with_price_by({ schematic_id: schematic_id }, 30000142)).id %>
+                <% item_id = (schematic = PlanetaryCommodity.with_price_by(system_id: 30000142, schematic_id: schematic_id)).id %>
                 <strong data-esi-type="item" data-esi-id="<%= item_id %>"><%= item_id %></strong>
               </div>
               <div data-esi-type="batch-size-times-cycle" data-esi-id="<%= schematic_id %>" class="col text-left">

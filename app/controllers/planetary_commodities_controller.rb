@@ -8,7 +8,7 @@ class PlanetaryCommoditiesController < ApplicationController
   # GET /planetary_commodities/1
   # GET /planetary_commodities/1.json
   def show
-    @planetary_commodity = PlanetaryCommodity.with_price(params[:id], 30_000_142)
+    @planetary_commodity = PlanetaryCommodity.with_price(system_id: 30_000_142, id: params[:id])
   end
 
   def my
