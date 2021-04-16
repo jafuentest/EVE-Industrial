@@ -5,7 +5,9 @@
 
 import 'bootstrap'
 import 'bootstrap-table'
+
 import 'stylesheets/application'
+import 'bootstrap-table/dist/bootstrap-table.min.css'
 
 require('@rails/ujs').start()
 require('turbolinks').start()
