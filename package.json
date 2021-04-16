@@ -4,7 +4,7 @@
   "dependencies": {
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.2.1",
-    "bootstrap": "^4.5.2",
+    "bootstrap": "^5.0.0-beta3",
     "bootstrap-table": "^1.18.0",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
