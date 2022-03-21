@@ -75,7 +75,8 @@ class ESI
 
   # User Data
   def self.fetch_character_portrait(character)
-    uri = URI("#{ESI_BASE_URL}/characters/#{character.character_id}/portrait/")
+    character_id = character.is_a?(Character) ? character.character_id : character
+    uri = URI("#{ESI_BASE_URL}/characters/#{character_id}/portrait/")
     req = Net::HTTP::Get.new(uri)
     parsed_response(uri, req)
   end
