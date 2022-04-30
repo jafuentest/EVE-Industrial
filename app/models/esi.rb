@@ -117,7 +117,7 @@ class ESI
     Net::HTTP::Post.new(uri).tap do |req|
       req['Host'] = 'login.eveonline.com'
       req.content_type = 'application/x-www-form-urlencoded'
-      req.basic_auth(ENV['ESI_CLIENT_ID'], ENV['ESI_CLIENT_SECRET'])
+      req.basic_auth(ENV.fetch('ESI_CLIENT_ID'), ENV.fetch('ESI_CLIENT_SECRET'))
     end
   end
 end

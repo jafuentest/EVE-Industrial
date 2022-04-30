@@ -29,7 +29,7 @@ Rails.application.configure do
   end
 
   config.action_mailer.default_url_options = {
-    host: ENV['HOST'] || 'localhost:3000'
+    host: ENV.fetch('HOST') || 'localhost:3000'
   }
 
   # Print deprecation notices to the Rails logger.
