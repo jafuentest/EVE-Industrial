@@ -70,9 +70,9 @@ GEM
     bindex (0.8.1)
     bootsnap (1.5.1)
       msgpack (~> 1.0)
-    bootstrap (5.1.3)
+    bootstrap (5.0.2)
       autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 2.9.3, < 3)
+      popper_js (>= 2.9.2, < 3)
       sassc-rails (>= 2.0.0)
     builder (3.2.4)
     byebug (11.1.3)
@@ -97,7 +97,7 @@ GEM
     listen (3.3.3)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    loofah (2.17.0)
+    loofah (2.18.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -239,7 +239,7 @@ PLATFORMS
 DEPENDENCIES
   annotate
   bootsnap (>= 1.4.2)
-  bootstrap (~> 5.0)
+  bootstrap (~> 5.0.0)
   byebug
   devise (~> 4.7, >= 4.7.3)
   jbuilder (~> 2.7)
