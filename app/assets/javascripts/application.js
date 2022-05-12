@@ -1,29 +1,32 @@
-// This file is automatically compiled by Webpack, along with any other files
-// present in this directory. You're encouraged to place your actual application logic in
-// a relevant structure within app/javascript and only use these pack files to reference
-// that code so it'll be compiled.
-
-import 'bootstrap'
-import 'bootstrap-table'
-
-import 'stylesheets/application'
-import 'bootstrap-table/dist/bootstrap-table.min.css'
-
-require('@rails/ujs').start()
-require('turbolinks').start()
-
-// Uncomment to copy all static images under ../images to the output folder and reference
-// them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
-// or the `imagePath` JavaScript helper below.
+// This is a manifest file that'll be compiled into application.js, which will include all the files
+// listed below.
 //
-// const images = require.context('../images', true)
-// const imagePath = (name) => images(name, true)
+// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
+// or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
+//
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// compiled file.
+//
+// WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
+// GO AFTER THE REQUIRES BELOW.
+//
+//= require turbolinks
 
-document.addEventListener('turbolinks:load', () => {
-  $('[data-esi-id]').each((i, e) => {
-    const id = e.attributes['data-esi-id'].value
-    const type = e.attributes['data-esi-type'].value
-    let url = 'https://esi.evetech.net/latest/universe/'
+//= require jquery3
+//= require popper
+//= require bootstrap
+//= require bootstrap-table/bootstrap-table
+//= require_tree .
+
+// import 'bootstrap-table'
+
+// import 'bootstrap-table/dist/bootstrap-table.min.css'
+
+document.addEventListener('turbolinks:load', function (argument) {
+  $('[data-esi-id]').each(function (i, e) {
+    var id = e.attributes['data-esi-id'].value
+    var type = e.attributes['data-esi-type'].value
+    var url = 'https://esi.evetech.net/latest/universe/'
 
     if (type === 'item')
       url += 'types/' + id
@@ -32,6 +35,6 @@ document.addEventListener('turbolinks:load', () => {
     else if (type === 'system')
       url += 'systems/' + id
 
-    $.ajax(url).done(data => { e.innerHTML = data.name })
+    $.ajax(url).done(function(data) { e.innerHTML = data.name })
   })
 })
