@@ -14,13 +14,9 @@
 
 //= require jquery3
 //= require popper
-//= require bootstrap
+//= require bootstrap-sprockets
 //= require bootstrap-table/bootstrap-table
 //= require_tree .
-
-// import 'bootstrap-table'
-
-// import 'bootstrap-table/dist/bootstrap-table.min.css'
 
 document.addEventListener('turbolinks:load', function (argument) {
   $('[data-esi-id]').each(function (i, e) {
