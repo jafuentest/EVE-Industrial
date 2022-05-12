@@ -37,4 +37,6 @@ class EVEIndustrial::Application < Rails::Application
   config.generators.system_tests = nil
 
   config.action_controller.include_all_helpers = false
+
+  Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 end

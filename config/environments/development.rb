@@ -29,7 +29,7 @@ Rails.application.configure do
   end
 
   config.action_mailer.default_url_options = {
-    host: ENV.fetch('HOST') || 'localhost:3000'
+    host: ENV.fetch('HOST', 'localhost:3000')
   }
 
   # Don't care if the mailer can't send.
