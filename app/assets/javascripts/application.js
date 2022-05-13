@@ -11,13 +11,13 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require turbolinks
-// require jquery3
-// require jquery_ujs
-//
+//= require jquery3
+//= require jquery_ujs
 //= require popper
-//= require bootstrap-sprockets
+//= require bootstrap
+//
 //= require bootstrap-table/bootstrap-table
-//= require_tree .
+// require_tree .
 
 document.addEventListener('turbolinks:load', function (argument) {
   $('[data-esi-id]').each(function (i, e) {

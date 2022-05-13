@@ -25,8 +25,7 @@ gem 'devise', '~> 4.7', '>= 4.7.3'
 
 gem 'bootstrap', '= 5.0.0.alpha1'
 gem 'bootstrap-table-rails'
-# gem 'jquery-rails'
-# gem 'popper_js'
+gem 'jquery-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
