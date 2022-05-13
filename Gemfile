@@ -11,8 +11,6 @@ gem 'sqlite3', '~> 1.4'
 gem 'puma', '~> 4.3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
-# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-# gem 'webpacker', '~> 5.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -25,10 +23,10 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'devise', '~> 4.7', '>= 4.7.3'
 
-gem 'bootstrap', '~> 5.0.2'
+gem 'bootstrap', '= 5.0.0.alpha1'
 gem 'bootstrap-table-rails'
-gem 'popper_js', '~> 2.9.3'
-gem 'jquery-rails'
+# gem 'jquery-rails'
+# gem 'popper_js'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

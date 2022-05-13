@@ -11,8 +11,9 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require turbolinks
-
-//= require jquery3
+// require jquery3
+// require jquery_ujs
+//
 //= require popper
 //= require bootstrap-sprockets
 //= require bootstrap-table/bootstrap-table
