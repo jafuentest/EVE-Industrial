@@ -1,0 +1,41 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons';
+@import 'bootstrap-table/dist/bootstrap-table';
+
+body {
+  background-color: #f8f9fa;
+}
+
+main > .container-md {
+  padding-top: 56px;
+}
+
+.user-avatar {
+  margin-bottom: -8px;
+  margin-top: -8px;
+  max-height: 38px;
+  display: inline-block;
+}
+
+.character-avatar {
+  margin-right: 8px;
+  max-height: 64px;
+  display: inline-block;
+}
+
+tr.bg-info {
+  background-color: #b8f3ff !important;
+}
+
+tr.bg-success {
+  background-color: #99ffd0 !important;
+}
+
+.job-progress-bar {
+  border: 1px solid #000;
+
+  div {
+    background-color: #444;
+    height: 2px;
+  }
+}
