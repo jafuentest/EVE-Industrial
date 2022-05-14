@@ -11,7 +11,7 @@ module PlanetaryColoniesHelper
       tag.span schematic.id, data: { 'esi-id': schematic.id, 'esi-type': 'item' }
     end
 
-    products.join(', ')
+    safe_join(products, ', ')
   end
 
   def row_class(planet)

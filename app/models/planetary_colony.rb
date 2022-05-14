@@ -24,7 +24,8 @@ class PlanetaryColony < ApplicationRecord
   end
 
   def expiry_time
-    Time.zone.parse extractors.pluck(:expiry_time).min
+    min = extractors.pluck(:expiry_time).min
+    min.nil? ? Time.zone.now : Time.zone.parse(min)
   end
 
   def isk_per_day
