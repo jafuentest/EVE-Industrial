@@ -52,14 +52,14 @@ class PlanetaryCommodity < ApplicationRecord
       .order(name: 'asc')
   end
 
-  def self.with_price(system_id:, **by)
-    query = all.select('id, name, tier, volume, batch_size, buy_price, sell_price')
+  def self.with_price(system_id:, **query_params)
+    query = all.select('id, name, tier, volume, batch_size, buy_price, sell_price, input')
       .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
       .where("items_prices.star_id = #{system_id}")
 
-    return query if by.empty?
+    return query if query_params.empty?
 
-    query.find_by(by)
+    query.find_by(query_params)
   end
 
   private_class_method def self.update_star_prices(star_id)
