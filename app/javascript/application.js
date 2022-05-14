@@ -5,4 +5,5 @@ window.$ = jquery
 
 import * as bootstrap from 'bootstrap'
 import * as bootstrapTable from 'bootstrap-table'
+import './esi-async-loading'
 import './table-sorting'
