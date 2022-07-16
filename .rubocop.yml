@@ -6,13 +6,14 @@ AllCops:
   NewCops: enable
 
   Exclude:
+    - Rakefile
     - bin/*
     - db/schema.rb
     - node_modules/**/*
     - tmp/**/*
     - vendor/**/*
 
-  TargetRubyVersion: 2.7.1
+  TargetRubyVersion: 3.0.0
 
 Layout/LineLength:
   Exclude:

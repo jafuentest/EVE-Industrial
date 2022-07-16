@@ -24,7 +24,8 @@ class PlanetaryColony < ApplicationRecord
   end
 
   def expiry_time
-    Time.zone.parse extractors.pluck(:expiry_time).min
+    min = extractors.pluck(:expiry_time).min
+    min.nil? ? Time.zone.now : Time.zone.parse(min)
   end
 
   def isk_per_day
@@ -32,7 +33,7 @@ class PlanetaryColony < ApplicationRecord
       .each_with_object(Hash.new(0)) { |e, total| total[e] += 1 }
       .reduce(0) do |iph, (schematic_id, count)|
         commodity = PlanetaryCommodity.with_price(system_id: 30_000_142, schematic_id: schematic_id)
-        iph + commodity.isk_per_hour(count) * 24
+        iph + (commodity.isk_per_hour(count) * 24)
       end
   end
 
