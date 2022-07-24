@@ -63,6 +63,7 @@ class ESI
   # Planetary Interaction (PI)
   def self.fetch_planets_details(character)
     fetch_character_planets(character).map do |planet|
+      planet['star_id'] = planet.delete('solar_system_id')
       planet.merge(fetch_planet_details(character, planet['planet_id']))
     end
   end
