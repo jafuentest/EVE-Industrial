@@ -1,14 +1,14 @@
 class CreateIndustryJobs < ActiveRecord::Migration[6.0]
   def change
     create_table :industry_jobs, id: false do |t|
-      t.integer :id, null: false
-      t.integer :character_id
-      t.integer :blueprint_id
-      t.integer :blueprint_type_id
-      t.integer :product_type_id
-      t.integer :activity_id
-      t.integer :station_id
-      t.integer :installer_id
+      t.bigint :id, null: false
+      t.bigint :character_id
+      t.bigint :blueprint_id
+      t.bigint :blueprint_type_id
+      t.bigint :product_type_id
+      t.bigint :activity_id
+      t.bigint :station_id
+      t.bigint :installer_id
 
       t.datetime :start_date
       t.datetime :end_date
