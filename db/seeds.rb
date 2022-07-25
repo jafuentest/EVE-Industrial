@@ -90,7 +90,17 @@ PlanetaryCommodity.create(id: 2872, schematic_id: 115, name: 'Self-Harmonizing P
 PlanetaryCommodity.create(id: 2875, schematic_id: 113, name: 'Sterile Conduits', tier: 4, volume: 100, batch_size: 1, input: nil)
 PlanetaryCommodity.create(id: 2876, schematic_id: 119, name: 'Wetware Mainframe', tier: 4, volume: 100, batch_size: 1, input: nil)
 
-Star.create(id: 30_000_142, name: 'Jita', constellation_id: 0, region_id: 0)
-Star.create(id: 30_002_187, name: 'Amarr', constellation_id: 0, region_id: 0)
-Star.create(id: 30_002_659, name: 'Dodixie', constellation_id: 0, region_id: 0)
-Star.create(id: 30_002_874, name: 'R1O-GN', constellation_id: 0, region_id: 0)
+Region.create(id: 10_000_002, name: 'The Forge')
+Region.create(id: 10_000_032, name: 'Sinq Laison')
+Region.create(id: 10_000_034, name: 'The Kalevala Expanse')
+Region.create(id: 10_000_043, name: 'Domain')
+
+Constellation.create(id: 20_000_020, region_id: 10_000_002, name: 'Kimotoro')
+Constellation.create(id: 20_000_322, region_id: 10_000_043, name: 'Throne Worlds')
+Constellation.create(id: 20_000_389, region_id: 10_000_032, name: 'Coriault')
+Constellation.create(id: 20_000_422, region_id: 10_000_034, name: 'P-B2NE')
+
+Star.create(id: 30_000_142, name: 'Jita', constellation_id: 20_000_020, region_id: 10_000_002)
+Star.create(id: 30_002_187, name: 'Amarr', constellation_id: 20_000_322, region_id: 10_000_043)
+Star.create(id: 30_002_659, name: 'Dodixie', constellation_id: 20_000_389, region_id: 10_000_032)
+Star.create(id: 30_002_874, name: 'R1O-GN', constellation_id: 20_000_422, region_id: 10_000_034)

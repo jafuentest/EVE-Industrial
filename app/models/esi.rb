@@ -63,6 +63,7 @@ class ESI
   # Planetary Interaction (PI)
   def self.fetch_planets_details(character)
     fetch_character_planets(character).map do |planet|
+      planet['star_id'] = planet.delete('solar_system_id')
       planet.merge(fetch_planet_details(character, planet['planet_id']))
     end
   end
@@ -117,7 +118,7 @@ class ESI
     Net::HTTP::Post.new(uri).tap do |req|
       req['Host'] = 'login.eveonline.com'
       req.content_type = 'application/x-www-form-urlencoded'
-      req.basic_auth(ENV.fetch('ESI_CLIENT_ID'), ENV.fetch('ESI_CLIENT_SECRET'))
+      req.basic_auth(Rails.application.credentials.esi[:client_id], Rails.application.credentials.esi[:secret_key])
     end
   end
 end
