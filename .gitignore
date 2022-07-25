@@ -32,6 +32,7 @@
 /public/assets
 
 # Ignore master key for decrypting credentials and more.
+/config/credentials/development.key
 /config/master.key
 
 /app/assets/builds/*
@@ -45,5 +46,3 @@
 /*.sublime-workspace
 
 *.DS_Store
-
-/config/credentials/development.key
