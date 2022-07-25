@@ -13,7 +13,7 @@ module ESIHelper
   DEFAULT_PARAMS = {
     response_type: 'code',
     redirect_uri: Rails.application.routes.url_helpers.login_url,
-    client_id: ENV.fetch('ESI_CLIENT_ID'),
+    client_id: Rails.application.credentials.esi[:client_id],
     scope: SCOPES.join(' ')
   }.freeze
 

@@ -1,7 +1,7 @@
 class PlanetaryColony < ApplicationRecord
   belongs_to :character
 
-  PLANET_DETAILS_KEYS = %w[last_update planet_id planet_type solar_system_id upgrade_level].freeze
+  PLANET_DETAILS_KEYS = %w[last_update planet_id planet_type star_id upgrade_level].freeze
   PIN_DETAILS_KEYS = %w[expiry_time extractor_details].freeze
   HIGH_TECH_FACTORY_TYPE_IDS = [2475, 2482].freeze
   ADVANCED_FACTORY_TYPE_IDS = [2470, 2472, 2474, 2480, 2484, 2485, 2491, 2494].freeze
