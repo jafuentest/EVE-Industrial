@@ -12,7 +12,7 @@ module ESIHelper
   ].freeze
   DEFAULT_PARAMS = {
     response_type: 'code',
-    redirect_uri: Rails.application.routes.url_helpers.login_url,
+    redirect_uri: protocol,
     client_id: Rails.application.credentials.esi[:client_id],
     scope: SCOPES.join(' ')
   }.freeze
@@ -33,6 +33,11 @@ module ESIHelper
   end
 
   private
+
+  def redirect_uri
+    protocol = Rails.env.production? ? 'https' : 'http'
+    Rails.application.routes.url_helpers.login_url(protocol: protocol)
+  end
 
   def esi_login_image
     image_tag LOGIN_IMAGE_URL, alt: 'LOG IN with EVE Online'
