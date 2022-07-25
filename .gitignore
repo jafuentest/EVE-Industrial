@@ -45,3 +45,5 @@
 /*.sublime-workspace
 
 *.DS_Store
+
+/config/credentials/development.key
