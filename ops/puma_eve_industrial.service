@@ -1,0 +1,18 @@
+[Unit]
+Description=Puma HTTP Server for eve_industrial (production)
+After=network.target
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/home/ec2-user/eve_industrial/current
+ExecStart=/home/ec2-user/.rvm/bin/rvm default do bundle exec puma -C /home/ec2-user/eve_industrial/shared/puma.rb
+ExecReload=/bin/kill -TSTP $MAINPID
+StandardOutput=append:/home/ec2-user/eve_industrial/shared/log/puma.access.log
+StandardError=append:/home/ec2-user/eve_industrial/shared/log/puma.error.log
+Restart=always
+RestartSec=1
+SyslogIdentifier=puma
+
+[Install]
+WantedBy=multi-user.target

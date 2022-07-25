@@ -1,4 +1,6 @@
 class ESI
+  require 'net/http'
+
   AUTH_BASE_URL = 'https://login.eveonline.com'.freeze
   ESI_BASE_URL = 'https://esi.evetech.net/latest'.freeze
 

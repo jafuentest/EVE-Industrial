@@ -15,6 +15,12 @@ AllCops:
 
   TargetRubyVersion: 3.0.0
 
+Layout/CaseIndentation:
+  EnforcedStyle: end
+
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
+
 Layout/LineLength:
   Exclude:
     - db/seeds.rb
@@ -32,9 +38,10 @@ Metrics/BlockLength:
   IgnoredMethods:
     - configure
     - included  # Concerns
-    - setup     # Becaus of devise
+    - setup     # Because of devise
 
 Metrics/AbcSize:
+  CountRepeatedAttributes: false
   Exclude:
     - db/migrate/*
 
@@ -43,6 +50,9 @@ Metrics/MethodLength:
     - db/migrate/*
 
 Rails/CreateTableWithTimestamps:
+  Enabled: false
+
+Rails/I18nLocaleTexts:
   Enabled: false
 
 Rails/SkipsModelValidations:

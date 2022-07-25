@@ -10,9 +10,10 @@ module ESIHelper
     'esi-planets.manage_planets.v1',
     'esi-planets.read_customs_offices.v1'
   ].freeze
+
   DEFAULT_PARAMS = {
     response_type: 'code',
-    redirect_uri: Rails.application.routes.url_helpers.login_url,
+    redirect_uri: Rails.application.routes.url_helpers.login_url(protocol: Rails.env.production? ? 'https' : 'http'),
     client_id: Rails.application.credentials.esi[:client_id],
     scope: SCOPES.join(' ')
   }.freeze

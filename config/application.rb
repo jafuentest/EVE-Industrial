@@ -37,5 +37,9 @@ class EVEIndustrial::Application < Rails::Application
 
   config.action_controller.include_all_helpers = false
 
-  Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+  Rails.application.routes.default_url_options[:host] = if Rails.env.production?
+    'eve-industrial.wikifuentes.com'
+  else
+    'localhost:3000'
+  end
 end
