@@ -69,7 +69,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_24_192847) do
     t.decimal "buy_price", precision: 12, scale: 2
     t.decimal "sell_price", precision: 12, scale: 2
     t.index ["item_id", "star_id"], name: "index_items_prices_on_item_id_and_star_id"
-    t.index ["item_id"], name: "index_items_prices_on_item_id"
     t.index ["star_id"], name: "index_items_prices_on_star_id"
   end
 
@@ -104,7 +103,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_24_192847) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["character_id"], name: "index_planetary_colonies_on_character_id"
-    t.index ["star_id"], name: "index_planetary_colonies_on_star_id"
   end
 
   create_table "planetary_commodities", id: false, force: :cascade do |t|
@@ -165,13 +163,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_24_192847) do
 
   add_foreign_key "characters", "users"
   add_foreign_key "constellations", "regions"
-  add_foreign_key "items_prices", "items"
   add_foreign_key "items_prices", "stars"
   add_foreign_key "orders", "characters"
   add_foreign_key "orders", "items"
   add_foreign_key "orders", "regions"
   add_foreign_key "planetary_colonies", "characters"
-  add_foreign_key "planetary_colonies", "stars"
   add_foreign_key "stars", "constellations"
   add_foreign_key "stars", "regions"
 end
