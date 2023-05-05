@@ -14,7 +14,20 @@ Things you may want to cover:
 * Services <!-- (job queues, cache servers, search engines, etc.) -->
   * Uses Delayed Job for background tasks
 
+<<<<<<< HEAD
 ## Capistrano deployment
+=======
+<!-- * Configuration -->
+
+## Running the Test Suite
+
+Just run Rspec
+```
+bundle exec rspec
+```
+
+## Capistrano Deployment
+>>>>>>> 0a6513b (Update readme)
 
 1. Install basic dependencies
   * Postgres server (local or remote)
