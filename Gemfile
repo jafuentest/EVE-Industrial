@@ -56,6 +56,8 @@ group :development, :test do
   gem 'rspec', require: false
   gem 'rspec-rails', require: false
 
+  gem 'factory_bot_rails'
+
   gem 'simplecov', require: false
 end
 
