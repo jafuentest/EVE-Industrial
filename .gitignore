@@ -41,6 +41,8 @@
 /node_modules
 /yarn-error.log
 
+/coverage
+
 # Sublime project files
 /*.sublime-project
 /*.sublime-workspace
