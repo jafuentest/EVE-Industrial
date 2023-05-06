@@ -5,7 +5,8 @@ FactoryBot.define do
   #
 
   factory :constellation do
+    sequence(:id)
     association :region
-    add_attribute(:name) { 'Constellation Name' }
+    add_attribute(:name) { "Constellation Name #{id}" }
   end
 end
