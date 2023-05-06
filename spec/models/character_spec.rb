@@ -37,7 +37,7 @@ RSpec.describe Character, type: :model do
     context 'when token is expired' do
       it 'calls the ESI for a new token' do
         character = FactoryBot.build(:character, esi_expires_on: DateTime.now)
-        access_token = Time.now.to_i.to_s
+        access_token = SecureRandom.alphanumeric
         allow(ESI).to receive(:authenticate).and_return(
           {
             'token_type' => 'Bearer',
@@ -55,7 +55,7 @@ RSpec.describe Character, type: :model do
   describe '#avatar' do
     context 'When character already has a persisted potrait' do
       it 'returns the existing potrait URL' do
-        avatar_url = "https://url/portrait#{Time.now.to_i}/portrait?size=64"
+        avatar_url = "https://url/portrait/character_id/portrait?size=64"
         character = FactoryBot.build(:character, character_portrait: avatar_url)
 
         expect(character.avatar).to eq(avatar_url)
