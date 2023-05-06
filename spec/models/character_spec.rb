@@ -56,7 +56,7 @@ RSpec.describe Character, type: :model do
     context 'When character already has a persisted potrait' do
       it 'returns the existing potrait URL' do
         avatar_url = "https://url/portrait#{Time.now.to_i}/portrait?size=64"
-        character = FactoryBot.build(:character)
+        character = FactoryBot.build(:character, character_portrait: avatar_url)
 
         expect(character.avatar).to eq(avatar_url)
       end
