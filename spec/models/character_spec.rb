@@ -37,13 +37,15 @@ RSpec.describe Character, type: :model do
     context 'when token is expired' do
       it 'calls the ESI for a new token' do
         character = FactoryBot.build(:character, esi_expires_on: DateTime.now)
-        access_token = "#{Time.now.to_i}"
-        allow(ESI).to receive(:authenticate).and_return({
-          'token_type' => 'Bearer',
-          'expires_in' => 1199,
-          'access_token' => access_token,
-          'refresh_token' => 'NotSoLongAlphanumeric1=='
-        })
+        access_token = Time.now.to_i.to_s
+        allow(ESI).to receive(:authenticate).and_return(
+          {
+            'token_type' => 'Bearer',
+            'expires_in' => 1199,
+            'access_token' => access_token,
+            'refresh_token' => 'NotSoLongAlphanumeric1=='
+          }
+        )
 
         expect(character.auth_token).to eq(access_token)
       end
@@ -51,14 +53,12 @@ RSpec.describe Character, type: :model do
   end
 
   describe '#avatar' do
-    # return character_portrait if character_portrait.present?
-
-    # portraits = ESI.fetch_character_portrait(character_id)
-    # update(character_portrait: portraits['px64x64'])
-    # character_portrait
     context 'When character already has a persisted potrait' do
       it 'returns the existing potrait URL' do
+        avatar_url = "https://url/portrait#{Time.now.to_i}/portrait?size=64"
         character = FactoryBot.build(:character)
+
+        expect(character.avatar).to eq(avatar_url)
       end
     end
 
@@ -68,6 +68,7 @@ RSpec.describe Character, type: :model do
         api_response = [64, 128, 256, 512]
           .each_with_object({}) { |i, h| h["px#{i}x#{i}"] = "https://url/portrait?size=#{i}" }
         allow(ESI).to receive(:fetch_character_portrait).and_return(api_response)
+
         expect(character.avatar).to eq(api_response['px64x64'])
       end
     end
