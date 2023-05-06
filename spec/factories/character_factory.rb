@@ -13,12 +13,11 @@ FactoryBot.define do
   #  updated_at         :datetime         not null
   #
 
-  sequence(:character_id)
-
   factory :character do
+    sequence(:character_id)
+
     association :user
 
-    character_id
     esi_refresh_token { "esi_refresh_token#{character_id}" }
     esi_auth_token { "esi_auth_token#{character_id}" }
     esi_expires_on { DateTime.now + 10.minutes }

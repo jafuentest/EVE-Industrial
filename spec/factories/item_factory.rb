@@ -4,6 +4,7 @@ FactoryBot.define do
   #
 
   factory :item do
-    add_attribute(:name) { 'Item Name' }
+    sequence(:id)
+    add_attribute(:name) { "Item Name #{id}" }
   end
 end

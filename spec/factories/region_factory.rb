@@ -6,6 +6,7 @@ FactoryBot.define do
   #
 
   factory :region do
-    add_attribute(:name) { 'Region Name' }
+    sequence(:id)
+    add_attribute(:name) { "Region Name #{id}" }
   end
 end
