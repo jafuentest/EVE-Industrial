@@ -39,6 +39,8 @@ Metrics/BlockLength:
     - configure
     - included  # Concerns
     - setup     # Because of devise
+    - describe  # Specs
+    - context   # Specs
 
 Metrics/AbcSize:
   CountRepeatedAttributes: false
