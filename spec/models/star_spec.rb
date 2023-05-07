@@ -1,6 +1,23 @@
+require 'csv'
 require 'rails_helper'
 
 RSpec.describe Star, type: :model do
+  it_behaves_like 'csv_importable' do
+    before(:each) do
+      star = FactoryBot.build(:star)
+      star.constellation.save!
+      csv_row = {
+        'ID' => star.id,
+        'Name' => star.name,
+        'Constellation ID' => star.constellation_id,
+        'Region ID' => star.region_id
+      }
+
+      allow(CSV).to receive(:read).with(kind_of(String), headers: true)
+        .and_return([csv_row])
+    end
+  end
+
   it 'has a valid factory' do
     expect(FactoryBot.build(:star)).to be_valid
   end
