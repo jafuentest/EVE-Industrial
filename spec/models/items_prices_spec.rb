@@ -27,9 +27,9 @@ RSpec.describe ItemsPrices, type: :model do
     end
 
     it 'raises exception trying to create invalid record' do
-      expect {
+      expect do
         ItemsPrices.new(star: nil, item: nil).save!
-      }.to raise_error(ActiveRecord::RecordInvalid)
+      end.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
 end
