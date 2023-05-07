@@ -1,7 +1,7 @@
 require 'csv'
 require 'spec_helper'
 
-RSpec.shared_examples_for 'csv_importable' do |params|
+RSpec.shared_examples_for 'csv_importable' do
   let(:model) { described_class }
   let(:model_factory) { model.to_s.underscore.to_sym }
 

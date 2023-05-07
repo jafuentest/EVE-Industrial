@@ -25,10 +25,10 @@ RSpec.describe Star, type: :model do
   describe '#hash_from_csv_row' do
     it 'returns a hash representation of a star from a CSV row' do
       csv_row = {
-        'ID' => 30000142,
+        'ID' => 30_000_142,
         'Name' => 'Jita',
-        'Constellation ID' => 20000020,
-        'Region ID' => 10000002
+        'Constellation ID' => 20_000_020,
+        'Region ID' => 10_000_002
       }
       expected_hash = {
         id: csv_row['ID'],
