@@ -17,8 +17,14 @@ RSpec.describe Item, type: :model do
   end
 
   describe '#create_items' do
+    let(:test_items) { 2 }
+    before(:each) do
+      expect(ESI).to receive(:fetch_item_name).twice
+        .and_return(SecureRandom.alphanumeric)
+    end
+
     it 'creates an item object for each id given' do
-      item_ids = (1..2).to_a
+      item_ids = (1..test_items).to_a
       Item.destroy_all
       Item.create_items(item_ids)
 
@@ -27,7 +33,7 @@ RSpec.describe Item, type: :model do
     end
 
     it 'does not try to create duplicates' do
-      item_ids = (1..2).to_a
+      item_ids = (1..test_items).to_a
       FactoryBot.create(:item, id: 1)
       FactoryBot.create(:item, id: 2)
       Item.create_items(item_ids)
