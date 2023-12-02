@@ -1,9 +1,6 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+## Basic System Requirements
 
 * Ruby version
   * MRI 3.0.0
@@ -14,9 +11,6 @@ Things you may want to cover:
 * Services <!-- (job queues, cache servers, search engines, etc.) -->
   * Uses Delayed Job for background tasks
 
-<<<<<<< HEAD
-## Capistrano deployment
-=======
 <!-- * Configuration -->
 
 ## Running the Test Suite
@@ -27,7 +21,6 @@ bundle exec rspec
 ```
 
 ## Capistrano Deployment
->>>>>>> 0a6513b (Update readme)
 
 1. Install basic dependencies
   * Postgres server (local or remote)
@@ -47,7 +40,7 @@ bundle exec rspec
     GRANT ALL PRIVILEGES ON DATABASE eve_industrial_production TO eve_industrial;
     ```
 
-4. Copy SPECIAL? files. Assuming that:
+4. Copy system files. Assuming that:
   * The cap deploy_to dir is `~/eve_industrial`
   * The domain is `eve_industrial.wikifuentes.com`
     ```
@@ -87,7 +80,3 @@ bundle exec rspec
     cd ~/eve_industrial/current
     RAILS_ENV="production" bundle exec rails db:seed
     ```
-
-<!-- * Configuration -->
-
-<!-- * How to run the test suite -->
