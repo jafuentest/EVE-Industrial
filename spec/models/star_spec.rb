@@ -1,0 +1,43 @@
+require 'csv'
+require 'rails_helper'
+
+RSpec.describe Star, type: :model do
+  it_behaves_like 'csv_importable' do
+    before(:each) do
+      star = FactoryBot.build(:star)
+      star.constellation.save!
+      csv_row = {
+        'ID' => star.id,
+        'Name' => star.name,
+        'Constellation ID' => star.constellation_id,
+        'Region ID' => star.region_id
+      }
+
+      allow(CSV).to receive(:read).with(kind_of(String), headers: true)
+        .and_return([csv_row])
+    end
+  end
+
+  it 'has a valid factory' do
+    expect(FactoryBot.build(:star)).to be_valid
+  end
+
+  describe '#hash_from_csv_row' do
+    it 'returns a hash representation of a star from a CSV row' do
+      csv_row = {
+        'ID' => 30_000_142,
+        'Name' => 'Jita',
+        'Constellation ID' => 20_000_020,
+        'Region ID' => 10_000_002
+      }
+      expected_hash = {
+        id: csv_row['ID'],
+        name: csv_row['Name'],
+        constellation_id: csv_row['Constellation ID'],
+        region_id: csv_row['Region ID']
+      }
+
+      expect(Star.hash_from_csv_row(csv_row)).to eq(expected_hash)
+    end
+  end
+end
