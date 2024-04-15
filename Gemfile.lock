@@ -153,7 +153,7 @@ GEM
       net-protocol
     net-ssh (6.1.0)
     nio4r (2.7.0)
-    nokogiri (1.16.2)
+    nokogiri (1.16.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -297,7 +297,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 3.0.0p0
+   ruby 3.3.0p0
 
 BUNDLED WITH
    2.2.3
