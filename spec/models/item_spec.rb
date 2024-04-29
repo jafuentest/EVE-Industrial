@@ -35,15 +35,13 @@ RSpec.describe Item, type: :model do
     let(:item_ids) { (1..2).to_a }
 
     before(:each) do
-      expect(ESI).to receive(:fetch_item_name).twice
-        .and_return(SecureRandom.alphanumeric)
+      allow(ESI).to receive(:fetch_item_name).and_return("Item Name #{rand(10)}")
     end
 
     subject { Item.create_items(item_ids) }
 
     it 'creates an item object for each id given' do
       subject
-
       expect(Item.pluck(:id).sort).to eq(item_ids)
     end
 
