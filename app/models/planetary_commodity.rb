@@ -63,14 +63,14 @@ class PlanetaryCommodity < ApplicationRecord
   end
 
   private_class_method def self.update_star_prices(star_id)
-    fetch_prices_for(star_id: star_id, items: pluck(:id)).each do |item|
+    fetch_prices_for(star_id:, items: pluck(:id)).each do |item|
       item_id = item['buy']['forQuery']['types'].first
       persist_price_data(star_id, item_id, item['buy']['max'], item['sell']['max'])
     end
   end
 
   private_class_method def self.persist_price_data(star_id, item_id, buy_price, sell_price)
-    ItemsPrices.where(star_id: star_id, item_id: item_id).first_or_initialize.tap do |item_price|
+    ItemsPrices.where(star_id:, item_id:).first_or_initialize.tap do |item_price|
       item_price.item_type = name
       item_price.buy_price = buy_price
       item_price.sell_price = sell_price

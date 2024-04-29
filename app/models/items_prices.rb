@@ -15,9 +15,9 @@ class ItemsPrices < ApplicationRecord
   def save!
     return super unless persisted?
 
-    self.class.where(star_id: star_id, item_id: item_id).update_all(
-      buy_price: buy_price,
-      sell_price: sell_price
+    self.class.where(star_id:, item_id:).update_all(
+      buy_price:,
+      sell_price:
     )
   end
 end
