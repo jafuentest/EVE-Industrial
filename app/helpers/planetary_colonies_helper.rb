@@ -7,7 +7,7 @@ module PlanetaryColoniesHelper
 
   def end_products(planet)
     products = planet.factories.pluck(:schematic_id).uniq.map do |schematic_id|
-      schematic = PlanetaryCommodity.with_price(system_id: 30_000_142, schematic_id: schematic_id)
+      schematic = PlanetaryCommodity.with_price(system_id: 30_000_142, schematic_id:)
       tag.span schematic.id, data: { 'esi-id': schematic.id, 'esi-type': 'item' }
     end
 

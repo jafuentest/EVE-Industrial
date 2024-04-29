@@ -7,15 +7,15 @@ namespace :orders do
     end
 
     Order.group(:location_id).pluck(:location_id).each do |location_id|
-      location_orders = Order.where(location_id: location_id)
+      location_orders = Order.where(location_id:)
       Order.update_competing_orders(location_orders, location_orders.first.character)
 
       missing_orders = Order.where('updated_at < ?', start_time)
       missing_orders =
         if Order.npc_station?(location_id)
-          missing_orders.where(region_id: Order.where(location_id: location_id).first.region_id)
+          missing_orders.where(region_id: Order.where(location_id:).first.region_id)
         else
-          missing_orders.where(location_id: location_id)
+          missing_orders.where(location_id:)
         end
       missing_orders.delete_all
     end
