@@ -13,7 +13,7 @@ AllCops:
     - tmp/**/*
     - vendor/**/*
 
-  TargetRubyVersion: 3.0.0
+  TargetRubyVersion: 3.3.0
 
 Layout/CaseIndentation:
   EnforcedStyle: end
@@ -37,10 +37,9 @@ Metrics/BlockLength:
   #   - db/*
   IgnoredMethods:
     - configure
-  #   - included  # Concerns
-  #   - setup     # Because of devise
-    - describe  # Specs
-  #   - context   # Specs
+    # Specs
+    - describe
+    - shared_examples_for
 
 Metrics/AbcSize:
   CountRepeatedAttributes: false
