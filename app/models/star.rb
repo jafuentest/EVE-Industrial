@@ -12,6 +12,9 @@ class Star < ApplicationRecord
 
   self.primary_key = :id
 
+  belongs_to :region
+  belongs_to :constellation
+
   def self.hash_from_csv_row(row)
     {
       id: row['ID'],

@@ -33,7 +33,7 @@ class Order < ApplicationRecord
   def market_diff
     return market_diff_citadel unless placed_in_npc_station?
 
-    matching = Order.where(item_id: item_id, region_id: region_id, buy_order: buy_order)
+    matching = Order.where(item_id:, region_id:, buy_order:)
 
     market_best = buy_order ? matching.maximum(:price) : matching.minimum(:price)
 
@@ -41,7 +41,7 @@ class Order < ApplicationRecord
   end
 
   def market_diff_citadel
-    matching = Order.where(item_id: item_id, location_id: location_id, buy_order: buy_order)
+    matching = Order.where(item_id:, location_id:, buy_order:)
 
     market_best = buy_order ? matching.maximum(:price) : matching.minimum(:price)
 
@@ -57,7 +57,7 @@ class Order < ApplicationRecord
     orders = ESI.fetch_character_market_orders(character)
     Item.create_items(orders.pluck('type_id'))
     orders.each do |esi_order|
-      upsert_order(esi_order, character: character, region_id: esi_order['region_id'])
+      upsert_order(esi_order, character:, region_id: esi_order['region_id'])
     end
 
     return unless update_competition
@@ -83,7 +83,7 @@ class Order < ApplicationRecord
         if npc_station?(location_id)
           orders.where(region_id: location_orders.first['region_id'])
         else
-          orders.where(location_id: location_id)
+          orders.where(location_id:)
         end
       orders.delete_all
     end
@@ -94,7 +94,7 @@ class Order < ApplicationRecord
     item_ids.each do |item_id|
       ESI.fetch_region_orders(region_id, item_id, 'all')
         .select { |e| SYSTEMS_FOR_REGION[region_id].include?(e['system_id']) }
-        .each { |esi_order| upsert_order(esi_order, region_id: region_id) }
+        .each { |esi_order| upsert_order(esi_order, region_id:) }
     end
   end
 
