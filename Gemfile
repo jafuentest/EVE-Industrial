@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.3.0'
+ruby '3.3.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 7.0.8'
@@ -79,6 +79,6 @@ group :development do
   gem 'capistrano3-puma', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
-  gem 'capistrano-rvm', require: false
+  gem 'capistrano-rbenv', require: false
   gem 'capistrano-secrets-yml', require: false
 end
