@@ -28,7 +28,7 @@ require 'capistrano/bundler'
 require 'capistrano/puma'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
-require 'capistrano/rvm'
+require 'capistrano/rbenv'
 
 install_plugin Capistrano::Puma
 install_plugin Capistrano::Puma::Systemd
