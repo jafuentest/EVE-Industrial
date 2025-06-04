@@ -55,10 +55,11 @@ set :puma_access_log, "#{release_path}/log/puma.access.log"
 set :puma_error_log,  "#{release_path}/log/puma.error.log"
 
 set :puma_preload_app, true
-set :puma_init_active_record, true # Change to false when not using ActiveRecord
+set :puma_init_active_record, true
 
 # Name for the systemd service, default: "puma_#{fetch(:application)}_#{fetch(:stage)}"
 set :puma_service_unit_name, 'puma_eve_industrial.service'
+set :puma_systemctl_user, :system
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
