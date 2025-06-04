@@ -63,7 +63,10 @@ class PlanetaryCommodity < ApplicationRecord
   end
 
   private_class_method def self.update_star_prices(star_id)
-    fetch_prices_for(star_id:, items: pluck(:id)).each do |item|
+    return Rails.logger.warn('Eve Marketeer API no longer exists')
+
+    # TODO: Replace with a new API or data source
+    fetch_prices_for(star_id:, items: pluck(:id)).each do |item| # rubocop:disable Lint/UnreachableCode
       item_id = item['buy']['forQuery']['types'].first
       persist_price_data(star_id, item_id, item['buy']['max'], item['sell']['max'])
     end
