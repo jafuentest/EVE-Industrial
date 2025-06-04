@@ -43,7 +43,7 @@ set :rails_env, 'production'
 
 set :bundle_without, %w[development test]
 
-set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w[~/.ssh/id_rsa.pub] }
+set :ssh_options, { forward_agent: true, keys: %w[~/.ssh/id_rsa.pub] }
 
 set :rbenv_type, :user
 set :rbenv_ruby, '3.3.5'
