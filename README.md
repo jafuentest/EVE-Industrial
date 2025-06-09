@@ -3,10 +3,10 @@
 ## Basic System Requirements
 
 * Ruby version
-  * MRI 3.0.0
+  * MRI 3.3.5
 
 * System dependencies
-  * PostgreSQL 13.3 or higher
+  * PostgreSQL 17.5 or higher
 
 * Services <!-- (job queues, cache servers, search engines, etc.) -->
   * Uses Delayed Job for background tasks
