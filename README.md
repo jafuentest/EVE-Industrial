@@ -1,9 +1,6 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+This README documents the steps are necessary to get the application up and running.
 
 * Ruby version
   * MRI 3.0.0
