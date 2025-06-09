@@ -23,7 +23,7 @@ bundle exec rspec
 ## Capistrano Deployment
 
 1. Install basic dependencies
-   * Postgres server (local or remote)
+   * Postgres server (asuming local install)
    * rbenv + Ruby version
    * NodeJS + Yarn
    * Postgres devel package
