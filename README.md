@@ -23,10 +23,12 @@ bundle exec rspec
 ## Capistrano Deployment
 
 1. Install basic dependencies
-   * Postgres server (asuming local install)
    * rbenv + Ruby version
    * NodeJS + Yarn
-   * Postgres devel package
+   * PostgreSQL server (asuming local install)
+   * PostgreSQL devel package
+   * Nginx
+   * Certbot
 
     If using Amazon Linux 2023:
 
