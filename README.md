@@ -14,7 +14,7 @@ This README documents the steps are necessary to get the application up and runn
 ## Capistrano deployment
 
 1. Install basic dependencies
-   * Postgres server (local or remote)
+   * Postgres server (asuming local install)
    * rbenv + Ruby version
    * NodeJS + Yarn
    * Postgres devel package
