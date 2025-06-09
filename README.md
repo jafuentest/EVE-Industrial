@@ -68,6 +68,7 @@ This README documents the steps are necessary to get the application up and runn
         CREATE DATABASE eve_industrial_production;
         CREATE USER eve_industrial WITH ENCRYPTED PASSWORD '<secure-password>';
         GRANT ALL PRIVILEGES ON DATABASE eve_industrial_production TO eve_industrial;
+        \c eve_industrial_production
         GRANT ALL ON SCHEMA public TO eve_industrial;
         ```
 
