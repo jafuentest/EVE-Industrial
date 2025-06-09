@@ -27,6 +27,8 @@ server 'eve-industrial.wikifuentes.com', user: 'ec2-user', roles: %w[web app db]
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
+set :rails_env, 'production'
+
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
@@ -43,9 +45,9 @@ server 'eve-industrial.wikifuentes.com', user: 'ec2-user', roles: %w[web app db]
 #
 
 set :ssh_options, {
-  keys: %w[~/.ssh/eve-industrial.pem],
+  auth_methods: %w[publickey],
   forward_agent: true,
-  auth_methods: %w[publickey]
+  keys: %w[~/.ssh/eve-industrial.pem]
 }
 
 # The server-based syntax can be used to override options:
