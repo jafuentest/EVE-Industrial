@@ -129,29 +129,29 @@ This README documents the steps are necessary to get the application up and runn
 
 1. Final configuration steps
     1. First ssh to the server
-    ```
-    ssh -i ~/.ssh/eve-industrial.pem ec2-user@eve-industrial.wikifuentes.com
-    ```
+        ```
+        ssh -i ~/.ssh/eve-industrial.pem ec2-user@eve-industrial.wikifuentes.com
+        ```
 
     1. Create and setup the SSL certificate using certbot
-    ```
-    sudo certbot --nginx
-    ```
+        ```
+        sudo certbot --nginx
+        ```
 
     1. Restart Nginx
-    ```
-    sudo service nginx restart
-    ```
+        ```
+        sudo service nginx restart
+        ```
 
 1. Load the seed data
     1. When starting from scratch
-    ```
-    cd ~/eve_industrial/current
-    RAILS_ENV="production" bundle exec rails db:seed
-    ```
+        ```
+        cd ~/eve_industrial/current
+        RAILS_ENV="production" bundle exec rails db:seed
+        ```
 
     1. When restoring from a backup
-    ```
-    # Careful! This will destroy any pre-existing data in the database
-    pg_restore -U eve_industrial -d eve_industrial_production -h localhost -W --clean ~/db.dump
-    ```
+        ```
+        # Careful! This will destroy any pre-existing data in the database
+        pg_restore -U eve_industrial -d eve_industrial_production -h localhost -W --clean ~/db.dump
+        ```
