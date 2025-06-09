@@ -95,7 +95,12 @@ bundle exec rspec
         ```
         Note that it's important that eve_industrial user is listed before the all user.
 
-1. Copy system files. Assuming that:
+        Reload postgresql config
+        ```
+        sudo systemctl reload postgresql
+        ```
+
+1. Copy config files. Assuming that:
     * You ssh into the server using a key located at `~/.ssh/eve-industrial.pem`
     * The cap deploy_to dir is `~/eve_industrial`
     * The domain is `eve-industrial.wikifuentes.com`
