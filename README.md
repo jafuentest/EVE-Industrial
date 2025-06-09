@@ -125,10 +125,6 @@ bundle exec rspec
     ssh -i ~/.ssh/eve-industrial.pem ec2-user@eve-industrial.wikifuentes.com \
     'sudo mv ~/eve_industrial.conf /etc/nginx/conf.d/ && \
      sudo mv ~/puma_eve_industrial.service /etc/systemd/system/'
-
-    ssh -i ~/.ssh/eve-industrial.pem ec2-user@eve-industrial.wikifuentes.com \
-    'sudo mv ~/eve_industrial.conf /etc/nginx/conf.d/ ; \
-    sudo mv ~/puma_eve_industrial.service /etc/systemd/system/'
     ```
 
     Enable the puma service
