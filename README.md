@@ -125,26 +125,31 @@ This README documents the steps are necessary to get the application up and runn
     cap production deploy
     ```
 
-1. Now ssh to the server `ssh -i ~/.ssh/eve-industrial.pem ec2-user@eve-industrial.wikifuentes.com` and
-  * Create and setup the SSL certificate https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/SSL-on-amazon-linux-2.html#letsencrypt
-
-  * Patch app files permissions (This is lazy way, for safe way app should be outside home, like `/var/www/`)
+1. Final configuration steps
+    1. First ssh to the server
     ```
-    chmod +x ~
-    chmod +x ~/eve_industrial -R
+    ssh -i ~/.ssh/eve-industrial.pem ec2-user@eve-industrial.wikifuentes.com
     ```
 
-  * Restart Nginx
+    1. Create and setup the SSL certificate using certbot
+    ```
+    sudo certbot --nginx
+    ```
+
+    1. Restart Nginx
     ```
     sudo service nginx restart
     ```
 
-1. Initialize the database
+1. Load the seed data
+    1. When starting from scratch
     ```
     cd ~/eve_industrial/current
     RAILS_ENV="production" bundle exec rails db:seed
     ```
 
-<!-- * Configuration -->
-
-<!-- * How to run the test suite -->
+    1. When restoring from a backup
+    ```
+    # Careful! This will destroy any pre-existing data in the database
+    pg_restore -U eve_industrial -d eve_industrial_production -h localhost -W --clean ~/db.dump
+    ```
