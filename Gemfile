@@ -45,15 +45,28 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem 'image_processing', '~> 1.2'
 
+# Gems that will no longer be default from Ruby 3.4
+gem 'csv'
+gem 'drb'
+
+# Gems that will no longer be default from Ruby 3.5
+gem 'fiddle'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
 
-  gem 'rubocop'
-  gem 'rubocop-performance'
-  gem 'rubocop-rails'
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
 
-  gem 'rspec'
+  gem 'rspec', require: false
+  gem 'rspec-rails', require: false
+  gem 'shoulda-matchers'
+
+  gem 'factory_bot_rails'
+
+  gem 'simplecov', require: false
 end
 
 group :development do
