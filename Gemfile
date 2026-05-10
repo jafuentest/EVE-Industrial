@@ -22,7 +22,7 @@ gem 'jbuilder'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
-gem 'devise', '~> 4.7', '>= 4.7.3'
+gem 'devise', '~> 5.0'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
