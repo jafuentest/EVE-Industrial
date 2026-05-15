@@ -23,7 +23,7 @@ class IndustryJob < ApplicationRecord
     start_date end_date runs licensed_runs probability status
   ].freeze
 
-  JOB_ACTIVITY_ID = [
+  JOB_ACTIVITY_ID_MAP = [
     '',
     'Manufacturing',
     'Researching Technology',
@@ -59,7 +59,7 @@ class IndustryJob < ApplicationRecord
   end
 
   def activity
-    JOB_ACTIVITY_ID[activity_id]
+    JOB_ACTIVITY_ID_MAP[activity_id]
   end
 
   def time_left
