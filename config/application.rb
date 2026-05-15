@@ -20,7 +20,7 @@ Bundler.require(*Rails.groups)
 
 module EVEIndustrial; end
 
-class EVEIndustrial::Application < Rails::Application
+class EVEIndustrial::Application < Rails::Application # rubocop:disable Style/OneClassPerFile
   # Initialize configuration defaults for originally generated Rails version.
   config.load_defaults 7.0
 

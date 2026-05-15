@@ -105,7 +105,7 @@ class ESI
 
   private_class_method def self.fetch_token_request(code)
     base_token_request.tap do |req|
-      req.set_form_data(grant_type: 'authorization_code', code: code)
+      req.set_form_data(grant_type: 'authorization_code', code:)
     end
   end
 
