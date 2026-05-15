@@ -336,7 +336,7 @@ DEPENDENCIES
   jsbundling-rails
   pg (~> 1.1)
   puma (~> 5.6)
-  rails (~> 7.0, >= 7.2)
+  rails (~> 7.2.3)
   rspec
   rubocop
   rubocop-performance
