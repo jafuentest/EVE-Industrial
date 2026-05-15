@@ -1,6 +1,7 @@
-require:
+plugins:
   - rubocop-performance
   - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   NewCops: enable
@@ -13,7 +14,7 @@ AllCops:
     - tmp/**/*
     - vendor/**/*
 
-  TargetRubyVersion: 3.0.0
+  TargetRubyVersion: 3.3.5
 
 Layout/CaseIndentation:
   EnforcedStyle: end
@@ -32,13 +33,14 @@ Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
 
 Metrics/BlockLength:
-  Exclude:
-    - config/routes.rb
-    - db/*
-  IgnoredMethods:
+  # Exclude:
+  #   - config/routes.rb
+  #   - db/*
+  AllowedMethods:
     - configure
-    - included  # Concerns
-    - setup     # Because of devise
+    # Specs
+    - describe
+    - shared_examples_for
 
 Metrics/AbcSize:
   CountRepeatedAttributes: false
@@ -52,11 +54,24 @@ Metrics/MethodLength:
 Rails/CreateTableWithTimestamps:
   Enabled: false
 
+Rails/DangerousColumnNames:
+  Exclude:
+    - db/migrate/20200927060147_create_planetary_commodities.rb
+    - db/migrate/20201211043127_create_items.rb
+    - db/migrate/20220724172852_create_regions.rb
+    - db/migrate/20220724173103_create_constellations.rb
+    - db/migrate/20220724173602_create_stars.rb
+    - db/migrate/20220724192455_create_industry_jobs.rb
+
 Rails/I18nLocaleTexts:
   Enabled: false
 
 Rails/SkipsModelValidations:
   Enabled: false
+
+Rails/ThreeStateBooleanColumn:
+  Exclude:
+    - db/migrate/20220724191821_create_orders.rb
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact

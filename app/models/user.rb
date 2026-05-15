@@ -86,7 +86,7 @@ class User < ApplicationRecord
   end
 
   def remember_me
-    super.nil? ? true : super
+    super.nil? || super
   end
 
   def update_market_orders

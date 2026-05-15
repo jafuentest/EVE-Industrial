@@ -46,14 +46,14 @@ class PlanetaryCommodity < ApplicationRecord
 
   def self.price_list(system_id)
     fields = 'buy_price / volume AS buy_isk_per_volume, sell_price / volume AS sell_isk_per_volume'
-    all.select("id, name, tier, buy_price, sell_price, #{fields}")
+    select("id, name, tier, buy_price, sell_price, #{fields}")
       .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
       .where("items_prices.star_id = #{system_id}")
       .order(name: 'asc')
   end
 
   def self.with_price(system_id:, **query_params)
-    query = all.select('id, name, tier, volume, batch_size, buy_price, sell_price, input')
+    query = select('id, name, tier, volume, batch_size, buy_price, sell_price, input')
       .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
       .where("items_prices.star_id = #{system_id}")
 
@@ -63,14 +63,17 @@ class PlanetaryCommodity < ApplicationRecord
   end
 
   private_class_method def self.update_star_prices(star_id)
-    fetch_prices_for(star_id: star_id, items: pluck(:id)).each do |item|
+    return Rails.logger.warn('Eve Marketeer API no longer exists')
+
+    # TODO: Replace with a new API or data source
+    fetch_prices_for(star_id:, items: pluck(:id)).each do |item| # rubocop:disable Lint/UnreachableCode
       item_id = item['buy']['forQuery']['types'].first
       persist_price_data(star_id, item_id, item['buy']['max'], item['sell']['max'])
     end
   end
 
   private_class_method def self.persist_price_data(star_id, item_id, buy_price, sell_price)
-    ItemsPrices.where(star_id: star_id, item_id: item_id).first_or_initialize.tap do |item_price|
+    ItemsPrices.where(star_id:, item_id:).first_or_initialize.tap do |item_price|
       item_price.item_type = name
       item_price.buy_price = buy_price
       item_price.sell_price = sell_price
