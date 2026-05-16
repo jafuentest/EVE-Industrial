@@ -55,8 +55,9 @@ RSpec.describe PlanetaryCommodity, type: :model do
     let!(:star) { FactoryBot.create(:star) }
 
     it 'logs a warning for each star' do
-      expect(Rails.logger).to receive(:warn).with('Eve Marketeer API no longer exists').once
+      allow(Rails.logger).to receive(:warn)
       described_class.update_prices
+      expect(Rails.logger).to have_received(:warn).with('Eve Marketeer API no longer exists').once
     end
   end
 

@@ -40,13 +40,13 @@ RSpec.describe IndustryJob, type: :model do
     end
 
     it 'fetches jobs from ESI' do
-      expect(ESI).to receive(:fetch_character_industry_jobs).with(character)
       update_jobs
+      expect(ESI).to have_received(:fetch_character_industry_jobs).with(character)
     end
 
     it 'creates missing items for products' do
-      expect(Item).to receive(:create_items).with([item.id])
       update_jobs
+      expect(Item).to have_received(:create_items).with([item.id])
     end
 
     it 'creates a new job from ESI data' do

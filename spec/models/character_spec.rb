@@ -40,8 +40,9 @@ RSpec.describe Character, type: :model do
       let(:character) { FactoryBot.build(:character) }
 
       it 'returns existing token' do
-        expect(ESI).not_to receive(:authenticate)
+        allow(ESI).to receive(:authenticate)
         character.auth_token
+        expect(ESI).not_to have_received(:authenticate)
       end
     end
 

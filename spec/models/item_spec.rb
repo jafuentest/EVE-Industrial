@@ -26,8 +26,8 @@ RSpec.describe Item, type: :model do
     end
 
     it "Call's ESI to fetch the item's name" do
-      expect(ESI).to receive(:fetch_item_name).once
       save_item
+      expect(ESI).to have_received(:fetch_item_name).once
     end
   end
 
