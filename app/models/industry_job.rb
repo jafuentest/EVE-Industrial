@@ -81,6 +81,6 @@ class IndustryJob < ApplicationRecord
   def completion_percent
     total_time = end_date - start_date
     percent = (total_time - time_left) * 100 / total_time
-    "#{percent}%"
+    "#{percent.round(1)}%"
   end
 end
