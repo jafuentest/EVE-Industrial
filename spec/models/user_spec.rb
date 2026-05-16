@@ -140,6 +140,11 @@ RSpec.describe User, type: :model do
       it 'returns a refreshed access token' do
         expect(user.auth_token).to eq('new-access')
       end
+
+      it 'updates the refresh token' do
+        user.auth_token
+        expect(user.esi_refresh_token).to eq('new-refresh')
+      end
     end
   end
 
