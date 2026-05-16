@@ -126,13 +126,13 @@ RSpec.describe PlanetaryCommodity, type: :model do
     end
   end
 
-  describe '#isk_per_hour' do
+  describe '#isk_per_hour' do # rubocop:disable RSpec/MultipleMemoizedHelpers
     let(:buy_price) { 500.0 }
-    let(:commodity) { described_class.with_price(system_id: star.id, id: base_commodity.id) }
     let(:sell_price) { 600.0 }
     let(:factories) { 2 }
     let(:star) { FactoryBot.create(:star) }
     let(:base_commodity) { FactoryBot.create(:planetary_commodity, tier: 1, batch_size: 3000) }
+    let(:commodity) { described_class.with_price(system_id: star.id, id: base_commodity.id) }
 
     before { FactoryBot.create(:items_prices, star:, item: base_commodity, buy_price:, sell_price:) }
 

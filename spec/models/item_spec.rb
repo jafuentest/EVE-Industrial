@@ -6,7 +6,7 @@ RSpec.describe Item, type: :model do
   end
 
   describe 'associations' do
-    skip { is_expected.to have_many(:industry_jobs) }
+    it { is_expected.to have_many(:industry_jobs) }
     it { is_expected.to have_many(:orders) }
   end
 

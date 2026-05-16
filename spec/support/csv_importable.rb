@@ -33,8 +33,8 @@ RSpec.shared_examples_for 'csv_importable' do
     context 'when called with invalid data' do
       before { allow(CSV).to receive(:read).and_return([{ 'invalid' => 'data' }]) }
 
-      skip 'rolls back deletion' do
-        # TODO
+      it 'rolls back deletion' do
+        skip 'not yet implemented'
       end
 
       it 'calls delete_all before raising' do
