@@ -8,10 +8,10 @@ RSpec.describe MarketeerAPI, type: :model do
   end
 
   describe '.fetch_prices_for' do
+    subject { dummy_class.fetch_prices_for(items:, star_id:) }
+
     let(:items) { [FactoryBot.create(:item)].map(&:id) }
     let(:star_id) { FactoryBot.create(:star).id }
-
-    subject { dummy_class.fetch_prices_for(items:, star_id:) }
 
     it 'raises an error' do
       error_message = 'Eve Marketeer API no longer exists, request: ' \

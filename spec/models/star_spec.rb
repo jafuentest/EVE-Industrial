@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe Star, type: :model do
   it_behaves_like 'csv_importable' do
-    before(:each) do
+    before do
       star = FactoryBot.build(:star)
       star.constellation.save!
       csv_row = {
@@ -46,7 +46,7 @@ RSpec.describe Star, type: :model do
     end
 
     it 'returns a hash representation of a star from a CSV row' do
-      expect(Star.hash_from_csv_row(csv_row)).to eq(expected_hash)
+      expect(described_class.hash_from_csv_row(csv_row)).to eq(expected_hash)
     end
   end
 end

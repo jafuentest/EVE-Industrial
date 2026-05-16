@@ -11,14 +11,14 @@ RSpec.describe Item, type: :model do
   end
 
   describe '#save' do
+    subject { item.save }
+
     let(:item) { FactoryBot.build(:item, name: nil) }
     let(:item_name) { "Item Name #{rand(10)}" }
 
-    before(:each) do
+    before do
       allow(ESI).to receive(:fetch_item_name).and_return(item_name)
     end
-
-    subject { item.save }
 
     it "Sets the item's name" do
       subject
@@ -32,24 +32,24 @@ RSpec.describe Item, type: :model do
   end
 
   describe '#create_items' do
+    subject { described_class.create_items(item_ids) }
+
     let(:item_ids) { (1..2).to_a }
 
-    before(:each) do
+    before do
       allow(ESI).to receive(:fetch_item_name).and_return("Item Name #{rand(10)}")
     end
 
-    subject { Item.create_items(item_ids) }
-
     it 'creates an item object for each id given' do
       subject
-      expect(Item.pluck(:id).sort).to eq(item_ids)
+      expect(described_class.pluck(:id).sort).to eq(item_ids)
     end
 
     it 'does not create duplicates' do
       item_ids.each { |id| FactoryBot.create(:item, id:) }
       subject
 
-      expect(Item.count).to eq(item_ids.size)
+      expect(described_class.count).to eq(item_ids.size)
     end
   end
 end

@@ -17,7 +17,7 @@ RSpec.shared_examples_for 'csv_importable' do
 
     it 'rebuilds database table from CSV' do
       expect(model).to receive(:insert_all!).and_call_original
-      expect(subject).to be_kind_of(ActiveRecord::Result)
+      expect(subject).to be_a(ActiveRecord::Result)
     end
 
     context 'when called with invalid data' do

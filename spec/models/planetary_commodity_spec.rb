@@ -11,7 +11,7 @@ RSpec.describe PlanetaryCommodity, type: :model do
   end
 
   it_behaves_like 'csv_importable' do
-    before(:each) do
+    before do
       commodity = FactoryBot.build(:planetary_commodity)
       csv_row = {
         'ID' => commodity.id,
@@ -47,7 +47,7 @@ RSpec.describe PlanetaryCommodity, type: :model do
     end
 
     it 'returns a hash representation of a planetary commodity from a CSV row' do
-      expect(PlanetaryCommodity.hash_from_csv_row(csv_row)).to eq(expected_hash)
+      expect(described_class.hash_from_csv_row(csv_row)).to eq(expected_hash)
     end
   end
 
@@ -56,16 +56,16 @@ RSpec.describe PlanetaryCommodity, type: :model do
 
     it 'logs a warning for each star' do
       expect(Rails.logger).to receive(:warn).with('Eve Marketeer API no longer exists').once
-      PlanetaryCommodity.update_prices
+      described_class.update_prices
     end
   end
 
   describe '.price_list' do
+    subject { described_class.price_list(star.id) }
+
     let(:star) { FactoryBot.create(:star) }
     let(:commodity) { FactoryBot.create(:planetary_commodity) }
     let!(:items_prices) { FactoryBot.create(:items_prices, star:, item: commodity) }
-
-    subject { PlanetaryCommodity.price_list(star.id) }
 
     it 'returns commodities with prices for the given star' do
       expect(subject.map(&:id)).to include(commodity.id)
@@ -86,11 +86,11 @@ RSpec.describe PlanetaryCommodity, type: :model do
   end
 
   describe '.with_price' do
+    subject { described_class.with_price(system_id: star.id) }
+
     let(:star) { FactoryBot.create(:star) }
     let(:commodity) { FactoryBot.create(:planetary_commodity) }
     let!(:items_prices) { FactoryBot.create(:items_prices, star:, item: commodity) }
-
-    subject { PlanetaryCommodity.with_price(system_id: star.id) }
 
     it 'returns commodities with prices for the given star' do
       expect(subject.map(&:id)).to include(commodity.id)
@@ -98,12 +98,12 @@ RSpec.describe PlanetaryCommodity, type: :model do
 
     context 'when query params are given' do
       it 'filters by the given params' do
-        result = PlanetaryCommodity.with_price(system_id: star.id, id: commodity.id)
+        result = described_class.with_price(system_id: star.id, id: commodity.id)
         expect(result.id).to eq(commodity.id)
       end
 
       it 'returns nil when no match' do
-        result = PlanetaryCommodity.with_price(system_id: star.id, id: -1)
+        result = described_class.with_price(system_id: star.id, id: -1)
         expect(result).to be_nil
       end
     end
@@ -128,7 +128,7 @@ RSpec.describe PlanetaryCommodity, type: :model do
     let(:star) { FactoryBot.create(:star) }
     let(:base_commodity) { FactoryBot.create(:planetary_commodity, tier: 1, batch_size: 3000) }
     let!(:items_prices) { FactoryBot.create(:items_prices, star:, item: base_commodity, buy_price:, sell_price:) }
-    let(:commodity) { PlanetaryCommodity.with_price(system_id: star.id, id: base_commodity.id) }
+    let(:commodity) { described_class.with_price(system_id: star.id, id: base_commodity.id) }
 
     it 'calculates isk per hour using buy price by default' do
       expected = 3000 * factories * commodity.cycles_per_hour * buy_price

@@ -21,13 +21,13 @@ RSpec.describe ItemsPrices, type: :model do
       end
 
       it 'returns true' do
-        expect(subject).to eq(true)
+        expect(subject).to be(true)
       end
     end
 
     context 'when instance is already persisted' do
       let!(:instance) { FactoryBot.create(:items_prices) }
-      let(:count) { ItemsPrices.count }
+      let(:count) { described_class.count }
       let(:new_buy_price) { instance.buy_price + 10 }
       let(:new_sell_price) { instance.sell_price + 10 }
 
@@ -38,19 +38,19 @@ RSpec.describe ItemsPrices, type: :model do
 
       it 'updates prices of existing record' do
         subject
-        item_price = ItemsPrices.find_by(item_id: instance.item_id, star_id: instance.star_id)
+        item_price = described_class.find_by(item_id: instance.item_id, star_id: instance.star_id)
         expect(item_price.buy_price).to eq(new_buy_price)
         expect(item_price.sell_price).to eq(new_sell_price)
       end
 
       it 'does not create new records' do
         subject
-        expect(ItemsPrices.count).to eq(count)
+        expect(described_class.count).to eq(count)
       end
     end
 
     it 'raises exception trying to create invalid record' do
-      invalid_instance = ItemsPrices.new(star: nil, item: nil)
+      invalid_instance = described_class.new(star: nil, item: nil)
       expect { invalid_instance.save! }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end

@@ -11,6 +11,8 @@ RSpec.describe IndustryJob, type: :model do
   end
 
   describe '.update_character_jobs' do
+    subject { described_class.update_character_jobs(character) }
+
     let(:character) { FactoryBot.create(:character) }
     let(:item) { FactoryBot.create(:item) }
     let(:esi_job) do
@@ -37,8 +39,6 @@ RSpec.describe IndustryJob, type: :model do
       allow(Item).to receive(:create_items)
     end
 
-    subject { IndustryJob.update_character_jobs(character) }
-
     it 'fetches jobs from ESI' do
       expect(ESI).to receive(:fetch_character_industry_jobs).with(character)
       subject
@@ -50,24 +50,24 @@ RSpec.describe IndustryJob, type: :model do
     end
 
     it 'creates a new job from ESI data' do
-      expect { subject }.to change(IndustryJob, :count).by(1)
+      expect { subject }.to change(described_class, :count).by(1)
     end
 
     it 'does not duplicate an existing job' do
       FactoryBot.create(:industry_job, id: 1, character:, output: item)
-      expect { subject }.not_to change(IndustryJob, :count)
+      expect { subject }.not_to change(described_class, :count)
     end
 
     it 'removes jobs no longer returned by ESI' do
       stale_job = FactoryBot.create(:industry_job, character:, output: item)
       subject
-      expect(IndustryJob.exists?(stale_job.id)).to be false
+      expect(described_class.exists?(stale_job.id)).to be false
     end
 
     it 'does not remove jobs belonging to other characters' do
       other_job = FactoryBot.create(:industry_job, output: item)
       subject
-      expect(IndustryJob.exists?(other_job.id)).to be true
+      expect(described_class.exists?(other_job.id)).to be true
     end
   end
 
