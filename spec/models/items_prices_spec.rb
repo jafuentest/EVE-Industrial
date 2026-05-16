@@ -10,18 +10,18 @@ RSpec.describe ItemsPrices, type: :model do
   end
 
   describe '#save!' do
-    subject { instance.save! }
+    subject(:save_instance) { instance.save! }
 
     context 'when instance is not persisted' do
       let(:instance) { FactoryBot.build(:items_prices) }
 
       it 'persists as a new record' do
-        subject
+        save_instance
         expect(instance).to be_persisted
       end
 
       it 'returns true' do
-        expect(subject).to be(true)
+        expect(save_instance).to be(true)
       end
     end
 
@@ -37,14 +37,14 @@ RSpec.describe ItemsPrices, type: :model do
       end
 
       it 'updates prices of existing record' do
-        subject
+        save_instance
         item_price = described_class.find_by(item_id: instance.item_id, star_id: instance.star_id)
         expect(item_price.buy_price).to eq(new_buy_price)
         expect(item_price.sell_price).to eq(new_sell_price)
       end
 
       it 'does not create new records' do
-        subject
+        save_instance
         expect(described_class.count).to eq(count)
       end
     end

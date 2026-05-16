@@ -8,7 +8,7 @@ RSpec.describe MarketeerAPI, type: :model do
   end
 
   describe '.fetch_prices_for' do
-    subject { dummy_class.fetch_prices_for(items:, star_id:) }
+    subject(:fetch_prices) { dummy_class.fetch_prices_for(items:, star_id:) }
 
     let(:items) { [FactoryBot.create(:item)].map(&:id) }
     let(:star_id) { FactoryBot.create(:star).id }
@@ -18,7 +18,7 @@ RSpec.describe MarketeerAPI, type: :model do
                       'https://api.evemarketer.com/ec/marketstat/json?' \
                       "typeid=#{items.join(',')}&usesystem=#{star_id}"
 
-      expect { subject }.to raise_error(RuntimeError, error_message)
+      expect { fetch_prices }.to raise_error(RuntimeError, error_message)
     end
   end
 end

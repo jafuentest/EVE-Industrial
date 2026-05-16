@@ -61,18 +61,18 @@ RSpec.describe PlanetaryCommodity, type: :model do
   end
 
   describe '.price_list' do
-    subject { described_class.price_list(star.id) }
+    subject(:price_list) { described_class.price_list(star.id) }
 
     let(:star) { FactoryBot.create(:star) }
     let(:commodity) { FactoryBot.create(:planetary_commodity) }
     let!(:items_prices) { FactoryBot.create(:items_prices, star:, item: commodity) }
 
     it 'returns commodities with prices for the given star' do
-      expect(subject.map(&:id)).to include(commodity.id)
+      expect(price_list.map(&:id)).to include(commodity.id)
     end
 
     it 'includes buy and sell price columns' do
-      result = subject.first
+      result = price_list.first
       expect(result).to respond_to(:buy_price)
       expect(result).to respond_to(:sell_price)
     end
@@ -81,19 +81,19 @@ RSpec.describe PlanetaryCommodity, type: :model do
       other = FactoryBot.create(:planetary_commodity, name: 'AAA Commodity')
       FactoryBot.create(:items_prices, star:, item: other)
 
-      expect(subject.first.id).to eq(other.id)
+      expect(price_list.first.id).to eq(other.id)
     end
   end
 
   describe '.with_price' do
-    subject { described_class.with_price(system_id: star.id) }
+    subject(:commodities_with_price) { described_class.with_price(system_id: star.id) }
 
     let(:star) { FactoryBot.create(:star) }
     let(:commodity) { FactoryBot.create(:planetary_commodity) }
     let!(:items_prices) { FactoryBot.create(:items_prices, star:, item: commodity) }
 
     it 'returns commodities with prices for the given star' do
-      expect(subject.map(&:id)).to include(commodity.id)
+      expect(commodities_with_price.map(&:id)).to include(commodity.id)
     end
 
     context 'when query params are given' do
