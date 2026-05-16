@@ -52,7 +52,7 @@ RSpec.describe PlanetaryCommodity, type: :model do
   end
 
   describe '.update_prices' do
-    let!(:star) { FactoryBot.create(:star) }
+    before { FactoryBot.create(:star) }
 
     it 'logs a warning for each star' do
       allow(Rails.logger).to receive(:warn)
@@ -66,7 +66,8 @@ RSpec.describe PlanetaryCommodity, type: :model do
 
     let(:star) { FactoryBot.create(:star) }
     let(:commodity) { FactoryBot.create(:planetary_commodity) }
-    let!(:items_prices) { FactoryBot.create(:items_prices, star:, item: commodity) }
+
+    before { FactoryBot.create(:items_prices, star:, item: commodity) }
 
     it 'returns commodities with prices for the given star' do
       expect(price_list.map(&:id)).to include(commodity.id)
@@ -93,7 +94,8 @@ RSpec.describe PlanetaryCommodity, type: :model do
 
     let(:star) { FactoryBot.create(:star) }
     let(:commodity) { FactoryBot.create(:planetary_commodity) }
-    let!(:items_prices) { FactoryBot.create(:items_prices, star:, item: commodity) }
+
+    before { FactoryBot.create(:items_prices, star:, item: commodity) }
 
     it 'returns commodities with prices for the given star' do
       expect(commodities_with_price.map(&:id)).to include(commodity.id)
@@ -126,12 +128,13 @@ RSpec.describe PlanetaryCommodity, type: :model do
 
   describe '#isk_per_hour' do
     let(:buy_price) { 500.0 }
+    let(:commodity) { described_class.with_price(system_id: star.id, id: base_commodity.id) }
     let(:sell_price) { 600.0 }
     let(:factories) { 2 }
     let(:star) { FactoryBot.create(:star) }
     let(:base_commodity) { FactoryBot.create(:planetary_commodity, tier: 1, batch_size: 3000) }
-    let!(:items_prices) { FactoryBot.create(:items_prices, star:, item: base_commodity, buy_price:, sell_price:) }
-    let(:commodity) { described_class.with_price(system_id: star.id, id: base_commodity.id) }
+
+    before { FactoryBot.create(:items_prices, star:, item: base_commodity, buy_price:, sell_price:) }
 
     it 'calculates isk per hour using buy price by default' do
       expected = 3000 * factories * commodity.cycles_per_hour * buy_price

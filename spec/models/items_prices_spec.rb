@@ -30,6 +30,7 @@ RSpec.describe ItemsPrices, type: :model do
       let(:count) { described_class.count }
       let(:new_buy_price) { instance.buy_price + 10 }
       let(:new_sell_price) { instance.sell_price + 10 }
+
       before do
         instance.buy_price = new_buy_price
         instance.sell_price = new_sell_price

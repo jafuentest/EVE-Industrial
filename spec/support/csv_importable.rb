@@ -8,13 +8,13 @@ RSpec.shared_examples_for 'csv_importable' do
   describe '#import_from_csv' do
     subject { model.import_from_csv('path_to_csv_file') }
 
-    it "calls delete_all" do
+    it 'calls delete_all' do
       allow(model).to receive(:delete_all).and_call_original
       subject
       expect(model).to have_received(:delete_all)
     end
 
-    it "removes existing records" do
+    it 'removes existing records' do
       existing = FactoryBot.create(model_factory)
       subject
       expect { existing.reload }.to raise_error(ActiveRecord::RecordNotFound)
