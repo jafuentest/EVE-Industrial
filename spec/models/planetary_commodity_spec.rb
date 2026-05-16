@@ -72,10 +72,12 @@ RSpec.describe PlanetaryCommodity, type: :model do
       expect(price_list.map(&:id)).to include(commodity.id)
     end
 
-    it 'includes buy and sell price columns' do
-      result = price_list.first
-      expect(result).to respond_to(:buy_price)
-      expect(result).to respond_to(:sell_price)
+    it 'includes buy_price column' do
+      expect(price_list.first).to respond_to(:buy_price)
+    end
+
+    it 'includes sell_price column' do
+      expect(price_list.first).to respond_to(:sell_price)
     end
 
     it 'orders results by name' do

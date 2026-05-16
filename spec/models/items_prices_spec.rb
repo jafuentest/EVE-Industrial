@@ -30,21 +30,23 @@ RSpec.describe ItemsPrices, type: :model do
       let(:count) { described_class.count }
       let(:new_buy_price) { instance.buy_price + 10 }
       let(:new_sell_price) { instance.sell_price + 10 }
-
       before do
         instance.buy_price = new_buy_price
         instance.sell_price = new_sell_price
+        save_instance
       end
 
-      it 'updates prices of existing record' do
-        save_instance
+      it 'updates buy price of existing record' do
         item_price = described_class.find_by(item_id: instance.item_id, star_id: instance.star_id)
         expect(item_price.buy_price).to eq(new_buy_price)
+      end
+
+      it 'updates sell price of existing record' do
+        item_price = described_class.find_by(item_id: instance.item_id, star_id: instance.star_id)
         expect(item_price.sell_price).to eq(new_sell_price)
       end
 
       it 'does not create new records' do
-        save_instance
         expect(described_class.count).to eq(count)
       end
     end

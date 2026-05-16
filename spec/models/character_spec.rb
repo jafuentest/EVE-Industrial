@@ -22,15 +22,27 @@ RSpec.describe Character, type: :model do
         'ExpiresOn' => '2017-07-05T14:34:16.5857101'
       }
     end
+    let(:character) { FactoryBot.build(:character, :without_verification_data) }
 
-    it 'sets character attributes from access_token verification response' do
-      character = FactoryBot.build(:character, :without_verification_data)
-      character.verification_data = data_hash
+    before { character.verification_data = data_hash }
 
+    it 'sets character_name' do
       expect(character.character_name).to eq(data_hash['CharacterName'])
+    end
+
+    it 'sets scopes' do
       expect(character.scopes).to eq(data_hash['Scopes'])
+    end
+
+    it 'sets token_type' do
       expect(character.token_type).to eq(data_hash['TokenType'])
+    end
+
+    it 'sets owner_hash' do
       expect(character.owner_hash).to eq(data_hash['CharacterOwnerHash'])
+    end
+
+    it 'sets esi_expires_on' do
       expect(character.esi_expires_on).to eq(DateTime.parse(data_hash['ExpiresOn']))
     end
   end

@@ -8,35 +8,49 @@ RSpec.shared_examples_for 'csv_importable' do
   describe '#import_from_csv' do
     subject { model.import_from_csv('path_to_csv_file') }
 
-    it "clears model's table" do
-      existing = FactoryBot.create(model_factory)
+    it "calls delete_all" do
       allow(model).to receive(:delete_all).and_call_original
       subject
       expect(model).to have_received(:delete_all)
+    end
+
+    it "removes existing records" do
+      existing = FactoryBot.create(model_factory)
+      subject
       expect { existing.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it 'rebuilds database table from CSV' do
+    it 'calls insert_all!' do
       allow(model).to receive(:insert_all!).and_call_original
-      expect(subject).to be_a(ActiveRecord::Result)
+      subject
       expect(model).to have_received(:insert_all!)
     end
 
+    it 'returns an ActiveRecord::Result' do
+      expect(subject).to be_a(ActiveRecord::Result)
+    end
+
     context 'when called with invalid data' do
+      before { allow(CSV).to receive(:read).and_return([{ 'invalid' => 'data' }]) }
+
       skip 'rolls back deletion' do
         # TODO
       end
 
-      it 'return string with error' do
-        allow(CSV).to receive(:read).and_return([{ 'invalid' => 'data' }])
-
+      it 'calls delete_all before raising' do
         allow(model).to receive(:delete_all).and_call_original
-        allow(model).to receive(:insert_all!).and_call_original
-
-        result = model.import_from_csv('path_to_csv_file')
+        subject
         expect(model).to have_received(:delete_all)
+      end
+
+      it 'attempts insert_all! before raising' do
+        allow(model).to receive(:insert_all!).and_call_original
+        subject
         expect(model).to have_received(:insert_all!)
-        expect(result).to include('ActiveRecord::NotNullViolation')
+      end
+
+      it 'returns a string with the error' do
+        expect(subject).to include('ActiveRecord::NotNullViolation')
       end
     end
   end
