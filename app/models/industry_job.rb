@@ -23,7 +23,7 @@ class IndustryJob < ApplicationRecord
     start_date end_date runs licensed_runs probability status
   ].freeze
 
-  JOB_ACTIVITY_ID = [
+  JOB_ACTIVITY_ID_MAP = [
     '',
     'Manufacturing',
     'Researching Technology',
@@ -59,7 +59,7 @@ class IndustryJob < ApplicationRecord
   end
 
   def activity
-    JOB_ACTIVITY_ID[activity_id]
+    JOB_ACTIVITY_ID_MAP[activity_id]
   end
 
   def time_left
@@ -81,6 +81,6 @@ class IndustryJob < ApplicationRecord
   def completion_percent
     total_time = end_date - start_date
     percent = (total_time - time_left) * 100 / total_time
-    "#{percent}%"
+    "#{percent.round(1)}%"
   end
 end

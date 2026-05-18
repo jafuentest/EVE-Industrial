@@ -55,6 +55,13 @@ group :development, :test do
   gem 'rubocop-rspec', require: false
 
   gem 'rspec', require: false
+  gem 'rspec-rails', '~> 7.0.0', require: false
+
+  gem 'shoulda-matchers'
+
+  gem 'factory_bot_rails'
+
+  gem 'simplecov', require: false
 end
 
 group :development do

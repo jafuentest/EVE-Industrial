@@ -68,10 +68,12 @@ class Order < ApplicationRecord
 
   def self.update_competing_orders(orders, character)
     orders.group_by { |e| e['location_id'] }.each do |location_id, location_orders|
+      region_id = location_orders.first['region_id']
+      item_ids = location_orders.pluck('type_id')
       if npc_station?(location_id)
-        update_region_orders(location_orders.first['region_id'], location_orders.pluck('type_id'))
+        update_region_orders(region_id, item_ids)
       else
-        update_citadel_orders(character, location_id, location_orders.pluck('type_id'))
+        update_citadel_orders(character, location_id, region_id, item_ids)
       end
     end
   end
@@ -98,7 +100,7 @@ class Order < ApplicationRecord
     end
   end
 
-  private_class_method def self.update_citadel_orders(character, structure_id, item_ids = nil)
+  private_class_method def self.update_citadel_orders(character, structure_id, region_id, item_ids = nil)
     page = 0
     loop do
       page += 1
@@ -107,7 +109,7 @@ class Order < ApplicationRecord
 
       esi_orders = esi_orders.select { |e| item_ids.include?(e['type_id']) } if item_ids.present?
       Item.create_items(esi_orders.pluck('type_id'))
-      esi_orders.each { |esi_order| upsert_order(esi_order) }
+      esi_orders.each { |esi_order| upsert_order(esi_order, region_id:) }
     end
   end
 

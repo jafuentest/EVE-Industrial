@@ -5,9 +5,7 @@ module MarketeerAPI
 
   class_methods do
     def fetch_prices_for(items:, star_id:)
-      uri = request_uri(items, star_id)
-      response = Net::HTTP.get(uri)
-      JSON.parse(response)
+      raise "Eve Marketeer API no longer exists, request: #{request_uri(items, star_id)}"
     end
 
     private
