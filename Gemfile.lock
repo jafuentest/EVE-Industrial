@@ -191,7 +191,7 @@ GEM
     parser (3.3.11.1)
       ast (~> 2.4.1)
       racc
-    pg (1.4.1)
+    pg (1.6.3)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -370,7 +370,7 @@ DEPENDENCIES
   factory_bot_rails
   jbuilder
   jsbundling-rails
-  pg (~> 1.1)
+  pg (~> 1.6)
   puma (~> 8.0)
   rails (~> 7.2.3)
   rspec
