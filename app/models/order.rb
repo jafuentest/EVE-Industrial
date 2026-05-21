@@ -25,10 +25,6 @@ class Order < ApplicationRecord
 
   ESI_ATTRIBUTES = %w[location_id type_id price issued duration volume_remain volume_total].freeze
   NPC_ID_THRESHOLD = 100_000_000
-  SYSTEMS_FOR_REGION = {
-    # The Forge => [Jita, Perimeter, New Caldari]
-    10_000_002 => [30_000_142, 30_000_144, 30_000_145]
-  }.freeze
 
   def market_diff
     return market_diff_citadel unless placed_in_npc_station?
@@ -55,7 +51,8 @@ class Order < ApplicationRecord
   def self.update_character_orders(character, update_competition: true)
     start_time = Time.current
     orders = ESI.fetch_character_market_orders(character)
-    Item.create_items(orders.pluck('type_id'))
+    item_ids = orders.pluck('type_id').uniq
+    Item.create_items(item_ids)
     orders.each do |esi_order|
       upsert_order(esi_order, character:, region_id: esi_order['region_id'])
     end
@@ -63,7 +60,7 @@ class Order < ApplicationRecord
     return unless update_competition
 
     update_competing_orders(orders, character)
-    destroy_missing_orders(orders, start_time)
+    destroy_missing_orders(orders, start_time, item_ids)
   end
 
   def self.update_competing_orders(orders, character)
@@ -78,9 +75,9 @@ class Order < ApplicationRecord
     end
   end
 
-  private_class_method def self.destroy_missing_orders(orders, time)
+  private_class_method def self.destroy_missing_orders(orders, time, item_ids)
     orders.group_by { |e| e['location_id'] }.each do |location_id, location_orders|
-      orders = Order.where(updated_at: ...time)
+      orders = Order.where(item_id: item_ids, updated_at: ...time)
       orders =
         if npc_station?(location_id)
           orders.where(region_id: location_orders.first['region_id'])
@@ -95,7 +92,6 @@ class Order < ApplicationRecord
     Item.create_items(item_ids)
     item_ids.each do |item_id|
       ESI.fetch_region_orders(region_id, item_id, 'all')
-        .select { |e| SYSTEMS_FOR_REGION[region_id].include?(e['system_id']) }
         .each { |esi_order| upsert_order(esi_order, region_id:) }
     end
   end

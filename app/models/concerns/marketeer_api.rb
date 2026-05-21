@@ -24,7 +24,7 @@ module MarketeerAPI
       header_value = response.each_header.find { |e| e.first == 'expires' }.last
       return {} unless header_value
 
-      { "expires_at" => Time.httpdate(header_value) }
+      { 'expires_at' => Time.httpdate(header_value) }
     end
 
     def default_region
