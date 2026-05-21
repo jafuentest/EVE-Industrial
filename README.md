@@ -1,17 +1,22 @@
-# README
+# EVE-Industrial
+
+Rails app for EVE Online industrial planning. Currently supporting:
+
+* Industry jobs
+* Market orders
+* Planetary colonies
+* Planetary commodities
 
 ## Basic System Requirements
 
 * Ruby version
-  * MRI 3.0.0
+  * MRI 3.3.5
 
 * System dependencies
-  * PostgreSQL 13.3 or higher
+  * PostgreSQL 17 or higher
 
-* Services <!-- (job queues, cache servers, search engines, etc.) -->
+* Services
   * Uses Delayed Job for background tasks
-
-<!-- * Configuration -->
 
 ## Running the Test Suite
 
@@ -22,61 +27,148 @@ bundle exec rspec
 
 ## Capistrano Deployment
 
-1. Install basic dependencies
-  * Postgres server (local or remote)
-  * rvm + Ruby version
-  * NodeJS + Yarn
-  * Postgres devel package
+1. Install system dependencies
+   * rbenv + Ruby version
+   * NodeJS + Yarn
+   * PostgreSQL server (assuming local install)
+   * PostgreSQL devel package
+   * Nginx
+   * Certbot
 
-2. Ensure ssh key exists and is available
-    ```
-    ~/.ssh/wallet-status.pem
-    ```
+    If using Amazon Linux 2023:
 
-3. Login to the psql shell with root privileges
-    ```
-    CREATE DATABASE eve_industrial_production;
-    CREATE USER eve_industrial WITH ENCRYPTED PASSWORD '<secure-password>';
-    GRANT ALL PRIVILEGES ON DATABASE eve_industrial_production TO eve_industrial;
-    ```
+    1. Install basic dependencies
+        ```bash
+        sudo dnf install git perl zlib-devel libffi-devel libyaml-devel nginx certbot python3-certbot-nginx
+        ```
 
-4. Copy system files. Assuming that:
-  * The cap deploy_to dir is `~/eve_industrial`
-  * The domain is `eve_industrial.wikifuentes.com`
-    ```
+    1. Install Postgres
+        ```bash
+        sudo dnf install postgresql17 postgresql17-server libpq-devel
+        ```
+
+    1. Install rbenv with ruby-build plugin, and setup ruby 3.3.5
+        ```bash
+        git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+        ~/.rbenv/bin/rbenv init
+
+        # Restart the shell to load the rbenv
+        exec bash
+
+        git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+
+        rbenv install 3.3.5
+        ```
+    1. Install NodeJS + Yarn. Probably best to check for the latest version of nvm
+        ```bash
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+        nvm install --lts
+        npm install -g yarn
+        ```
+
+1. Set up the Postgres database
+    1. Login to the psql shell with root privileges
+        ```bash
+        sudo /usr/bin/postgresql-setup --initdb
+        sudo service postgresql start
+        sudo -u postgres psql
+        ```
+
+    1. Create the database and user
+        ```sql
+        CREATE DATABASE eve_industrial_production;
+        CREATE USER eve_industrial WITH ENCRYPTED PASSWORD '<secure-password>';
+        GRANT ALL PRIVILEGES ON DATABASE eve_industrial_production TO eve_industrial;
+        \c eve_industrial_production
+        GRANT ALL ON SCHEMA public TO eve_industrial;
+        ```
+
+    1. Configure the database to allow connections from the eve_industrial user
+        Find config file (in my case it was on `/var/lib/pgsql/data/pg_hba.conf`)
+        ```bash
+        sudo -u postgres psql -c "SHOW hba_file;"
+        sudo vim /var/lib/pgsql/data/pg_hba.conf
+        ```
+
+        Find the IPv4 local connections block in the file and update it to look like this:
+        ```
+        # IPv4 local connections:
+        host    eve_industrial_production eve_industrial  127.0.0.1/32  scram-sha-256
+        host    all             all             127.0.0.1/32            ident
+        ```
+        **Note that it's important that eve_industrial user is listed before the all user.**
+
+        Reload postgresql config
+        ```bash
+        sudo systemctl reload postgresql
+        ```
+
+1. Copy config files. Assuming that:
+    * You ssh into the server using a key located at `~/.ssh/eve-industrial.pem`
+    * The cap deploy_to dir is `~/eve_industrial`
+    * The domain is `eve-industrial.wikifuentes.com`
+
+    Create the shared config dir
+    ```bash
     mkdir -p ~/eve_industrial/shared/config
-
-    # Copies the master key to decrypt rails secrets
-    scp -i ~/.ssh/wikifuentes.pem config/master.key ec2-user@eve-industrial.wikifuentes.com:~/eve_industrial/shared/config
-
-    # Sets up the puma service
-    scp -i ~/.ssh/wikifuentes.pem ops/eve_industrial.conf ec2-user@eve-industrial.wikifuentes.com:/etc/nginx/conf.d
-
-    # Sets up Nginx
-    scp -i ~/.ssh/wikifuentes.pem ops/puma_eve_industrial.service ec2-user@eve-industrial.wikifuentes.com:/etc/systemd/system
     ```
 
-5. Deploy!
+    Copy the master key to decrypt rails secrets
+    ```bash
+    scp -i ~/.ssh/eve-industrial.pem config/master.key ec2-user@eve-industrial.wikifuentes.com:~/eve_industrial/shared/config
     ```
+
+    Copy the nginx and puma systemd files
+    ```bash
+    scp -i ~/.ssh/eve-industrial.pem \
+    ops/eve_industrial.conf \
+    ops/puma_eve_industrial.service \
+    ec2-user@eve-industrial.wikifuentes.com:~/
+
+    ssh -i ~/.ssh/eve-industrial.pem ec2-user@eve-industrial.wikifuentes.com \
+    'sudo mv ~/eve_industrial.conf /etc/nginx/conf.d/ && \
+     sudo mv ~/puma_eve_industrial.service /etc/systemd/system/'
+    ```
+
+    Enable the puma service
+    ```bash
+    sudo systemctl enable puma_eve_industrial.service
+    ```
+
+1. Deploy!
+    From your local system:
+    ```bash
     cap production deploy
     ```
 
-6. Now ssh to the server `ssh -i ~/.ssh/wikifuentes.pem ec2-user@eve-industrial.wikifuentes.com` and
-  * Create and setup the SSL certificate https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/SSL-on-amazon-linux-2.html#letsencrypt
+1. Final configuration steps
+    1. First ssh to the server
+        ```bash
+        ssh -i ~/.ssh/eve-industrial.pem ec2-user@eve-industrial.wikifuentes.com
+        ```
 
-  * Patch app files permissions (This is lazy way, for safe way app should be outside home, like `/var/www/`)
-    ```
-    chmod +x ~
-    chmod +x ~/eve_industrial -R
-    ```
+    1. Create and setup the SSL certificate using certbot
+        ```bash
+        sudo certbot --nginx
+        ```
 
-  * Restart Nginx
-    ```
-    sudo service nginx restart
-    ```
+    1. Restart Nginx
+        ```bash
+        sudo service nginx restart
+        ```
 
-7. Initialize the database
-    ```
-    cd ~/eve_industrial/current
-    RAILS_ENV="production" bundle exec rails db:seed
-    ```
+1. Load the seed data
+    1. When starting from scratch
+        ```bash
+        cd ~/eve_industrial/current
+        RAILS_ENV="production" bundle exec rails db:seed
+        ```
+
+    1. When restoring from a backup
+        ```bash
+        # Careful! This will destroy any pre-existing data in the database
+        pg_restore -U eve_industrial -d eve_industrial_production -h localhost -W --clean ~/db.dump
+        ```
