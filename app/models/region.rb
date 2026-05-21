@@ -3,4 +3,8 @@ class Region < ApplicationRecord
 
   has_many :constellations, dependent: :destroy
   has_many :stars, dependent: :destroy
+
+  module IDs
+    THE_FORGE = 10_000_002
+  end
 end
