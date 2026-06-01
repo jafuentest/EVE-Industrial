@@ -6,7 +6,6 @@ Style/StringLiterals:
     - app/helpers/esi_helper.rb
     - app/helpers/industry_helper.rb
     - app/helpers/market_orders_helper.rb
-    - app/helpers/planetary_colonies_helper.rb
     - app/mailers/application_mailer.rb
     - app/models/character.rb
     - app/models/concerns/csv_importable.rb
