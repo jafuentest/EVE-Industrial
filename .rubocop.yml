@@ -28,6 +28,7 @@ Layout/EndAlignment:
 Layout/LineLength:
   Exclude:
     - db/seeds.rb
+    - db/seeds/*.rb
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
