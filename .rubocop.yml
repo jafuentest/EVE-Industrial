@@ -1,3 +1,6 @@
+inherit_from:
+  - .rubocop_string_literals_allowlist.yml
+
 plugins:
   - rubocop-performance
   - rubocop-rails
@@ -84,3 +87,6 @@ Style/FrozenStringLiteralComment:
 
 Style/RegexpLiteral:
   EnforcedStyle: mixed
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
