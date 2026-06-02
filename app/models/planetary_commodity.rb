@@ -39,9 +39,7 @@ class PlanetaryCommodity < ApplicationRecord
   end
 
   def self.update_prices
-    Star.pluck(:id).each do |star_id|
-      update_star_prices(star_id)
-    end
+    update_star_prices(Star::IDs::JITA)
   end
 
   def self.price_list(system_id)
@@ -63,7 +61,8 @@ class PlanetaryCommodity < ApplicationRecord
   end
 
   private_class_method def self.update_star_prices(star_id)
-    fetch_prices_for(star_id:, items: pluck(:id)).each do |price_result|
+    region_id = Star.find(star_id).region_id
+    fetch_prices_for(region_id:, items: pluck(:id)).each do |price_result|
       item_id = price_result['item_id']
       persist_price_data(star_id, item_id, price_result['buyAvgFivePercent'], price_result['sellAvgFivePercent'])
     end

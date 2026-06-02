@@ -15,6 +15,10 @@ class Star < ApplicationRecord
   belongs_to :region
   belongs_to :constellation
 
+  module IDs
+    JITA = 30_000_142
+  end
+
   def self.hash_from_csv_row(row)
     {
       id: row['ID'],
