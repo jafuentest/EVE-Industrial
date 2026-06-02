@@ -117,7 +117,8 @@ RSpec.describe Order, type: :model do
       end
 
       it 'destroys stale orders in the same region' do
-        stale = FactoryBot.create(:order, region_id: 10_000_002, updated_at: 1.day.ago)
+        stale = FactoryBot.create(:order, item: FactoryBot.create(:item, id: 34),
+                                          region_id: 10_000_002, updated_at: 1.day.ago)
         update
         expect(described_class.exists?(stale.id)).to be(false)
       end
@@ -148,7 +149,8 @@ RSpec.describe Order, type: :model do
       before { allow(ESI).to receive(:fetch_citadel_orders).and_return([]) }
 
       it 'destroys stale orders in the same structure' do
-        stale = FactoryBot.create(:order, location_id: 100_000_001, updated_at: 1.day.ago)
+        stale = FactoryBot.create(:order, item: FactoryBot.create(:item, id: 34),
+                                          location_id: 100_000_001, updated_at: 1.day.ago)
         update
         expect(described_class.exists?(stale.id)).to be(false)
       end

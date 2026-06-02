@@ -52,12 +52,28 @@ RSpec.describe PlanetaryCommodity, type: :model do
   end
 
   describe '.update_prices' do
-    before { FactoryBot.create(:star) }
+    let(:commodity) { FactoryBot.create(:planetary_commodity) }
+    let(:jita) { FactoryBot.create(:star, id: Star::IDs::JITA) }
+    let(:price_result) do
+      { 'item_id' => commodity.id, 'buyAvgFivePercent' => 5.0, 'sellAvgFivePercent' => 7.0 }
+    end
 
-    it 'logs a warning for each star' do
-      allow(Rails.logger).to receive(:warn)
+    before do
+      jita
+      commodity
+      allow(described_class).to receive(:fetch_prices_for).and_return([price_result])
+    end
+
+    it 'fetches prices for Jita using its region' do
       described_class.update_prices
-      expect(Rails.logger).to have_received(:warn).with('Eve Marketeer API no longer exists').once
+      expect(described_class).to have_received(:fetch_prices_for)
+        .with(region_id: jita.region_id, items: [commodity.id])
+    end
+
+    it 'persists the fetched prices for the star' do
+      described_class.update_prices
+      expect(ItemsPrices.find_by(star_id: jita.id, item_id: commodity.id))
+        .to have_attributes(buy_price: 5.0, sell_price: 7.0)
     end
   end
 
