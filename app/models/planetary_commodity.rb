@@ -16,7 +16,7 @@ class PlanetaryCommodity < ApplicationRecord
 
   self.primary_key = :id
 
-  has_many :items_prices, as: :item, class_name: 'ItemsPrices', dependent: :destroy
+  has_many :items_prices, as: :item, class_name: "ItemsPrices", dependent: :destroy
 
   def isk_per_hour(factories, buy_or_sell = :buy)
     price = buy_or_sell == :buy ? buy_price : sell_price
@@ -30,11 +30,11 @@ class PlanetaryCommodity < ApplicationRecord
 
   def self.hash_from_csv_row(row)
     {
-      id: row['ID'],
-      name: row['Name'],
-      tier: row['Tier'],
-      volume: row['Volume'],
-      batch_size: row['Batch Size']
+      id: row["ID"],
+      name: row["Name"],
+      tier: row["Tier"],
+      volume: row["Volume"],
+      batch_size: row["Batch Size"]
     }
   end
 
@@ -43,16 +43,16 @@ class PlanetaryCommodity < ApplicationRecord
   end
 
   def self.price_list(system_id)
-    fields = 'buy_price / volume AS buy_isk_per_volume, sell_price / volume AS sell_isk_per_volume'
+    fields = "buy_price / volume AS buy_isk_per_volume, sell_price / volume AS sell_isk_per_volume"
     select("id, name, tier, buy_price, sell_price, #{fields}")
-      .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
+      .joins("JOIN items_prices ON items_prices.item_id = planetary_commodities.id")
       .where("items_prices.star_id = #{system_id}")
-      .order(name: 'asc')
+      .order(name: "asc")
   end
 
   def self.with_price(system_id:, **query_params)
-    query = select('id, name, tier, volume, batch_size, buy_price, sell_price, input')
-      .joins('JOIN items_prices ON items_prices.item_id = planetary_commodities.id')
+    query = select("id, name, tier, volume, batch_size, buy_price, sell_price, input")
+      .joins("JOIN items_prices ON items_prices.item_id = planetary_commodities.id")
       .where("items_prices.star_id = #{system_id}")
 
     return query if query_params.empty?
@@ -63,8 +63,8 @@ class PlanetaryCommodity < ApplicationRecord
   private_class_method def self.update_star_prices(star_id)
     region_id = Star.find(star_id).region_id
     fetch_prices_for(region_id:, items: pluck(:id)).each do |price_result|
-      item_id = price_result['item_id']
-      persist_price_data(star_id, item_id, price_result['buyAvgFivePercent'], price_result['sellAvgFivePercent'])
+      item_id = price_result["item_id"]
+      persist_price_data(star_id, item_id, price_result["buyAvgFivePercent"], price_result["sellAvgFivePercent"])
     end
   end
 

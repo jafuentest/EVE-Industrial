@@ -1,9 +1,9 @@
 module MarketeerAPI
-  require 'net/http'
+  require "net/http"
 
   extend ActiveSupport::Concern
 
-  BASE_URL = 'https://evetycoon.com/api/v1'.freeze
+  BASE_URL = "https://evetycoon.com/api/v1".freeze
 
   class_methods do
     def fetch_prices_for(items:, region_id: default_region)
@@ -14,17 +14,17 @@ module MarketeerAPI
         # TODO: Handle non-successful responses
         JSON.parse(response.body)
           .merge(expires_at_from_response(response))
-          .merge('item_id' => item_id)
+          .merge("item_id" => item_id)
       end
     end
 
     private
 
     def expires_at_from_response(response)
-      header_value = response.each_header.find { |e| e.first == 'expires' }.last
+      header_value = response.each_header.find { |e| e.first == "expires" }.last
       return {} unless header_value
 
-      { 'expires_at' => Time.httpdate(header_value) }
+      { "expires_at" => Time.httpdate(header_value) }
     end
 
     def default_region

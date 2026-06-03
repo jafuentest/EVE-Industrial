@@ -21,10 +21,10 @@ class Star < ApplicationRecord
 
   def self.hash_from_csv_row(row)
     {
-      id: row['ID'],
-      name: row['Name'],
-      constellation_id: row['Constellation ID'],
-      region_id: row['Region ID']
+      id: row["ID"],
+      name: row["Name"],
+      constellation_id: row["Constellation ID"],
+      region_id: row["Region ID"]
     }
   end
 end
