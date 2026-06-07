@@ -42,6 +42,7 @@ Metrics/BlockLength:
   #   - db/*
   AllowedMethods:
     - configure
+    - class_methods
     # Specs
     - describe
     - shared_examples_for

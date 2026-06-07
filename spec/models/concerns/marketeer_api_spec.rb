@@ -14,8 +14,9 @@ RSpec.describe MarketeerAPI, type: :model do
     let(:region_id) { Region::IDs::THE_FORGE }
     let(:body) { { "buyAvgFivePercent" => 5.0, "sellAvgFivePercent" => 7.0 }.to_json }
     let(:response) do
-      instance_double(Net::HTTPResponse, body:).tap do |resp|
-        allow(resp).to receive(:each_header).and_return([["expires", "Mon, 02 Jun 2026 00:00:00 GMT"]])
+      Net::HTTPOK.new("1.1", "200", "OK").tap do |resp|
+        allow(resp).to receive(:body).and_return(body)
+        resp["expires"] = "Mon, 02 Jun 2026 00:00:00 GMT"
       end
     end
 
@@ -35,6 +36,35 @@ RSpec.describe MarketeerAPI, type: :model do
 
     it "includes the expiry parsed from the response headers" do
       expect(fetch_prices.first["expires_at"]).to eq(Time.httpdate("Mon, 02 Jun 2026 00:00:00 GMT"))
+    end
+
+    context "when the response has no expires header" do
+      let(:response) do
+        Net::HTTPOK.new("1.1", "200", "OK").tap { |resp| allow(resp).to receive(:body).and_return(body) }
+      end
+
+      it "omits expires_at" do
+        expect(fetch_prices.first).not_to have_key("expires_at")
+      end
+    end
+
+    context "when the request is not successful" do
+      let(:response) do
+        Net::HTTPInternalServerError.new("1.1", "500", "Error").tap do |resp|
+          allow(resp).to receive(:body).and_return("error")
+        end
+      end
+
+      it "skips the item instead of persisting bad data" do
+        allow(Rails.logger).to receive(:warn)
+        expect(fetch_prices).to be_empty
+      end
+
+      it "logs a warning" do
+        allow(Rails.logger).to receive(:warn)
+        fetch_prices
+        expect(Rails.logger).to have_received(:warn).with(/EVE Tycoon price request failed \(500\)/)
+      end
     end
   end
 end
