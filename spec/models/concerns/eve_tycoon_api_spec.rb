@@ -1,9 +1,9 @@
 require "rails_helper"
 
-RSpec.describe MarketeerAPI, type: :model do
+RSpec.describe EveTycoonAPI, type: :model do
   let(:dummy_class) do
     Class.new do
-      include MarketeerAPI
+      include EveTycoonAPI
     end
   end
 

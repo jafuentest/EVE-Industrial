@@ -1,4 +1,4 @@
-module MarketeerAPI
+module EveTycoonAPI
   require "net/http"
 
   extend ActiveSupport::Concern

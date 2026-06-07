@@ -12,7 +12,7 @@
 #
 class PlanetaryCommodity < ApplicationRecord
   include CSVImportable
-  include MarketeerAPI
+  include EveTycoonAPI
 
   self.primary_key = :id
 
