@@ -75,6 +75,52 @@ RSpec.describe Character, type: :model do
         expect(character.auth_token).to eq(access_token)
       end
     end
+
+    context 'when the token is refreshed successfully' do
+      let(:character) { FactoryBot.create(:character, esi_expires_on: DateTime.now, reauth_required: true) }
+
+      before do
+        allow(ESI).to receive(:authenticate).and_return(
+          'token_type' => 'Bearer',
+          'expires_in' => 1199,
+          'access_token' => 'fresh_access_token',
+          'refresh_token' => 'fresh_refresh_token'
+        )
+      end
+
+      it 'persists the new access token' do
+        character.auth_token
+        expect(character.reload.esi_auth_token).to eq('fresh_access_token')
+      end
+
+      it 'clears the re-auth flag' do
+        expect { character.auth_token }.to change { character.reload.reauth_required }.from(true).to(false)
+      end
+    end
+
+    context 'when the refresh fails' do
+      let(:character) { FactoryBot.create(:character, esi_expires_on: DateTime.now) }
+
+      before { allow(ESI).to receive(:authenticate).and_return(nil) }
+
+      it 'returns nil' do
+        expect(character.auth_token).to be_nil
+      end
+
+      it 'flags the character for re-authentication' do
+        expect { character.auth_token }.to change { character.reload.reauth_required }.from(false).to(true)
+      end
+    end
+  end
+
+  describe '#needs_reauth?' do
+    it 'is true when re-authentication is required' do
+      expect(FactoryBot.build(:character, reauth_required: true).needs_reauth?).to be(true)
+    end
+
+    it 'is false when the token is healthy' do
+      expect(FactoryBot.build(:character, reauth_required: false).needs_reauth?).to be(false)
+    end
   end
 
   describe '#avatar' do

@@ -15,6 +15,7 @@
 #  owner_hash         :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  reauth_required    :boolean          default(FALSE), not null
 #
 class Character < ApplicationRecord
   belongs_to :user
@@ -31,14 +32,17 @@ class Character < ApplicationRecord
   end
 
   def auth_token
-    # Treat tokens as expired 5 seconds earlier
-    expired_token = DateTime.now.utc + 5.seconds >= esi_expires_on
-    return esi_auth_token unless expired_token
+    return esi_auth_token unless token_expired?
 
     auth_response = ESI.authenticate(esi_refresh_token, refresh: true)
+    return mark_reauth_required if auth_response.nil?
 
-    self.esi_refresh_token = auth_response['refresh_token']
-    self.esi_auth_token = auth_response['access_token']
+    apply_refreshed_token(auth_response)
+    esi_auth_token
+  end
+
+  def needs_reauth?
+    reauth_required?
   end
 
   def avatar
@@ -47,5 +51,27 @@ class Character < ApplicationRecord
     portraits = ESI.fetch_character_portrait(character_id)
     update(character_portrait: portraits['px64x64'])
     character_portrait
+  end
+
+  private
+
+  def token_expired?
+    # Treat tokens as expired 5 seconds earlier
+    DateTime.now.utc + 5.seconds >= esi_expires_on
+  end
+
+  def apply_refreshed_token(auth_response)
+    assign_attributes(
+      esi_refresh_token: auth_response['refresh_token'],
+      esi_auth_token: auth_response['access_token'],
+      esi_expires_on: DateTime.now.utc + auth_response['expires_in'].to_i.seconds,
+      reauth_required: false
+    )
+    save! if persisted?
+  end
+
+  def mark_reauth_required
+    update!(reauth_required: true) if persisted?
+    nil
   end
 end
