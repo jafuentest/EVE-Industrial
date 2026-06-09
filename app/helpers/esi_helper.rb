@@ -26,6 +26,11 @@ module ESIHelper
     link_to(esi_login_url) { esi_login_image }
   end
 
+  def reauth_character_button(character)
+    classes = character.needs_reauth? ? 'btn btn-warning btn-sm' : 'btn btn-outline-secondary btn-sm'
+    link_to('Re-authenticate', esi_login_url('character'), class: classes)
+  end
+
   def esi_login_url(intention = 'account', custom_params = {})
     custom_params[:state] = "#{intention}-#{Time.now.to_i}"
     uri = URI(ESI_URL)
