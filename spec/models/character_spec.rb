@@ -111,6 +111,20 @@ RSpec.describe Character, type: :model do
         expect { character.auth_token }.to change { character.reload.reauth_required }.from(false).to(true)
       end
     end
+
+    context 'when the refresh hits a transient error' do
+      let(:character) { FactoryBot.create(:character, esi_expires_on: DateTime.now) }
+
+      before { allow(ESI).to receive(:authenticate).and_raise(Net::OpenTimeout) }
+
+      it 'returns nil without raising' do
+        expect(character.auth_token).to be_nil
+      end
+
+      it 'does not flag the character for re-authentication' do
+        expect { character.auth_token }.not_to(change { character.reload.reauth_required })
+      end
+    end
   end
 
   describe '#avatar' do

@@ -39,6 +39,9 @@ class Character < ApplicationRecord
 
     apply_refreshed_token(auth_response)
     esi_auth_token
+  rescue StandardError => e
+    Rails.logger.warn("ESI token refresh failed for character #{id}: #{e.message}")
+    nil
   end
 
   def avatar
