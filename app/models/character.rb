@@ -41,10 +41,6 @@ class Character < ApplicationRecord
     esi_auth_token
   end
 
-  def needs_reauth?
-    reauth_required?
-  end
-
   def avatar
     return character_portrait if character_portrait.present?
 

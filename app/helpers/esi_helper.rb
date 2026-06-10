@@ -27,7 +27,7 @@ module ESIHelper
   end
 
   def reauth_character_button(character)
-    classes = character.needs_reauth? ? 'btn btn-warning btn-sm' : 'btn btn-outline-secondary btn-sm'
+    classes = character.reauth_required? ? 'btn btn-warning btn-sm' : 'btn btn-outline-secondary btn-sm'
     link_to('Re-authenticate', esi_login_url('character'), class: classes)
   end
 

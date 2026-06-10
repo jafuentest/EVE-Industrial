@@ -113,16 +113,6 @@ RSpec.describe Character, type: :model do
     end
   end
 
-  describe '#needs_reauth?' do
-    it 'is true when re-authentication is required' do
-      expect(FactoryBot.build(:character, reauth_required: true).needs_reauth?).to be(true)
-    end
-
-    it 'is false when the token is healthy' do
-      expect(FactoryBot.build(:character, reauth_required: false).needs_reauth?).to be(false)
-    end
-  end
-
   describe '#avatar' do
     context 'when character already has a persisted portrait' do
       let(:avatar_url) { 'https://url/portrait/character_id/portrait?size=64' }
