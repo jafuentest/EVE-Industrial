@@ -50,12 +50,12 @@ class Order < ApplicationRecord
 
   def self.update_character_orders(character, update_competition: true)
     start_time = Time.current
-    orders = ESI.fetch_character_market_orders(character)
+    orders = fetch_character_orders(character)
+    return if orders.nil?
+
     item_ids = orders.pluck("type_id").uniq
     Item.create_items(item_ids)
-    orders.each do |esi_order|
-      upsert_order(esi_order, character:, region_id: esi_order["region_id"])
-    end
+    orders.each { |esi_order| upsert_order(esi_order, character:, region_id: esi_order["region_id"]) }
 
     return unless update_competition
 
@@ -86,6 +86,14 @@ class Order < ApplicationRecord
         end
       orders.delete_all
     end
+  end
+
+  private_class_method def self.fetch_character_orders(character)
+    orders = ESI.fetch_character_market_orders(character)
+    return orders if orders.is_a?(Array)
+
+    Rails.logger.warn("Skipping orders for character #{character.id}: ESI returned #{orders.inspect}")
+    nil
   end
 
   private_class_method def self.update_region_orders(region_id, item_ids)

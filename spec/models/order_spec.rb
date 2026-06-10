@@ -106,6 +106,16 @@ RSpec.describe Order, type: :model do
       expect(described_class.last).to have_attributes(esi_id: 123, character_id: character.id, price: 5.5)
     end
 
+    context "when ESI returns an error object instead of a list of orders" do
+      before do
+        allow(ESI).to receive(:fetch_character_market_orders).with(character).and_return("error" => "Forbidden")
+      end
+
+      it "skips the character without raising" do
+        expect { update }.not_to change(described_class, :count)
+      end
+    end
+
     context "when update_competition is true" do
       let(:update_competition) { true }
 
