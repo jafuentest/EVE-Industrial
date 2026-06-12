@@ -54,6 +54,7 @@ class User < ApplicationRecord
       c.esi_auth_token = auth_response['access_token']
       c.esi_refresh_token = auth_response['refresh_token']
       c.verification_data = verification_data
+      c.reauth_required = false
       c.save!
     end
   end

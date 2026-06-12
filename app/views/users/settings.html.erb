@@ -9,9 +9,17 @@
       <%= image_tag c.avatar, class: 'character-avatar' %>
 
       <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-        <div class="d-flex justify-content-between">
-          <h3><%= c.character_name %></h3>
-          <%= button_to 'Delete', remove_character_path(c), method: :delete, class: 'btn btn-danger' %>
+        <div class="d-flex justify-content-between align-items-center">
+          <h3>
+            <%= c.character_name %>
+            <% if c.reauth_required? %>
+              <span class="badge bg-warning text-dark">Needs re-authentication</span>
+            <% end %>
+          </h3>
+          <div class="d-flex gap-2">
+            <%= reauth_character_button(c) %>
+            <%= button_to 'Delete', remove_character_path(c), method: :delete, class: 'btn btn-danger btn-sm' %>
+          </div>
         </div>
       </div>
     </div>

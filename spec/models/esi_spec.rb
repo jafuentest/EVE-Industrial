@@ -3,9 +3,8 @@ require "rails_helper"
 RSpec.describe ESI do
   let(:character) { FactoryBot.build(:character) }
 
-  def http_response(body, success: true)
-    klass = success ? Net::HTTPOK : Net::HTTPInternalServerError
-    klass.new("1.1", success ? "200" : "500", success ? "OK" : "Error").tap do |res|
+  def http_response(body, klass: Net::HTTPOK)
+    klass.new("1.1", "200", "OK").tap do |res|
       allow(res).to receive(:body).and_return(body)
     end
   end
@@ -27,13 +26,23 @@ RSpec.describe ESI do
       end
     end
 
-    context "when the request fails" do
+    context "when the credentials are rejected" do
       before do
-        allow(Net::HTTP).to receive(:start).and_return(http_response("error", success: false))
+        allow(Net::HTTP).to receive(:start).and_return(http_response("error", klass: Net::HTTPForbidden))
       end
 
       it "returns nil" do
         expect(authenticate).to be_nil
+      end
+    end
+
+    context "when the server errors" do
+      before do
+        allow(Net::HTTP).to receive(:start).and_return(http_response("error", klass: Net::HTTPInternalServerError))
+      end
+
+      it "raises" do
+        expect { authenticate }.to raise_error(/ESI authentication failed/)
       end
     end
 

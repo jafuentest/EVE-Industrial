@@ -12,9 +12,10 @@ class ESI
       http.request(request)
     end
 
-    return nil unless res.is_a?(Net::HTTPOK)
+    return JSON.parse(res.body) if res.is_a?(Net::HTTPOK)
+    return nil if res.is_a?(Net::HTTPClientError)
 
-    JSON.parse(res.body)
+    raise "ESI authentication failed: #{res.code} #{res.message}"
   end
 
   def self.verify_access_token(access_token)
