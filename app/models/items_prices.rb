@@ -13,13 +13,4 @@ class ItemsPrices < ApplicationRecord
   belongs_to :item, polymorphic: true
   belongs_to :star
 
-  def save!
-    return super unless persisted?
-
-    self.class.where(star_id:, item_id:).update_all(
-      buy_price:,
-      sell_price:,
-      expires_at:
-    )
-  end
 end
