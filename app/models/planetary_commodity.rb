@@ -62,17 +62,26 @@ class PlanetaryCommodity < ApplicationRecord
 
   private_class_method def self.update_star_prices(star_id)
     region_id = Star.find(star_id).region_id
-    fetch_prices_for(region_id:, items: pluck(:id)).each do |price_result|
+    fetch_prices_for(region_id:, items: stale_item_ids(star_id)).each do |price_result|
       item_id = price_result["item_id"]
-      persist_price_data(star_id, item_id, price_result["buyAvgFivePercent"], price_result["sellAvgFivePercent"])
+      persist_price_data(star_id, item_id, price_result["buyAvgFivePercent"], price_result["sellAvgFivePercent"], price_result["expires_at"])
     end
   end
 
-  private_class_method def self.persist_price_data(star_id, item_id, buy_price, sell_price)
+  private_class_method def self.stale_item_ids(star_id)
+    all_ids = pluck(:id)
+    fresh_ids = ItemsPrices.where(star_id:, item_id: all_ids)
+      .where("expires_at > ?", Time.current)
+      .pluck(:item_id)
+    all_ids - fresh_ids
+  end
+
+  private_class_method def self.persist_price_data(star_id, item_id, buy_price, sell_price, expires_at = nil)
     ItemsPrices.where(star_id:, item_id:).first_or_initialize.tap do |item_price|
       item_price.item_type = name
       item_price.buy_price = buy_price
       item_price.sell_price = sell_price
+      item_price.expires_at = expires_at
       item_price.save!
     end
   end

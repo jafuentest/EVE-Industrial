@@ -7,6 +7,7 @@
 #  item_type  :string           not null
 #  buy_price  :decimal(12, 2)
 #  sell_price :decimal(12, 2)
+#  expires_at :datetime
 #
 class ItemsPrices < ApplicationRecord
   belongs_to :item, polymorphic: true
@@ -17,7 +18,8 @@ class ItemsPrices < ApplicationRecord
 
     self.class.where(star_id:, item_id:).update_all(
       buy_price:,
-      sell_price:
+      sell_price:,
+      expires_at:
     )
   end
 end
