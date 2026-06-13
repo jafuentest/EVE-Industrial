@@ -12,5 +12,4 @@
 class ItemsPrices < ApplicationRecord
   belongs_to :item, polymorphic: true
   belongs_to :star
-
 end

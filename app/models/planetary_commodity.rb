@@ -68,14 +68,14 @@ class PlanetaryCommodity < ApplicationRecord
     ItemsPrices.upsert_all(records, unique_by: %i[item_id star_id]) if records.any?
   end
 
-  private_class_method def self.item_price_hash(r, star_id:, item_type:)
+  private_class_method def self.item_price_hash(price_data, star_id:, item_type:)
     {
       star_id:,
       item_type:,
-      item_id: r["item_id"],
-      buy_price: r["buyAvgFivePercent"],
-      sell_price: r["sellAvgFivePercent"],
-      expires_at: r["expires_at"]
+      item_id: price_data["item_id"],
+      buy_price: price_data["buyAvgFivePercent"],
+      sell_price: price_data["sellAvgFivePercent"],
+      expires_at: price_data["expires_at"]
     }
   end
 
