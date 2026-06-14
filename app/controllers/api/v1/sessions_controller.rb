@@ -5,7 +5,10 @@ class API::V1::SessionsController < ApplicationController
 
   def show
     if user_signed_in?
-      render json: { user: user_json(current_user) }
+      render json: {
+        user: user_json(current_user),
+        add_character_url: esi_login_url("character")
+      }
     else
       render json: { login_url: esi_login_url }, status: :unauthorized
     end
