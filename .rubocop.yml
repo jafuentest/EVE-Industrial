@@ -37,9 +37,9 @@ Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
 
 Metrics/BlockLength:
-  # Exclude:
-  #   - config/routes.rb
-  #   - db/*
+  Exclude:
+    - config/routes.rb
+    # - db/*
   AllowedMethods:
     - configure
     - class_methods
@@ -53,6 +53,7 @@ Metrics/AbcSize:
     - db/migrate/*
 
 Metrics/MethodLength:
+  CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
   Exclude:
     - db/migrate/*
 
