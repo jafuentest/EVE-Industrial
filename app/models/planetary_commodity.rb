@@ -62,18 +62,28 @@ class PlanetaryCommodity < ApplicationRecord
 
   private_class_method def self.update_star_prices(star_id)
     region_id = Star.find(star_id).region_id
-    fetch_prices_for(region_id:, items: pluck(:id)).each do |price_result|
-      item_id = price_result["item_id"]
-      persist_price_data(star_id, item_id, price_result["buyAvgFivePercent"], price_result["sellAvgFivePercent"])
+    records = fetch_prices_for(region_id:, items: stale_item_ids(star_id)).map do |r|
+      item_price_hash(r, star_id:, item_type: name)
     end
+    ItemsPrices.upsert_all(records, unique_by: %i[item_id star_id]) if records.any?
   end
 
-  private_class_method def self.persist_price_data(star_id, item_id, buy_price, sell_price)
-    ItemsPrices.where(star_id:, item_id:).first_or_initialize.tap do |item_price|
-      item_price.item_type = name
-      item_price.buy_price = buy_price
-      item_price.sell_price = sell_price
-      item_price.save!
-    end
+  private_class_method def self.item_price_hash(price_data, star_id:, item_type:)
+    {
+      star_id:,
+      item_type:,
+      item_id: price_data["item_id"],
+      buy_price: price_data["buyAvgFivePercent"],
+      sell_price: price_data["sellAvgFivePercent"],
+      expires_at: price_data["expires_at"]
+    }
+  end
+
+  private_class_method def self.stale_item_ids(star_id)
+    all_ids = pluck(:id)
+    fresh_ids = ItemsPrices.where(star_id:, item_id: all_ids)
+      .where("expires_at > ?", Time.current)
+      .pluck(:item_id)
+    all_ids - fresh_ids
   end
 end
