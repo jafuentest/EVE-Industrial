@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import AppShell from './AppShell'
 import PrivateRoutes from './utils/PrivateRoutes'
+import type { Session } from './types'
 
 // Pages
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 
 function App() {
-  const [session, setSession] = useState(null)
-  const [loginUrl, setLoginUrl] = useState(null)
+  const [session, setSession] = useState<Session | null>(null)
+  const [loginUrl, setLoginUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -33,7 +34,7 @@ function App() {
       <AppShell session={session}>
         <Routes>
           <Route element={<PrivateRoutes session={session} />}>
-            <Route path='/' element={<Dashboard session={session} />} />
+            <Route path='/' element={<Dashboard session={session!} />} />
           </Route>
           <Route path='/login' element={<Login loginUrl={loginUrl} />} />
           <Route path='*' element={<Navigate to='/' replace />} />
