@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import AppShell from './AppShell'
+import PrivateRoutes from './utils/PrivateRoutes'
+
+// Pages
+import Dashboard from './pages/Dashboard'
+import Login from './pages/Login'
 
 function App() {
   const [session, setSession] = useState(null)
@@ -22,20 +28,17 @@ function App() {
 
   if (loading) return null
 
-  if (!session) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-        <a href={loginUrl ?? '/login'}>Log in with EVE Online</a>
-      </div>
-    )
-  }
-
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<div>EVE Industrial — logged in as {session.user?.character_name}</div>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <AppShell session={session}>
+        <Routes>
+          <Route element={<PrivateRoutes session={session} />}>
+            <Route path='/' element={<Dashboard session={session} />} />
+          </Route>
+          <Route path='/login' element={<Login loginUrl={loginUrl} />} />
+          <Route path='*' element={<Navigate to='/' replace />} />
+        </Routes>
+      </AppShell>
     </BrowserRouter>
   )
 }
