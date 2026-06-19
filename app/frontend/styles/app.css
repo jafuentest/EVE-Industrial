@@ -4,7 +4,4 @@
 /* @import './eve/typography.css'; */
 /* @import './eve/spacing.css'; */
 /* @import './eve/effects.css'; */
-/* @import './eve/base.css'; */
-
-/* Bootstrap-table sort carets */
-@import 'bootstrap-table/dist/bootstrap-table.css';
+@import './eve/base.css';

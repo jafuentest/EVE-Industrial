@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import AppShell from './AppShell'
+import AppShell from './layouts/AppShell'
 import PrivateRoutes from './utils/PrivateRoutes'
 import type { Session } from './types'
 
