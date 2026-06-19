@@ -1,0 +1,9 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0.6rem;
+}
+
+.userInfo {
+  margin-top: auto;
+}

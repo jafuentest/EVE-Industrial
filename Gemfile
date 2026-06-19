@@ -27,11 +27,7 @@ gem 'devise', '~> 5.0'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
 
-# Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
-gem 'jsbundling-rails'
-
-# Bundle and process CSS [https://github.com/rails/cssbundling-rails]
-gem 'cssbundling-rails'
+gem 'vite_rails'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

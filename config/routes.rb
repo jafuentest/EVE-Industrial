@@ -36,5 +36,27 @@ Rails.application.routes.draw do
   get 'settings', to: 'users#settings'
   delete 'remove_character(/:id)', to: 'users#remove_character', as: :remove_character
 
+  namespace :api do
+    scope module: :v1 do
+      resource :session, only: %i[show destroy]
+
+      resources :industry_jobs, only: %i[index] do
+        post :update, on: :collection
+      end
+
+      resources :market_orders, only: %i[index]
+
+      resources :planetary_colonies, only: %i[index] do
+        post :update, on: :collection
+      end
+
+      resources :planetary_commodities, only: %i[index show] do
+        post :update, on: :collection
+      end
+
+      resources :characters, only: %i[index destroy]
+    end
+  end
+
   root 'pages#dashboard'
 end
