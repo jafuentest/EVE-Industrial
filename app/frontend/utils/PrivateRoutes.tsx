@@ -1,5 +1,5 @@
 import { Outlet, Navigate } from 'react-router-dom'
-import type { Session } from '../types'
+import type { Session } from '@/types'
 
 interface PrivateRoutesProps {
   session: Session | null

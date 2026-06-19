@@ -1,6 +1,6 @@
 import styles from './TopBar.module.css'
 
-import type { Session } from '../types'
+import type { Session } from '@/types'
 
 interface TopBarProps {
   session: Session | null

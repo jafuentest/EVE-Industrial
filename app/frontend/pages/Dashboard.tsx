@@ -1,4 +1,4 @@
-import type { Session } from '../types'
+import type { Session } from '@/types'
 
 interface DashboardProps {
   session: Session

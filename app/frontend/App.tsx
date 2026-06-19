@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import AppShell from './layouts/AppShell'
-import PrivateRoutes from './utils/PrivateRoutes'
-import type { Session } from './types'
+import AppShell from '@/layouts/AppShell'
+import PrivateRoutes from '@/utils/PrivateRoutes'
+import type { Session } from '@/types'
 
 // Pages
-import Dashboard from './pages/Dashboard'
-import Login from './pages/Login'
+import Dashboard from '@/pages/Dashboard'
+import Login from '@/pages/Login'
 
 function App() {
   const [session, setSession] = useState<Session | null>(null)

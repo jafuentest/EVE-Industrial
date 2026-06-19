@@ -1,8 +1,8 @@
 import styles from './Sidebar.module.css'
 
-import type { Session } from '../types'
+import type { Session } from '@/types'
 
-import Brand from '../components/Brand'
+import Brand from '@/components/Brand'
 
 interface SidebarProps {
   session: Session | null

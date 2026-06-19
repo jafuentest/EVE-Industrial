@@ -1,7 +1,7 @@
 import styles from './AppShell.module.css'
 
 import type { ReactNode } from 'react'
-import type { Session } from '../types'
+import type { Session } from '@/types'
 
 import Sidebar from './Sidebar'
 import TopBar from './TopBar'
