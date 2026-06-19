@@ -1,7 +1,7 @@
 /* Design system token imports will go here once ui_kits/ is available */
-/* @import './eve/fonts.css'; */
-/* @import './eve/colors.css'; */
-/* @import './eve/typography.css'; */
-/* @import './eve/spacing.css'; */
-/* @import './eve/effects.css'; */
-@import './eve/base.css';
+/* @import './theme/fonts.css'; */
+/* @import './theme/colors.css'; */
+/* @import './theme/typography.css'; */
+/* @import './theme/spacing.css'; */
+/* @import './theme/effects.css'; */
+@import './theme/base.css';
