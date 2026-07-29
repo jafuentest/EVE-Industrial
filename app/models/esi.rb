@@ -1,4 +1,4 @@
-class ESI
+class ESI # rubocop:disable Metrics/ClassLength
   require 'net/http'
 
   AUTH_BASE_URL = 'https://login.eveonline.com'.freeze
