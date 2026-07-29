@@ -1,9 +1,18 @@
 .container {
   display: flex;
+  flex: 1;
   flex-direction: column;
-  width: 100%;
+  min-width: 0;
 }
 
 .footer {
   margin-top: auto;
+}
+
+.main {
+  flex: 1;
+  background-color: var(--bg-app);
+  background-image: var(--nebula), var(--grid-lines);
+  background-position: center;
+  background-size: auto, auto, var(--grid-size), var(--grid-size);
 }

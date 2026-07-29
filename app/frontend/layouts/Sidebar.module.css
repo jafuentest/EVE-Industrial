@@ -1,9 +1,29 @@
-.sidebar {
+.brandContainer {
   display: flex;
-  flex-direction: column;
-  padding-left: 0.6rem;
+  align-items: center;
+  height: var(--topbar-h);
+  padding: 0px 16px;
+  border-bottom: 1px solid var(--border-soft);
 }
 
-.userInfo {
-  margin-top: auto;
+.sidebar {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  width: var(--sidebar-w);
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+}
+
+.nav {
+  flex: 1 1 0;
+  padding: 12px 10px;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0;
+  margin: 0;
 }
