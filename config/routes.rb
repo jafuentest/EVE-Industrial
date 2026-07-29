@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ('/')
-  # root 'articles#index'
+  root 'pages#spa'
 
   devise_for :users, controllers: { sessions: 'users/sessions' }
 
@@ -12,33 +12,11 @@ Rails.application.routes.draw do
     get 'login', to: 'users/sessions#new'
   end
 
-  namespace :industry do
-    get :jobs
-    post :update_jobs
-  end
-
-  resources :market_orders, only: %i[index] do
-    post :update_all, on: :collection
-  end
-
-  resources :planetary_colonies, only: %i[index] do
-    post :update, on: :collection, as: :update
-  end
-
-  resources :planetary_commodities, only: %i[index show] do
-    post :update_prices, on: :collection
-  end
-
-  scope '', controller: :pages do
-    get :character_data
-  end
-
-  get 'settings', to: 'users#settings'
-  delete 'remove_character(/:id)', to: 'users#remove_character', as: :remove_character
-
   namespace :api do
     scope module: :v1 do
       resource :session, only: %i[show destroy]
+      resource :counts, only: %i[show]
+      resource :sync, only: %i[create]
 
       resources :industry_jobs, only: %i[index] do
         post :update, on: :collection
@@ -58,5 +36,5 @@ Rails.application.routes.draw do
     end
   end
 
-  root 'pages#dashboard'
+  get '*path', to: 'pages#spa', constraints: ->(req) { req.format.html? }
 end
