@@ -18,6 +18,8 @@
 #  reauth_required    :boolean          default(FALSE), not null
 #
 class Character < ApplicationRecord
+  include CorporationLookup
+
   belongs_to :user
   has_many :industry_jobs, dependent: :destroy
   has_many :orders, dependent: :nullify
@@ -42,6 +44,13 @@ class Character < ApplicationRecord
   rescue StandardError => e
     Rails.logger.warn("ESI token refresh failed for character #{id}: #{e.message}")
     nil
+  end
+
+  def wallet_balance
+    Rails.cache.fetch("wallet_balance/#{character_id}", expires_in: 5.minutes) do
+      balance = ESI.fetch_character_wallet(self)
+      balance.is_a?(Numeric) ? balance : 0
+    end
   end
 
   def avatar

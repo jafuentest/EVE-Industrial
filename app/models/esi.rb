@@ -77,11 +77,30 @@ class ESI
     parsed_response(uri, req)
   end
 
+  # Wallet
+  def self.fetch_character_wallet(character)
+    uri = URI("#{ESI_BASE_URL}/characters/#{character.character_id}/wallet/")
+    req = request_from_uri(uri, character.auth_token)
+    parsed_response(uri, req)
+  end
+
   # User Data
   def self.fetch_character_portrait(character)
     character_id = character.is_a?(Character) ? character.character_id : character
     uri = URI("#{ESI_BASE_URL}/characters/#{character_id}/portrait/")
     req = Net::HTTP::Get.new(uri)
+    parsed_response(uri, req)
+  end
+
+  def self.fetch_character_details(character_id)
+    uri = URI("#{ESI_BASE_URL}/characters/#{character_id}/")
+    req = request_from_uri(uri)
+    parsed_response(uri, req)
+  end
+
+  def self.fetch_corporation_details(corporation_id)
+    uri = URI("#{ESI_BASE_URL}/corporations/#{corporation_id}/")
+    req = request_from_uri(uri)
     parsed_response(uri, req)
   end
 

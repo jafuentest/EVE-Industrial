@@ -26,6 +26,7 @@ class API::V1::SessionsController < ApplicationController
       id: user.id,
       character_id: user.character_id,
       character_name: user.character_name,
+      corporation_name: user.corporation_name,
       avatar: user.avatar
     }
   end
