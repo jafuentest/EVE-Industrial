@@ -1,0 +1,70 @@
+/* ============================================================
+   EVE-Industrial — Effects
+   ------------------------------------------------------------
+   Radii, borders, glows, shadows, and HUD surface treatments.
+   Depth comes from GLOW + hairline edges, not soft drop shadows.
+   ============================================================ */
+
+:root {
+  /* ---- Corner radii (sharp / instrument-panel) ---- */
+  --r-none:     0;  /* @kind radius */
+  --r-xs:     2px;
+  --r-sm:     4px;  /* default control radius */
+  --r-md:     6px;
+  --r-lg:    10px;  /* panels / cards */
+  --r-pill: 999px;
+
+  /* ---- Angular HUD cut-corner (clip-path on panels) ---- */
+  --cut-sm:      6px;  /* notch size for small chips */
+  --cut-md:     10px;  /* notch size for panels */
+  --clip-panel: polygon(
+    var(--cut-md) 0, 100% 0, 100% calc(100% - var(--cut-md)),
+    calc(100% - var(--cut-md)) 100%, 0 100%, 0 var(--cut-md)
+  );
+
+  /* ---- Border widths ---- */
+  --bw-1: 1px;
+  --bw-2: 2px;
+
+  /* ---- Elevation: deep-space shadows ---- */
+  --shadow-sm:    0  1px  2px rgba(0, 0, 0, 0.5);
+  --shadow-md:    0  6px 18px rgba(0, 0, 0, 0.45);
+  --shadow-lg:    0 18px 48px rgba(0, 0, 0, 0.55);
+  --shadow-panel: 0  1px  0   rgba(122, 214, 235, 0.04) inset,
+                  0  8px 28px rgba(0, 0, 0, 0.40);
+
+  /* ---- Holographic glows (focus, hover, active accents) ---- */
+  --glow-cyan:
+    0 0 0 1px rgba(69, 220, 242, 0.35),
+    0 0  18px rgba(69, 220, 242, 0.28);
+  --glow-amber:
+    0 0 0 1px rgba(255, 194, 77, 0.35),
+    0 0  18px rgba(255, 194, 77, 0.25);
+  --glow-jade:
+    0 0 0 1px rgba(62, 220, 160, 0.35),
+    0 0  16px rgba(62, 220, 160, 0.22);
+  --glow-flare:
+    0 0 0 1px rgba(255, 92, 114, 0.35),
+    0 0  16px rgba(255, 92, 114, 0.22);
+
+  /* ---- Focus ring ---- */
+  --ring:        0 0 0 2px var(--space-900), 0 0 0 3px var(--cyan-400);
+
+  /* ---- Atmospheric backdrops (use as background-image) ---- */
+  /* Faint engineering grid */
+  --grid-lines:
+    linear-gradient(       rgba(122, 214, 235, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(122, 214, 235, 0.04) 1px, transparent 1px);
+  --grid-size: 32px 32px;
+  /* Radial nebula wash, top-left cool / cyan */
+  --nebula:
+    radial-gradient(1200px 600px at 12% -10%, rgba(31, 185, 214, 0.10), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(125, 91, 240, 0.08), transparent 55%);
+
+  /* ---- Motion ---- */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast:    120ms;
+  --dur-med:     200ms;
+  --dur-slow:    320ms;
+}

@@ -1,0 +1,13 @@
+/* ============================================================
+   EVE-Industrial — Webfonts
+   ------------------------------------------------------------
+   Loaded from Google Fonts CDN. See readme.md "Typography".
+   - Chakra Petch  : display / HUD headings (angular, sci-fi industrial)
+   - IBM Plex Sans : body / UI text (technical, neutral, data-friendly)
+   - IBM Plex Mono : numerics, ISK values, blueprint codes, data tables
+   NOTE: These are CDN-linked, not self-hosted binaries. If you want
+   self-hosted .woff2 files in the bundle, drop them in /assets/fonts
+   and replace this @import with @font-face rules.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
