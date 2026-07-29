@@ -1,11 +1,19 @@
 export interface SessionUser {
   id: number
-  character_id: number
-  character_name: string
+  characterId: number
+  characterName: string
+  corporationName: string
   avatar: string
 }
 
 export interface Session {
   user: SessionUser
-  add_character_url: string
+  addCharacterUrl: string
+}
+
+export interface Counters {
+  industryJobs: number
+  marketOrders: number
+  planetaryColonies: number
+  walletBalance: number
 }
