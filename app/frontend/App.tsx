@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import { AuthContext } from '@/contexts/AuthContext'

@@ -108,6 +108,7 @@ class User < ApplicationRecord
   def sync_from_esi
     Rails.cache.fetch("esi_sync/#{id}", expires_in: 5.minutes) do
       refresh_corporation_name
+      characters.each { |character| character.wallet_balance(force: true) }
       update_industry_jobs
       update_market_orders
       update_planetary_colonies

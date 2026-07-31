@@ -18,9 +18,9 @@
   --space-void: #05070c;  /* page void, behind everything */
 
   /* ---- Hairlines & borders ---- */
-  --line-hair:   rgba(122, 214, 235, 0.12); /* default 1px panel edge */
-  --line-soft:   rgba(122, 214, 235, 0.07); /* internal dividers */
-  --line-strong: rgba(122, 214, 235, 0.28); /* emphasized / focus edge */
+  --line-hair:   rgb(122 214 235 / 12%); /* default 1px panel edge */
+  --line-soft:   rgb(122 214 235 /  7%); /* internal dividers */
+  --line-strong: rgb(122 214 235 / 28%); /* emphasized / focus edge */
   --line-solid:  #1d2738; /* opaque divider on solids */
 
   /* ---- Cool-white ink scale ---- */
@@ -34,38 +34,40 @@
   /* ---- Primary: holographic cyan ---- */
   --cyan-300: #8df2ff;
   --cyan-400: #45dcf2;
+
   /* primary accent */
   --cyan-500: #1fb9d6;
   --cyan-600: #1391ab;
   --cyan-700: #0d6a7e;
-  --cyan-glow: rgba(69, 220, 242, 0.45);
-  --cyan-wash: rgba(69, 220, 242, 0.10);
+  --cyan-glow: rgb(69 220 242 / 45%);
+  --cyan-wash: rgb(69 220 242 / 10%);
 
   /* ---- Warm accent: ISK gold / amber ---- */
   --amber-300: #ffd98a;
   --amber-400: #ffc24d;
+
   /* ISK / currency / value */
   --amber-500: #f5a623;
   --amber-600: #c87f12;
-  --amber-wash: rgba(255, 194, 77, 0.10);
+  --amber-wash: rgb(255 194 77 / 10%);
 
   /* ---- Semantic: jade (profit / ready / success) ---- */
   --jade-300: #7df0c0;
   --jade-400: #3edca0;
   --jade-500: #20b07c;
-  --jade-wash: rgba(62, 220, 160, 0.10);
+  --jade-wash: rgb(62 220 160 / 10%);
 
   /* ---- Semantic: flare (loss / danger / undercut) ---- */
   --flare-300: #ff90a1;
   --flare-400: #ff5c72;
   --flare-500: #e23351;
-  --flare-wash: rgba(255, 92, 114, 0.10);
+  --flare-wash: rgb(255 92 114 / 10%);
 
   /* ---- Accent: violet (science / invention / research) ---- */
   --violet-300: #c9b2ff;
   --violet-400: #a585ff;
   --violet-500: #7d5bf0;
-  --violet-wash: rgba(165, 133, 255, 0.10);
+  --violet-wash: rgb(165 133 255 / 10%);
 
   /* ============================================================
      SEMANTIC ALIASES — prefer these in components
@@ -78,7 +80,7 @@
   --bg-input: var(--space-600);
   --bg-hover: var(--space-600);
   --bg-active: var(--space-500);
-  --bg-overlay: rgba(5, 7, 12, 0.72);
+  --bg-overlay: rgb(5 7 12 / 72%);
 
   /* Text */
   --text-primary: var(--ink-100);
@@ -87,6 +89,7 @@
   --text-label: var(--ink-500);
   --text-disabled: var(--ink-600);
   --text-on-accent: #03161b;
+
   /* dark ink for use on cyan/amber fills */
 
   /* Brand / interactive */

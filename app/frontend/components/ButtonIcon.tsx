@@ -8,7 +8,7 @@ interface ButtonIconProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 
 
 function ButtonIcon({ children, ...props }: ButtonIconProps) {
   return (
-    <button className={styles.button} {...props}>
+    <button type="button" className={styles.button} {...props}>
       {children}
     </button>
   )

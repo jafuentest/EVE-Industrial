@@ -10,7 +10,10 @@
 }
 
 html {
+  /* Safari still needs the prefix; unprefixed covers Chromium. */
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 html, body {
@@ -27,7 +30,7 @@ body {
   color: var(--text-primary);
   background-color: var(--bg-app);
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
 }
 
 div#app {

@@ -127,6 +127,81 @@ RSpec.describe Character, type: :model do
     end
   end
 
+  describe '#wallet_balance' do
+    let(:character) { FactoryBot.build(:character) }
+
+    before { allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new) }
+
+    context 'when ESI returns a balance' do
+      before { allow(ESI).to receive(:fetch_character_wallet).and_return(12_345.67) }
+
+      it 'returns the balance' do
+        expect(character.wallet_balance).to eq(12_345.67)
+      end
+
+      it 'only hits ESI once for repeated lookups' do
+        2.times { character.wallet_balance }
+        expect(ESI).to have_received(:fetch_character_wallet).once
+      end
+    end
+
+    context 'when ESI returns a non-numeric body' do
+      before { allow(ESI).to receive(:fetch_character_wallet).and_return('error' => 'Forbidden') }
+
+      it 'returns zero' do
+        expect(character.wallet_balance).to eq(0)
+      end
+
+      it 'does not cache the zero balance' do
+        character.wallet_balance
+        allow(ESI).to receive(:fetch_character_wallet).and_return(999.5)
+        expect(character.wallet_balance).to eq(999.5)
+      end
+    end
+
+    context 'when ESI raises' do
+      before do
+        allow(ESI).to receive(:fetch_character_wallet).and_raise(JSON::ParserError, 'unexpected token')
+        allow(Rails.logger).to receive(:warn)
+      end
+
+      it 'returns zero rather than propagating the error' do
+        expect(character.wallet_balance).to eq(0)
+      end
+
+      it 'logs a warning' do
+        character.wallet_balance
+        expect(Rails.logger).to have_received(:warn).with(/ESI wallet lookup failed/)
+      end
+
+      it 'does not cache the zero balance' do
+        character.wallet_balance
+        allow(ESI).to receive(:fetch_character_wallet).and_return(999.5)
+        expect(character.wallet_balance).to eq(999.5)
+      end
+    end
+  end
+
+  describe '#wallet_balance with force' do
+    let(:character) { FactoryBot.build(:character) }
+
+    before { allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new) }
+
+    it 'bypasses the cached balance' do
+      allow(ESI).to receive(:fetch_character_wallet).and_return(12_345.67, 999.5)
+      character.wallet_balance
+      expect(character.wallet_balance(force: true)).to eq(999.5)
+    end
+
+    it 'keeps the last known balance when the refresh fails' do
+      allow(ESI).to receive(:fetch_character_wallet).and_return(12_345.67)
+      character.wallet_balance
+      allow(ESI).to receive(:fetch_character_wallet).and_raise(JSON::ParserError, 'unexpected token')
+      character.wallet_balance(force: true)
+      expect(character.wallet_balance).to eq(12_345.67)
+    end
+  end
+
   describe '#avatar' do
     context 'when character already has a persisted portrait' do
       let(:avatar_url) { 'https://url/portrait/character_id/portrait?size=64' }

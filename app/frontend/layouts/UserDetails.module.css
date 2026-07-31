@@ -5,7 +5,7 @@
   width: 100%;
   padding: 18px;
   text-align: left;
-  border: 0px;
+  border: 0;
   border-top: 1px solid var(--border-soft);
 }
 
@@ -22,7 +22,7 @@
 .userCorpNames {
   display: flex;
   flex-direction: column;
-  min-width: 0px;
+  min-width: 0;
   line-height: 1.25;
 }
 

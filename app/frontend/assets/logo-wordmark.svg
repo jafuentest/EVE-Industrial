@@ -2,6 +2,6 @@
   <path d="M24 3 L40.6 12.5 V31.5 L24 41 L7.4 31.5 V12.5 Z" stroke="#45dcf2" stroke-width="1.5" fill="rgba(69,220,242,0.06)"></path>
   <path d="M24 11 L33.6 16.5 V27.5 L24 33 L14.4 27.5 V16.5 Z" stroke="#45dcf2" stroke-width="1.5" fill="none" opacity="0.55"></path>
   <path d="M24 17.5 L28 19.8 V24.2 L24 26.5 L20 24.2 V19.8 Z" fill="#ffc24d"></path>
-  <text x="58" y="25" font-family="&#39;Chakra Petch&#39;, sans-serif" font-size="20" font-weight="700" letter-spacing="0.04em" fill="#eaf1fb">EVE<tspan fill="#45dcf2">·</tspan>INDUSTRIAL</text>
-  <text x="58" y="39" font-family="&#39;Chakra Petch&#39;, sans-serif" font-size="8.5" font-weight="600" letter-spacing="0.32em" fill="#4b596e">NEW EDEN · INDUSTRY OPS</text>
+  <text x="58" y="25" font-family="sans-serif" font-size="20" font-weight="700" letter-spacing="0.04em" fill="#eaf1fb">EVE<tspan fill="#45dcf2">·</tspan>INDUSTRIAL</text>
+  <text x="58" y="39" font-family="sans-serif" font-size="8.5" font-weight="600" letter-spacing="0.32em" fill="#4b596e">NEW EDEN · INDUSTRY OPS</text>
 </svg>

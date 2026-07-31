@@ -13,13 +13,13 @@
     color var(--dur-fast) var(--ease-out);
 }
 
-.button:not(:disabled):active {
-  transform: translateY(1px);
-}
-
 .button:focus-visible {
   outline: none;
   box-shadow: var(--ring);
+}
+
+.button:not(:disabled):active {
+  transform: translateY(1px);
 }
 
 .button.sm {

@@ -1,7 +1,5 @@
-@import './theme/base.css';
-
-@import './theme/colors.css';
-@import './theme/effects.css';
-@import './theme/fonts.css';
-@import './theme/spacing.css';
-@import './theme/typography.css';
+@import url('./theme/base.css');
+@import url('./theme/colors.css');
+@import url('./theme/effects.css');
+@import url('./theme/spacing.css');
+@import url('./theme/typography.css');

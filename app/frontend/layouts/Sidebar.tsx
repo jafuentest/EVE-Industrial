@@ -1,5 +1,6 @@
-import { Boxes, Factory, Globe, LayoutDashboard, TrendingUp } from 'lucide-react'
 import type { ComponentType } from 'react'
+
+import { Boxes, Factory, Globe, LayoutDashboard, TrendingUp } from 'lucide-react'
 
 import Brand from '@/components/Brand'
 import NavItem from '@/components/NavItem'

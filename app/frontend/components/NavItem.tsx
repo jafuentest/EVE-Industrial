@@ -1,6 +1,7 @@
-import clsx from 'clsx'
 import type { ComponentType } from 'react'
 import { Link, useMatch } from 'react-router-dom'
+
+import clsx from 'clsx'
 
 import styles from './NavItem.module.css'
 

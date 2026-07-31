@@ -27,39 +27,41 @@
   --bw-2: 2px;
 
   /* ---- Elevation: deep-space shadows ---- */
-  --shadow-sm:    0  1px  2px rgba(0, 0, 0, 0.5);
-  --shadow-md:    0  6px 18px rgba(0, 0, 0, 0.45);
-  --shadow-lg:    0 18px 48px rgba(0, 0, 0, 0.55);
-  --shadow-panel: 0  1px  0   rgba(122, 214, 235, 0.04) inset,
-                  0  8px 28px rgba(0, 0, 0, 0.40);
+  --shadow-sm:    0  1px  2px rgb(  0   0   0 / 50%);
+  --shadow-md:    0  6px 18px rgb(  0   0   0 / 45%);
+  --shadow-lg:    0 18px 48px rgb(  0   0   0 / 55%);
+  --shadow-panel: 0  1px  0   rgb(122 214 235 /  4%) inset,
+                  0  8px 28px rgb(  0   0   0 / 40%);
 
   /* ---- Holographic glows (focus, hover, active accents) ---- */
   --glow-cyan:
-    0 0 0 1px rgba(69, 220, 242, 0.35),
-    0 0  18px rgba(69, 220, 242, 0.28);
+    0 0 0 1px rgb(69 220 242 / 35%),
+    0 0  18px rgb(69 220 242 / 28%);
   --glow-amber:
-    0 0 0 1px rgba(255, 194, 77, 0.35),
-    0 0  18px rgba(255, 194, 77, 0.25);
+    0 0 0 1px rgb(255 194 77 / 35%),
+    0 0  18px rgb(255 194 77 / 25%);
   --glow-jade:
-    0 0 0 1px rgba(62, 220, 160, 0.35),
-    0 0  16px rgba(62, 220, 160, 0.22);
+    0 0 0 1px rgb(62 220 160 / 35%),
+    0 0  16px rgb(62 220 160 / 22%);
   --glow-flare:
-    0 0 0 1px rgba(255, 92, 114, 0.35),
-    0 0  16px rgba(255, 92, 114, 0.22);
+    0 0 0 1px rgb(255 92 114 / 35%),
+    0 0  16px rgb(255 92 114 / 22%);
 
   /* ---- Focus ring ---- */
   --ring:        0 0 0 2px var(--space-900), 0 0 0 3px var(--cyan-400);
 
   /* ---- Atmospheric backdrops (use as background-image) ---- */
+
   /* Faint engineering grid */
   --grid-lines:
-    linear-gradient(       rgba(122, 214, 235, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(122, 214, 235, 0.04) 1px, transparent 1px);
+    linear-gradient(       rgb(122 214 235 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(122 214 235 / 4%) 1px, transparent 1px);
   --grid-size: 32px 32px;
+
   /* Radial nebula wash, top-left cool / cyan */
   --nebula:
-    radial-gradient(1200px 600px at 12% -10%, rgba(31, 185, 214, 0.10), transparent 60%),
-    radial-gradient(900px 500px at 100% 0%, rgba(125, 91, 240, 0.08), transparent 55%);
+    radial-gradient(1200px 600px at 12% -10%, rgb( 31 185 214 / 10%), transparent 60%),
+    radial-gradient( 900px 500px at 100%  0%, rgb(125  91 240 /  8%), transparent 55%);
 
   /* ---- Motion ---- */
   --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);

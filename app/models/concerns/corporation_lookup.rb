@@ -8,7 +8,6 @@ module CorporationLookup
 
     cached_corporation_name.to_s
   rescue StandardError => e
-    # Never let a decorative lookup break the caller (e.g. the session payload)
     Rails.logger.warn("ESI corporation lookup failed for character #{character_id}: #{e.message}")
     ""
   end

@@ -4,6 +4,10 @@
    Display : Chakra Petch  — angular, sci-fi HUD headings, labels
    Body    : IBM Plex Sans — UI text, paragraphs, controls
    Mono    : IBM Plex Mono — ISK, runs, type IDs, data tables
+
+   The webfonts themselves are loaded via <link> in
+   app/views/layouts/application.html.erb. Adding a weight to the
+   scale below means adding it to that URL too.
    ============================================================ */
 
 :root {

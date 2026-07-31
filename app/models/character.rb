@@ -46,11 +46,15 @@ class Character < ApplicationRecord
     nil
   end
 
-  def wallet_balance
-    Rails.cache.fetch("wallet_balance/#{character_id}", expires_in: 5.minutes) do
+  def wallet_balance(force: false)
+    cached_balance = Rails.cache.fetch(wallet_balance_cache_key, expires_in: 5.minutes, skip_nil: true, force:) do
       balance = ESI.fetch_character_wallet(self)
-      balance.is_a?(Numeric) ? balance : 0
+      balance if balance.is_a?(Numeric)
     end
+    cached_balance || 0
+  rescue StandardError => e
+    Rails.logger.warn("ESI wallet lookup failed for character #{character_id}: #{e.message}")
+    0
   end
 
   def avatar
@@ -62,6 +66,10 @@ class Character < ApplicationRecord
   end
 
   private
+
+  def wallet_balance_cache_key
+    "wallet_balance/#{character_id}"
+  end
 
   def token_expired?
     # Treat tokens as expired 5 seconds earlier

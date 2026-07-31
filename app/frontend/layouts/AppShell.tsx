@@ -20,7 +20,7 @@ function AppShell({ children }: AppShellProps) {
     <>
       <Sidebar counters={counters} />
       <div className={styles.container}>
-        {session && (<TopBar walletBalance={counters.walletBalance} onSyncEsi={syncCounters} />)}
+        <TopBar walletBalance={counters.walletBalance} onSyncEsi={syncCounters} />
         <main className={styles.main}>{children}</main>
         <footer className={styles.footer}>
           &copy; {new Date().getFullYear()} EVE Industrial
