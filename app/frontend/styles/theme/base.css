@@ -1,17 +1,82 @@
-*,
-*::before,
-*::after {
+/* ============================================================
+   EVE-Industrial — Base reset & primitives
+   ------------------------------------------------------------
+   Minimal element defaults so specimens and kits inherit the
+   command-console look without per-page boilerplate.
+   ============================================================ */
+
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
+html {
+  /* Safari still needs the prefix; unprefixed covers Chromium. */
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html, body {
   height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: var(--bg-app);
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+  background-color: var(--bg-app);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
 }
 
 div#app {
   display: flex;
   height: 100%;
+}
+
+a {
+  color: var(--accent);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+}
+
+/* Selection */
+::selection {
+  color: var(--cyan-300);
+  background: var(--cyan-wash);
+}
+
+/* Custom scrollbars to match the console */
+* {
+  scrollbar-color: var(--space-500) transparent;
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--space-500);
+  background-clip: content-box;
+  border: 2px solid transparent;
+  border-radius: var(--r-pill);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--space-600);
+  background-clip: content-box;
 }

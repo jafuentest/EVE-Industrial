@@ -10,7 +10,7 @@ class Users::SessionsController < Devise::SessionsController
 
     add_character(code) if params[:state].include?('character')
 
-    redirect_to settings_path
+    redirect_to root_path
   end
 
   # POST /users/sign_in

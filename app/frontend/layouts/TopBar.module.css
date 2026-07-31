@@ -1,12 +1,86 @@
 .container {
   display: flex;
+  align-items: center;
+  height: var(--topbar-h);
+  padding: 0 20px;
+  background: color-mix(in oklab, var(--bg-panel) 82%, transparent);
+  border-bottom: 1px solid var(--border);
 }
 
-.notifications {
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.titleHeading {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  line-height: 1.1;
+  color: var(--text-primary);
+  letter-spacing: var(--ls-tight);
+  white-space: nowrap;
+}
+
+.titleSubtitle {
+  font-family: var(--font-display);
+  font-size: var(--fs-3xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.rightSide {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 12px;
+  align-items: center;
   margin-left: auto;
 }
 
-.sync {
-  margin-left: 1rem;
-  margin-right: 1rem;
+.walletInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.walletLabel {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.walletRow {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  font-family: var(--font-mono);
+}
+
+.amount {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+  color: var(--isk);
+}
+
+.currency {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.separator {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
 }

@@ -1,0 +1,99 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  font-family: var(--font-display);
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: var(--r-sm);
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.button:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.button:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+.button.sm {
+  gap: 6px;
+  height: var(--control-h-sm);
+  padding: 0 12px;
+  font-size: var(--fs-xs);
+}
+
+.button.md {
+  gap: 8px;
+  height: var(--control-h-md);
+  padding: 0 16px;
+  font-size: var(--fs-base);
+}
+
+.button.lg {
+  gap: 9px;
+  height: var(--control-h-lg);
+  padding: 0 22px;
+  font-size: var(--fs-md);
+}
+
+.button.primary {
+  font-weight: var(--fw-semibold);
+  color: var(--text-on-accent);
+  background: var(--accent);
+  border: 1px solid transparent;
+}
+
+.button.secondary {
+  font-weight: var(--fw-medium);
+  color: var(--text-primary);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-strong);
+}
+
+.button.ghost {
+  font-weight: var(--fw-medium);
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.button.danger {
+  font-weight: var(--fw-semibold);
+  color: var(--danger);
+  background: transparent;
+  border: 1px solid var(--flare-500);
+}
+
+.button.primary:not(:disabled):hover {
+  background: var(--accent-hover);
+  box-shadow: var(--glow-cyan);
+}
+
+.button.primary:not(:disabled):active {
+  background: var(--accent-press);
+}
+
+.button.secondary:not(:disabled):hover {
+  color: var(--text-primary);
+  background: var(--bg-active);
+  border-color: var(--accent);
+}
+
+.button.ghost:not(:disabled):hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.button.danger:not(:disabled):hover {
+  background: var(--flare-wash);
+  box-shadow: var(--glow-flare);
+}
+
+

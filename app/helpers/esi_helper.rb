@@ -8,7 +8,8 @@ module ESIHelper
     'esi-markets.read_corporation_orders.v1',
     'esi-markets.structure_markets.v1',
     'esi-planets.manage_planets.v1',
-    'esi-planets.read_customs_offices.v1'
+    'esi-planets.read_customs_offices.v1',
+    'esi-wallet.read_character_wallet.v1'
   ].freeze
 
   DEFAULT_PARAMS = {

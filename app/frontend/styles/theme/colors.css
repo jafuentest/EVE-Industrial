@@ -1,0 +1,121 @@
+/* ============================================================
+   EVE-Industrial — Color System
+   "New Eden Command Console"
+   ------------------------------------------------------------
+   A dark, holographic HUD palette. Deep-space surfaces, a
+   holographic cyan primary, ISK-gold warm accent, and tight
+   semantic signals (jade = profit/ready, flare = loss/danger,
+   amber = pending, violet = science/invention).
+   ============================================================ */
+
+:root {
+  /* ---- Deep-space surfaces (darkest -> raised) ---- */
+  --space-900:  #080b12;  /* app background */
+  --space-800:  #0c111b;  /* panel / card background */
+  --space-700:  #111826;  /* raised surface, table header */
+  --space-600:  #18202f;  /* hover surface, inputs */
+  --space-500:  #222c3d;  /* active / selected surface */
+  --space-void: #05070c;  /* page void, behind everything */
+
+  /* ---- Hairlines & borders ---- */
+  --line-hair:   rgb(122 214 235 / 12%); /* default 1px panel edge */
+  --line-soft:   rgb(122 214 235 /  7%); /* internal dividers */
+  --line-strong: rgb(122 214 235 / 28%); /* emphasized / focus edge */
+  --line-solid:  #1d2738; /* opaque divider on solids */
+
+  /* ---- Cool-white ink scale ---- */
+  --ink-100: #eaf1fb; /* primary text */
+  --ink-200: #c7d3e3; /* strong secondary */
+  --ink-300: #97a6bd; /* secondary text */
+  --ink-400: #6c7c95; /* muted / captions */
+  --ink-500: #4b596e; /* labels, placeholders */
+  --ink-600: #323d4f; /* disabled text */
+
+  /* ---- Primary: holographic cyan ---- */
+  --cyan-300: #8df2ff;
+  --cyan-400: #45dcf2;
+
+  /* primary accent */
+  --cyan-500: #1fb9d6;
+  --cyan-600: #1391ab;
+  --cyan-700: #0d6a7e;
+  --cyan-glow: rgb(69 220 242 / 45%);
+  --cyan-wash: rgb(69 220 242 / 10%);
+
+  /* ---- Warm accent: ISK gold / amber ---- */
+  --amber-300: #ffd98a;
+  --amber-400: #ffc24d;
+
+  /* ISK / currency / value */
+  --amber-500: #f5a623;
+  --amber-600: #c87f12;
+  --amber-wash: rgb(255 194 77 / 10%);
+
+  /* ---- Semantic: jade (profit / ready / success) ---- */
+  --jade-300: #7df0c0;
+  --jade-400: #3edca0;
+  --jade-500: #20b07c;
+  --jade-wash: rgb(62 220 160 / 10%);
+
+  /* ---- Semantic: flare (loss / danger / undercut) ---- */
+  --flare-300: #ff90a1;
+  --flare-400: #ff5c72;
+  --flare-500: #e23351;
+  --flare-wash: rgb(255 92 114 / 10%);
+
+  /* ---- Accent: violet (science / invention / research) ---- */
+  --violet-300: #c9b2ff;
+  --violet-400: #a585ff;
+  --violet-500: #7d5bf0;
+  --violet-wash: rgb(165 133 255 / 10%);
+
+  /* ============================================================
+     SEMANTIC ALIASES — prefer these in components
+     ============================================================ */
+
+  /* Surfaces */
+  --bg-app: var(--space-900);
+  --bg-panel: var(--space-800);
+  --bg-raised: var(--space-700);
+  --bg-input: var(--space-600);
+  --bg-hover: var(--space-600);
+  --bg-active: var(--space-500);
+  --bg-overlay: rgb(5 7 12 / 72%);
+
+  /* Text */
+  --text-primary: var(--ink-100);
+  --text-secondary: var(--ink-300);
+  --text-muted: var(--ink-400);
+  --text-label: var(--ink-500);
+  --text-disabled: var(--ink-600);
+  --text-on-accent: #03161b;
+
+  /* dark ink for use on cyan/amber fills */
+
+  /* Brand / interactive */
+  --accent: var(--cyan-400);
+  --accent-hover: var(--cyan-300);
+  --accent-press: var(--cyan-500);
+  --accent-wash: var(--cyan-wash);
+  --accent-glow: var(--cyan-glow);
+
+  /* Currency */
+  --isk: var(--amber-400);
+  --isk-wash: var(--amber-wash);
+
+  /* Status */
+  --ok: var(--jade-400);
+  --ok-wash: var(--jade-wash);
+  --danger: var(--flare-400);
+  --danger-wash: var(--flare-wash);
+  --warn: var(--amber-400);
+  --warn-wash: var(--amber-wash);
+  --science: var(--violet-400);
+  --science-wash: var(--violet-wash);
+
+  /* Borders */
+  --border: var(--line-hair);
+  --border-soft: var(--line-soft);
+  --border-strong: var(--line-strong);
+  --focus-ring: var(--cyan-400);
+}

@@ -1,0 +1,46 @@
+.userInfo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  padding: 18px;
+  text-align: left;
+  border: 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.profileImageContainer {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  border: 1px solid var(--cyan-700);
+  border-radius: var(--r-sm);
+}
+
+.userCorpNames {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.username, .corporation {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.username {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.corporation {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-muted);
+}

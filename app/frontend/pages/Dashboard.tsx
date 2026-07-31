@@ -1,12 +1,10 @@
-import type { Session } from '@/types'
+import { useRequiredSession } from '@/contexts/AuthContext'
 
-interface DashboardProps {
-  session: Session
-}
+function Dashboard() {
+  const session = useRequiredSession()
 
-function Dashboard({ session }: DashboardProps) {
   return (
-    <div>EVE Industrial — logged in as {session.user.character_name}</div>
+    <div>EVE Industrial — logged in as {session.user.characterName}</div>
   )
 }
 

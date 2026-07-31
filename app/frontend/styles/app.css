@@ -1,7 +1,5 @@
-/* Design system token imports will go here once ui_kits/ is available */
-/* @import './theme/fonts.css'; */
-/* @import './theme/colors.css'; */
-/* @import './theme/typography.css'; */
-/* @import './theme/spacing.css'; */
-/* @import './theme/effects.css'; */
-@import './theme/base.css';
+@import url('./theme/base.css');
+@import url('./theme/colors.css');
+@import url('./theme/effects.css');
+@import url('./theme/spacing.css');
+@import url('./theme/typography.css');

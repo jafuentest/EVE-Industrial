@@ -211,6 +211,35 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#sync_from_esi' do
+    let(:user) { FactoryBot.create(:user) }
+    let(:character) { FactoryBot.create(:character, user:) }
+
+    before do
+      character
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+      allow(ESI).to receive_messages(
+        fetch_character_details: { 'corporation_id' => 98_000_001 },
+        fetch_corporation_details: { 'name' => 'Test Corporation' }
+      )
+      allow(Order).to receive(:update_character_orders)
+      allow(IndustryJob).to receive(:update_character_jobs)
+      allow(PlanetaryColony).to receive(:update_character_colonies)
+    end
+
+    it 'refreshes the wallet balance for each character' do
+      allow(ESI).to receive(:fetch_character_wallet).and_return(12_345.67, 999.5)
+      character.wallet_balance
+      user.sync_from_esi
+      expect(character.wallet_balance).to eq(999.5)
+    end
+
+    it 'only runs once within the throttle window' do
+      2.times { user.sync_from_esi }
+      expect(IndustryJob).to have_received(:update_character_jobs).once
+    end
+  end
+
   describe '#update_planetary_colonies' do
     let(:user) { FactoryBot.create(:user) }
     let(:character) { FactoryBot.create(:character, user:) }

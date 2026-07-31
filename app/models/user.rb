@@ -27,6 +27,8 @@
 #  updated_at             :datetime         not null
 #
 class User < ApplicationRecord
+  include CorporationLookup
+
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :trackable
 
   has_many :characters, dependent: :destroy
@@ -88,6 +90,30 @@ class User < ApplicationRecord
 
   def remember_me
     super.nil? || super
+  end
+
+  def wallet_balance
+    characters.sum(&:wallet_balance)
+  end
+
+  def counters
+    {
+      industry_jobs: industry_jobs.count,
+      market_orders: orders.count,
+      planetary_colonies: characters.joins(:planetary_colonies).count,
+      wallet_balance: wallet_balance
+    }
+  end
+
+  def sync_from_esi
+    Rails.cache.fetch("esi_sync/#{id}", expires_in: 5.minutes) do
+      refresh_corporation_name
+      characters.each { |character| character.wallet_balance(force: true) }
+      update_industry_jobs
+      update_market_orders
+      update_planetary_colonies
+      Time.current
+    end
   end
 
   def update_market_orders

@@ -1,0 +1,36 @@
+/* ============================================================
+  EVE-Industrial — Spacing & Layout
+  ------------------------------------------------------------
+  4px base grid. Dense, instrument-panel rhythm.
+  ============================================================ */
+
+:root {
+  /* ---- Space scale (4px base) ---- */
+  --sp-0:   0;        /* @kind spacing */
+  --sp-1:   0.25rem;  /* 4 */
+  --sp-2:   0.5rem;   /* 8 */
+  --sp-3:   0.75rem;  /* 12 */
+  --sp-4:   1rem;     /* 16 */
+  --sp-5:   1.25rem;  /* 20 */
+  --sp-6:   1.5rem;   /* 24 */
+  --sp-8:   2rem;     /* 32 */
+  --sp-10:  2.5rem;   /* 40 */
+  --sp-12:  3rem;     /* 48 */
+  --sp-16:  4rem;     /* 64 */
+  --sp-20:  5rem;     /* 80 */
+
+  /* ---- Component sizing ---- */
+  --control-h-sm:  28px;   /* @kind spacing */
+  --control-h-md:  34px;   /* @kind spacing */
+  --control-h-lg:  42px;   /* @kind spacing */
+  --row-h:         40px;   /* @kind spacing */
+  --sidebar-w:     240px;  /* @kind spacing */
+  --topbar-h:      56px;   /* @kind spacing */
+
+  /* ---- Container widths ---- */
+  --container-sm:  720px;
+  --container-md:  1040px;
+  --container-lg:  1320px;
+  --container-xl:  1600px;
+  --gutter:        var(--sp-6); /* @kind spacing */
+}

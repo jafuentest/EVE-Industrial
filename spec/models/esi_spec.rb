@@ -202,4 +202,26 @@ RSpec.describe ESI do
       end
     end
   end
+
+  describe ".fetch_character_details" do
+    before do
+      allow(Net::HTTP).to receive(:start)
+        .and_return(http_response({ "corporation_id" => 98_000_001 }.to_json))
+    end
+
+    it "returns the corporation id" do
+      expect(described_class.fetch_character_details(123)).to eq({ "corporation_id" => 98_000_001 })
+    end
+  end
+
+  describe ".fetch_corporation_details" do
+    before do
+      allow(Net::HTTP).to receive(:start)
+        .and_return(http_response({ "name" => "Test Corporation" }.to_json))
+    end
+
+    it "returns the corporation name" do
+      expect(described_class.fetch_corporation_details(98_000_001)).to eq({ "name" => "Test Corporation" })
+    end
+  end
 end

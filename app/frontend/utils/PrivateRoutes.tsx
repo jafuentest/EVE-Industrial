@@ -1,12 +1,11 @@
-import { Outlet, Navigate } from 'react-router-dom'
-import type { Session } from '@/types'
+import { Navigate, Outlet } from 'react-router-dom'
 
-interface PrivateRoutesProps {
-  session: Session | null
-}
+import { useSession } from '@/contexts/AuthContext'
 
-const PrivateRoutes = ({ session }: PrivateRoutesProps) => {
+function PrivateRoutes() {
+  const session = useSession()
   const isLoggedIn = !!session
+
   return isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />
 }
 
