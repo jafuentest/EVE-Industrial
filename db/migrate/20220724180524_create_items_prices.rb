@@ -1,4 +1,4 @@
-class CreateItemsPrices < ActiveRecord::Migration[6.0]
+class CreateItemsPrices < ActiveRecord::Migration[8.1]
   def change
     create_table :items_prices, id: false do |t|
       t.references :star, null: false, foreign_key: true
@@ -7,8 +7,9 @@ class CreateItemsPrices < ActiveRecord::Migration[6.0]
 
       t.decimal :buy_price, precision: 12, scale: 2
       t.decimal :sell_price, precision: 12, scale: 2
+      t.datetime :expires_at, precision: 0
 
-      t.index %i[item_id star_id]
+      t.index %i[item_id star_id], unique: true
     end
   end
 end
