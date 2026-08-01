@@ -11,6 +11,8 @@ FactoryBot.define do
   #  volume_remain :integer
   #  volume_total  :integer
   #  buy_order     :boolean
+  #  created_at    :datetime         not null
+  #  updated_at    :datetime         not null
   #
 
   factory :order do

@@ -9,11 +9,17 @@
 #  product_type_id   :integer
 #  activity_id       :integer
 #  station_id        :integer
+#  facility_id       :integer
 #  installer_id      :integer
 #  start_date        :datetime
 #  end_date          :datetime
+#  pause_date        :datetime
+#  completed_date    :datetime
+#  duration          :integer
 #  runs              :integer
 #  licensed_runs     :integer
+#  successful_runs   :integer
+#  cost              :decimal(20, 2)
 #  probability       :decimal(5, 4)
 #  status            :string
 #
