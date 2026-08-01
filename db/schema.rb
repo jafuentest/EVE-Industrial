@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_13_225433) do
+ActiveRecord::Schema[8.1].define(version: 2022_07_24_192847) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -44,16 +44,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_13_225433) do
     t.bigint "blueprint_id"
     t.bigint "blueprint_type_id"
     t.bigint "character_id"
-    t.datetime "end_date", precision: nil
+    t.datetime "completed_date", precision: 0
+    t.decimal "cost", precision: 20, scale: 2
+    t.integer "duration"
+    t.datetime "end_date", precision: 0
+    t.bigint "facility_id"
     t.bigint "id", null: false
     t.bigint "installer_id"
     t.integer "licensed_runs"
+    t.datetime "pause_date", precision: 0
     t.decimal "probability", precision: 5, scale: 4
     t.bigint "product_type_id"
     t.integer "runs"
-    t.datetime "start_date", precision: nil
+    t.datetime "start_date", precision: 0
     t.bigint "station_id"
     t.string "status"
+    t.integer "successful_runs"
     t.index ["id"], name: "index_industry_jobs_on_id", unique: true
   end
 
@@ -65,7 +71,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_13_225433) do
 
   create_table "items_prices", id: false, force: :cascade do |t|
     t.decimal "buy_price", precision: 12, scale: 2
-    t.datetime "expires_at"
+    t.datetime "expires_at", precision: 0
     t.bigint "item_id", null: false
     t.string "item_type", null: false
     t.decimal "sell_price", precision: 12, scale: 2
@@ -80,7 +86,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_13_225433) do
     t.datetime "created_at", null: false
     t.integer "duration"
     t.bigint "esi_id"
-    t.datetime "issued", precision: nil
+    t.datetime "issued", precision: 0
     t.bigint "item_id", null: false
     t.bigint "location_id"
     t.decimal "price", precision: 12, scale: 2
@@ -98,7 +104,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_13_225433) do
     t.datetime "created_at", null: false
     t.string "extractors", default: "{}"
     t.string "factories", default: "{}"
-    t.datetime "last_update", precision: nil
+    t.datetime "last_update", precision: 0
     t.bigint "planet_id", null: false
     t.string "planet_type", null: false
     t.bigint "star_id", null: false

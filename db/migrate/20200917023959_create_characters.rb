@@ -12,6 +12,7 @@ class CreateCharacters < ActiveRecord::Migration[6.0]
       t.string :scopes
       t.string :token_type
       t.string :owner_hash
+      t.boolean :reauth_required, default: false, null: false
 
       t.timestamps
     end

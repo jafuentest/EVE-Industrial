@@ -1,4 +1,4 @@
-class CreateConstellations < ActiveRecord::Migration[7.0]
+class CreateConstellations < ActiveRecord::Migration[8.1]
   def change
     create_table :constellations, id: false do |t|
       t.bigint :id, null: false

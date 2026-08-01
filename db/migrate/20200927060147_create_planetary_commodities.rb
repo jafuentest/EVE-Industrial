@@ -1,4 +1,4 @@
-class CreatePlanetaryCommodities < ActiveRecord::Migration[6.0]
+class CreatePlanetaryCommodities < ActiveRecord::Migration[8.1]
   def change
     create_table :planetary_commodities, id: false do |t|
       t.bigint :id, null: false

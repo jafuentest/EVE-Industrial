@@ -1,7 +1,7 @@
-class CreateOrders < ActiveRecord::Migration[6.0]
+class CreateOrders < ActiveRecord::Migration[8.1]
   def change
     create_table :orders do |t|
-      t.references :character, null: false, foreign_key: true
+      t.references :character, foreign_key: true
       t.references :item, null: false, foreign_key: true
       t.references :region, null: false, foreign_key: true
       t.bigint :esi_id
@@ -12,7 +12,7 @@ class CreateOrders < ActiveRecord::Migration[6.0]
       t.integer :duration
       t.integer :volume_remain
       t.integer :volume_total
-      t.datetime :issued
+      t.datetime :issued, precision: 0
 
       t.timestamps
     end

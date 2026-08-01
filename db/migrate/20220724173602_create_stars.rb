@@ -1,4 +1,4 @@
-class CreateStars < ActiveRecord::Migration[6.0]
+class CreateStars < ActiveRecord::Migration[8.1]
   def change
     create_table :stars, id: false do |t|
       t.bigint :id, null: false

@@ -1,4 +1,4 @@
-class CreatePlanetaryColonies < ActiveRecord::Migration[6.0]
+class CreatePlanetaryColonies < ActiveRecord::Migration[8.1]
   def change
     create_table :planetary_colonies do |t|
       t.references :character, null: false, foreign_key: true
@@ -10,7 +10,7 @@ class CreatePlanetaryColonies < ActiveRecord::Migration[6.0]
       t.integer :upgrade_level, null: false
       t.string :extractors, default: '{}'
       t.string :factories, default: '{}'
-      t.datetime :last_update
+      t.datetime :last_update, precision: 0
       t.timestamps
     end
   end

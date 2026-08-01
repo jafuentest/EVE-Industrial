@@ -1,4 +1,4 @@
-class CreateRegions < ActiveRecord::Migration[7.0]
+class CreateRegions < ActiveRecord::Migration[8.1]
   def change
     create_table :regions, id: false do |t|
       t.bigint :id, null: false
