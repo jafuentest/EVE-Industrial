@@ -25,6 +25,10 @@ Layout/CaseIndentation:
 Layout/EndAlignment:
   EnforcedStyleAlignWith: variable
 
+Layout/ExtraSpacing:
+  Exclude:
+    - db/seeds/planetary_commodities.rb
+
 Layout/LineLength:
   Exclude:
     - db/seeds.rb
