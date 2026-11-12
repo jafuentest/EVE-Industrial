@@ -44,7 +44,7 @@ set :bundle_without, %w[development test]
 set :ssh_options, { forward_agent: true, keys: %w[~/.ssh/id_rsa.pub] }
 
 set :rbenv_type, :user
-set :rbenv_ruby, '3.3.5'
+set :rbenv_ruby, '3.3.13'
 
 set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
 set :puma_state,      "#{shared_path}/tmp/pids/puma.state"

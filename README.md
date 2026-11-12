@@ -10,7 +10,7 @@ Rails app for EVE Online industrial planning. Currently supporting:
 ## Basic System Requirements
 
 * Ruby version
-  * MRI 3.3.5
+  * MRI 3.3.13
 
 * System dependencies
   * PostgreSQL 17 or higher
@@ -47,7 +47,7 @@ bundle exec rspec
         sudo dnf install postgresql17 postgresql17-server libpq-devel
         ```
 
-    1. Install rbenv with ruby-build plugin, and setup ruby 3.3.5
+    1. Install rbenv with ruby-build plugin, and setup ruby 3.3.13
         ```bash
         git clone https://github.com/rbenv/rbenv.git ~/.rbenv
         ~/.rbenv/bin/rbenv init
@@ -57,7 +57,7 @@ bundle exec rspec
 
         git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 
-        rbenv install 3.3.5
+        rbenv install 3.3.13
         ```
     1. Install NodeJS + Yarn. Probably best to check for the latest version of nvm
         ```bash
